@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
   end
 
   def authenticate_user
-    if @current_user == nil
+    if @current_user.nil? || @current_user == session[:user_id]
       flash[:notice] = "ログインが必要です"
       redirect_to("/login")
     end
@@ -19,8 +19,10 @@ class ApplicationController < ActionController::Base
 
   def forbid_login_user
     if @current_user
+
       flash[:notice] = "すでにログインしています"
       redirect_to("/")
     end
   end
+
 end

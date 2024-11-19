@@ -1,0 +1,2 @@
+class Shifts < ApplicationRecord
+end

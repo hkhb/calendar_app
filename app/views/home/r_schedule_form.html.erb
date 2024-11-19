@@ -1,0 +1,25 @@
+<div class = r-schedule main>
+    <div class = container>
+    <div class="form-heading">定型予定</div>
+        <div class="form users-form">
+        <div class="form-body">
+            <% @user.errors.full_messages.each do |message| %>
+            <div class="form-error">
+                <%= message %>
+            </div>
+            <% end %>
+            
+            <%= form_tag("/users/#{@user.id}/r_schedule", {multipart: true}) do %>
+                <p>名前</p>
+                <%= text_field_tag :title  %>
+
+                <%= submit_tag '保存' %>
+            <% end %>
+            <div class="form-group">
+                <%= f.label :created_at, class: 'control-label' %>
+                <%= f.time_select :created_at, { class: 'form-control' }, { include_blank: true } %>
+            </div>
+
+        </div>
+    </div>
+</div>

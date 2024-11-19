@@ -15,16 +15,51 @@
     <link rel="apple-touch-icon" href="/icon.png">
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+    <%= javascript_include_tag 'application', 'data-turbo-track': 'reload', defer: true %>
+
   </head>
 
-  <% if flash[:notice] %>
+  <body>
+    <header>
+      <div class = "header-menus">
+        <ul>
+          <% if @current_user %>
+            <li>
+              <%= link_to 'カレンダー', "/home" %>
+            </li>
+            <li>
+              <%= link_to @current_user.name, user_path(@current_user.id) %>
+            </li>
+            <li>
+              <%= link_to '定型予定', regularschedule_path(@current_user.id) %>
+            </li>
+            <li>
+              <%= link_to 'シフト入力', shift_path(@current_user.id) %>
+            </li>
+            <li>
+              <%= link_to 'ログアウト', "/logout" %>
+            </li>
+          <% else %>
+            <li>
+              <%= link_to '新規登録', "/signup" %>
+            </li>
+            <li>
+              <%= link_to 'ログイン', "/login" %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </header>
+  
+
+
+    <% if flash[:notice] %>
       <div class="flash">
         <%= flash[:notice] %>
       </div>
     <% end %>
 
-
-  <body>
+  
     <%= yield %>
   </body>
 </html>

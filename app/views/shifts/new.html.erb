@@ -1,0 +1,27 @@
+<div class="calendar main">
+  <div class="newshifttitle">
+    <p>新規シフト入力</p>
+  </div>
+
+  <%= form_with url: shifts_path, method: :post, local: true do |f| %>
+
+    <div>
+      <%= month_calendar do |date| %>
+        <div class="day">
+          <span class="day-number"><%= date.day %></span>
+
+          <%= fields_for "shifts[]", Shift.new(date: date, user_id: current_user.id) do |shift_fields| %>
+            <%= shift_fields.hidden_field :date, value: date %>
+
+            <%= shift_fields.select :number, [["選択",nil],["1", 1], ["2", 2], ["3", 3], ["4", 4], ["5", 5]], 
+                                    class: 'select-field' %>
+            <%= shift_fields.hidden_field :user_id, value: current_user.id %>
+
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+
+    <%= f.submit "シフト登録", class: "btn-save" %>
+  <% end %>
+</div>

@@ -1,0 +1,82 @@
+body {
+    color: #2d3133;
+    margin: 0;
+    min-height: 1vh;
+  }
+  
+  .main {
+    position: absolute;
+    top: 64px;
+    width: 100%;
+    height: auto;
+    min-height: 100%;
+    background-color: #f5f8fa;
+  }
+  
+  .container {
+    max-width: 600px;
+    margin: 60px auto;
+    padding-left: 15px;
+    padding-right: 15px;
+    clear: both;
+  }
+
+
+header {
+    height: 64px;
+    background-color: darkorange;
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+  }
+  
+  .header-menus {
+    float: right;
+    padding-right: 20px;
+  }
+  
+  .header-menus ul{
+    padding-left:0;
+  }
+
+  .header-menus li {
+    float: left;
+    line-height: 64px;
+    font-size: 13px;
+    color: white;
+    padding-left: 15px;
+    list-style:none;
+  }
+  .header-menus a {
+    float: left;
+    font-size: 13px;
+    color: white;
+  }
+  
+  .header-menus input[type="submit"] {
+    padding: 0 20px;
+    float: left;
+    line-height: 64px;
+    color: white;
+    margin: 0;
+    font-size: 13px;
+  }
+
+  /* カレンダー全体のスタイル */
+.calendar {
+  width: 100%;
+  table-layout: fixed;
+  text-align: center;
+}
+
+/* カレンダーの日付セルのスタイル */
+.calendar .day {
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+/* 今日の日付を強調 */
+.calendar .today {
+  background-color: #f0f8ff;
+  font-weight: bold;
+}

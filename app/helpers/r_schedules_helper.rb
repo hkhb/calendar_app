@@ -1,0 +1,2 @@
+module RSchedulesHelper
+end

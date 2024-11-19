@@ -1,3 +1,26 @@
-<%= month_calendar do |date| %>
-  <%= date %>
-<% end %>
+<div class="calendar main">
+
+    <tbody>
+
+      <%= month_calendar do |date| %>
+
+          <!-- 日付リンクを作成 -->
+          <%= link_to show_by_date_schedules_path(date: date), class: 'day-link' do %>
+            <span class="day-number"><%= date.day %></span>
+          <% end %>
+
+          <% @schedules = Schedule.where(user_id: current_user.id).where("DATE(start_time) = ?", date) %>
+
+          <% if @schedules.present? %>
+            <% @schedules.each do |event| %>
+              <div class="event">
+                <%= event.name %>
+              </div>
+            <% end %>
+          <% else %>
+            <p>-</p>
+          <% end %>
+
+      <% end %>
+    </tbody>
+</div>
