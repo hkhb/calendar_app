@@ -1,13 +1,32 @@
-<div class = "calendar main">
-
-    <div class = "newshifttitle">
-        <p>新規シフト入力</p>
+<div class="calendar main">
+    <div class="editshifttitle">
+        <p>シフト変更</p>
     </div>
 
-    <tbody>
-        <td>
+    <%= form_with model: @shift, url: shift_path(@shift), method: :patch, local: true do |f| %>
+        <div>
             <%= month_calendar do |date| %>
-            <span class="day-number"><%= date.day %></span>
-        </td>
-    </tbody>
+                <div class="day">
+                    <span class="day-number"><%= date.day %></span>
+
+                    <div class="shift-fields">
+                        <% existing_shift = Shift.find_by(date: date, user_id: current_user.id) %>
+                        <%= hidden_field_tag "shifts[][date]", date %>
+                        <%= select_tag "shifts[][number]", 
+                                    options_for_select([["選択", 0], ["1", 1], ["2", 2], ["3", 3], ["4", 4], ["5", 5]], 
+                                                        selected: existing_shift&.number
+                                                        ), 
+                                                        class: 'select-field' %>
+                        <%= hidden_field_tag "shifts[][user_id]", current_user.id %>
+                        <%= hidden_field_tag "shifts[][id]", existing_shift&.id %>
+
+
+                        <p><%= existing_shift.number || "-" %></p>
+                    </div>
+                </div>
+            <% end %>
+        </div>
+
+        <%= f.submit "シフト変更", class: "btn-save" %>
+    <% end %>
 </div>

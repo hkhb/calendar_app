@@ -24,11 +24,12 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :shifts do
-    collection do
-      post :save_monthly_shift
-    end
+resources :shifts do
+  collection do
+    delete 'destroy_month', to: 'shifts#destroy_month'
   end
+end
+
 
   get "/" => "home#top"
   get "home" => "home#home"
