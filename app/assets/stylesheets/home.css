@@ -61,22 +61,3 @@ header {
     margin: 0;
     font-size: 13px;
   }
-
-  /* カレンダー全体のスタイル */
-.calendar {
-  width: 100%;
-  table-layout: fixed;
-  text-align: center;
-}
-
-/* カレンダーの日付セルのスタイル */
-.calendar .day {
-  padding: 10px;
-  border: 1px solid #ddd;
-}
-
-/* 今日の日付を強調 */
-.calendar .today {
-  background-color: #f0f8ff;
-  font-weight: bold;
-}

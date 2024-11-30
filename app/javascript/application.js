@@ -4,7 +4,7 @@ import "controllers"
 import "jquery"
 import Rails from "@rails/ujs"
 Rails.start();
-// フラッシュメッセージ
+
 $(function(){
     $('.flash').fadeOut(4000);  //４秒かけて消えていく
   });

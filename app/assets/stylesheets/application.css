@@ -14,3 +14,21 @@
  *= require_self
  *= require simple_calendar
  */
+ .flash {
+    padding: 10px 0;
+    color: white;
+    background: rgb(251, 170, 88);
+    text-align: center;
+    position: absolute;
+    top: 64px;
+    z-index: 10;
+    width: 100%;
+    border-radius: 0 0 2px 2px;
+    font-size: 14px;
+  }
+
+.calendar-heading{
+    font-size: 30px;
+    padding: 10px;
+    text-align: center;
+}
