@@ -14,6 +14,7 @@ class ShiftsController < ApplicationController
 
     def create
         shift_params = params[:shifts]
+        input_date = params[:date]
 
         if shift_params
             shift_params.each do |shift_data|
@@ -36,7 +37,7 @@ class ShiftsController < ApplicationController
             end
 
           flash[:notice] = "シフト登録が完了しました"
-          redirect_to shifts_path
+          redirect_to shifts_path(start_date: input_date.to_s)
 
         else
 
@@ -49,7 +50,7 @@ class ShiftsController < ApplicationController
     def edit
         Date.beginning_of_week = :sunday
         @shift = Shift.where(user_id: current_user.id)
-        @date = params[:date].present? ? params[:date].to_date : Date.current
+        @date = params[:start_date].present? ? params[:start_date].to_date : Date.current
     end
 
     def update
@@ -59,89 +60,84 @@ class ShiftsController < ApplicationController
         if shift_params.present?
 
             shift_params.each do |shift_data|
-                @shift = Shift.find_by(id: shift_data[:id])
+                shift = Shift.find_by(id: shift_data[:id])
                 regularschedule = RegularSchedule.find_by(number: shift_data[:number])
 
-                if regularschedule && @shift
+                if regularschedule && shift
 
-                    @shift.update(number: shift_data[:number])
+                    shift.update(number: shift_data[:number])
                     Rails.logger.info("shift.update:定型予定に合致しました。")
                     date = Date.parse(shift_data[:date])
                     new_shift = shift_data[:number]
                     schedule = Schedule.where(user_id: current_user.id)
                                         .where(start_time: date.all_day)
 
-                    if schedule.present?
+                else
 
-                        schedule.each do |existing_shift|
-                            old_shift = existing_shift&.number
-                            Rails.logger.info("shift.update:シフトデータ:シフト変更前: #{existing_shift&.number},変更後: #{shift_data[:number] || '未設定'}")
+                    shift.update(number: 0)
+                    Rails.logger.info("shift.update:定型予定に合致しませんでした。")
 
-                            if new_shift == 0
+                end
 
-                                delete_new_shift = new_shift
+                if schedule.present?
 
-                            else
-                            end
+                    schedule.each do |existing_shift|
+                        old_shift = existing_shift&.number
+                        Rails.logger.info("shift.update:シフトデータ:シフト変更前: #{existing_shift&.number},変更後: #{shift_data[:number] || '未設定'}")
 
-                            if old_shift == 0
+                        if new_shift == 0
 
-                                delete_old_shift = old_shift
+                            no_available_new_shift = new_shift
 
-                            else
-                            end
+                        elsif new_shift
 
-                            if new_shift == old_shift
-
-                                Rails.logger.info("shift.update:シフトは変更なし:シフト変更前: #{existing_shift&.number},変更後: #{shift_data[:number]}")
-
-                            elsif delete_new_shift && old_shift
-
-                                delete_shift = Schedule.find_by(id: existing_shift.id)
-                                delete_shift.destroy
-                                Rails.logger.info("shift.update:シフトが削除されました。")
-
-                            elsif new_shift  && old_shift
-
-                                create_schedule(new_shift, date)
-                                delete_shift = Schedule.find_by(id: existing_shift.id)
-                                delete_shift.destroy
-                                Rails.logger.info("shift.update:シフトが更新されました。")
-
-                            else
-
-                                Rails.logger.info("shift.update:スケジュールです。newnumber=#{new_shift || '未設定'},oldnumber=#{old_shift}")
-
-                            end
-                        end
-
-                    else
-
-                        assigned_regularschedule = RegularSchedule.find_by(number: new_shift)
-                        Rails.logger.error("shift.update:新規シフトの生成中。newnumber=#{assigned_regularschedule}")
-
-                        if assigned_regularschedule
-
-                            create_schedule(assigned_regularschedule.number, date)
-                            Rails.logger.info("shift.update:シフトが新規作成されました")
+                            available_new_shift = new_shift
 
                         else
 
-                            Rails.logger.error("shift.update:新規シフトの生成を失敗しました。newnumber=#{assigned_regularschedule}")
+                             Rails.logger.info("shift.update:error:シフト変更前: #{existing_shift&.number},変更後: #{shift_data[:number]}")
+
+                        end
+
+
+                        if available_new_shift == old_shift
+
+                            Rails.logger.info("shift.update:シフトは変更なし:シフト変更前: #{existing_shift&.number},変更後: #{shift_data[:number]}")
+
+                        elsif no_available_new_shift && old_shift # ####機能していない
+
+                            existing_shift.destroy
+                            Rails.logger.info("shift.update:シフトが削除されました。")
+
+                        elsif new_shift  && old_shift
+
+                            create_schedule(new_shift, date)
+                            existing_shift.destroy
+                            Rails.logger.info("shift.update:シフトが更新されました。")
+
+                        else
+
+                            Rails.logger.info("shift.update:スケジュールです。newnumber=#{new_shift || '未設定'},oldnumber=#{old_shift}")
 
                         end
                     end
-
                 else
 
-                    @shift.update(number: 0)
-                    Rails.logger.info("shift.update:定型予定に合致しませんでした。")
+                    if regularschedule
 
+                        create_schedule(regularschedule.number, date)
+                        Rails.logger.info("shift.update:シフトが新規作成されました")
+
+                    else
+
+                        Rails.logger.error("shift.update:新規シフトの生成を失敗しました。newnumber=#{regularschedule}")
+
+                    end
                 end
             end
 
             flash[:notice] = "シフト変更が完了しました"
-            redirect_to shifts_path
+            redirect_to shifts_path(start_date: date.to_s)
 
         else
 
@@ -153,18 +149,24 @@ class ShiftsController < ApplicationController
 
     def destroy_month
         date = params[:start_date].to_date
-        shifts = Shift.where(user_id: current_user.id, date: date.beginning_of_month..date.end_of_month)
+        shifts = Shift.where(user_id: current_user.id,
+                            date: date.beginning_of_month..date.end_of_month)
         schedules = Schedule.where(user_id: current_user.id,
-                                date: date.beginning_of_month..date.end_of_month)
+                                   start_date: date.beginning_of_month..date.end_of_month)
 
-        if shifts.present? && shifts.destroy_all
+        if shifts.present?
 
-            if schedules.number.present?
-              schedules.destroy_all
+            schedules.each do |schedule|
+                if schedule.number.present?
+
+                    schedule.destroy
+                end
             end
 
+            shifts.destroy_all
+
             flash[:notice] = "スケジュールが削除されました"
-            redirect_to shifts_path
+            redirect_to shifts_path(start_date: date.to_s)
 
         else
 
@@ -196,10 +198,6 @@ class ShiftsController < ApplicationController
                             end_time: end_time,
                             number: shiftnumber
                             )
-        else
-
-            Rails.logger.info("shift.create_schedule:不正なデータです")
-
         end
     end
 end

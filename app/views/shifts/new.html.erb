@@ -3,7 +3,7 @@
     <p>新規シフト入力</p>
   </div>
 
-  <%= form_with url: shifts_path, method: :post, local: true do |f| %>
+  <%= form_with url: shifts_path(date: @date), method: :post, local: true do |f| %>
     <div>
       <%= month_calendar do |date| %>
         <div class="day">

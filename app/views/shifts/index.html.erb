@@ -1,15 +1,15 @@
-<div class = "calendar main">
+<div class = "shift_calendar main">
 
   <tbody>
     <%= month_calendar do |date| %>
       <span class="day-number"><%= date.day %></span>
   
-        <% @shiftnumber = Shift.where(user_id: current_user.id)
+        <% shiftnumber = Shift.where(user_id: current_user.id)
                                 .where("DATE(date) = ?", date) %>
 
-        <% if @shiftnumber.present? %>
+        <% if shiftnumber.present? %>
 
-          <% @shiftnumber.each do |event| %>
+          <% shiftnumber.each do |event| %>
 
             <div class="event">
 
@@ -30,12 +30,12 @@
 
       <td class = "shiftselect">
 
-       <% @month_shifts = Shift.where(user_id: current_user.id, date: @date.beginning_of_month..@date.end_of_month) %>
+       <% month_shifts = Shift.where(user_id: current_user.id, date: @date.beginning_of_month..@date.end_of_month) %>
 
-        <% if @month_shifts.present? %>
+        <% if month_shifts.present? %>
 
           <%= link_to "編集", edit_shift_path(@shift,start_date: @date.to_s), class: "btn-edit" %>
-          <%= link_to "削除", destroy_month_shifts_path(start_date: @month_shifts.first.date.beginning_of_month.to_s), 
+          <%= link_to "削除", destroy_month_shifts_path(start_date: month_shifts.first.date.beginning_of_month.to_s), 
                       method: :delete,
                       class: "btn-destroy", 
                       data: { confirm: "この月のシフトを削除しますか？"} %>
@@ -48,4 +48,5 @@
       </td>
     </tr>
   </tfoot>
+  <p><%= @date %></p>
 </div>
