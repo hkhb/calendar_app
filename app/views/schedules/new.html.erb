@@ -12,12 +12,12 @@
 
                         <div>
                             <%= f.label :start_time, "開始", class: 'startdate' %>
-                            <%= f.datetime_select :start_time, class: 'time-field' %>
+                            <%= f.datetime_select :start_time, default: @date.to_datetime || Time.current, class: 'time-field' %>
                         </div>
 
                         <div>
                             <%= f.label :end_time, "終了", class: 'finishdate' %>
-                            <%= f.datetime_select :end_time, class: 'time-field' %>
+                            <%= f.datetime_select :end_time, default: @date.to_datetime || Time.current, class: 'time-field' %>
                         </div>
 
                         <div>

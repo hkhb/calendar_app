@@ -25,13 +25,11 @@ class ShiftsController < ApplicationController
                     Shift.create(shift_data.permit(:date, :number, :user_id))
                     date = Date.parse(shift_data[:date])
                     create_schedule(regularschedule.number, date)
-                    Rails.logger.info("shifts.create:新規あり作成,user_id:#{shift_data[:user_id]},number:#{shift_data[:number]},date#{shift_data[:date]}")
 
                 else
 
                     Shift.create(shift_data.permit(:date, :user_id)
                                 .merge(number: 0))
-                    Rails.logger.info("shifts.create:新規なし作成,,user_id:#{shift_data[:user_id]},number:#{shift_data[:number]},date#{shift_data[:date]}")
 
                 end
             end
@@ -66,24 +64,22 @@ class ShiftsController < ApplicationController
                 if regularschedule && shift
 
                     shift.update(number: shift_data[:number])
-                    Rails.logger.info("shift.update:定型予定に合致しました。")
-                    date = Date.parse(shift_data[:date])
-                    new_shift = shift_data[:number]
-                    schedule = Schedule.where(user_id: current_user.id)
-                                        .where(start_time: date.all_day)
 
                 else
 
                     shift.update(number: 0)
-                    Rails.logger.info("shift.update:定型予定に合致しませんでした。")
 
                 end
+
+                date = Date.parse(shift_data[:date])
+                new_shift = shift_data[:number]
+                schedule = Schedule.where(user_id: current_user.id)
+                                    .where(start_time: date.all_day)
 
                 if schedule.present?
 
                     schedule.each do |existing_shift|
                         old_shift = existing_shift&.number
-                        Rails.logger.info("shift.update:シフトデータ:シフト変更前: #{existing_shift&.number},変更後: #{shift_data[:number] || '未設定'}")
 
                         if new_shift == 0
 
@@ -99,21 +95,18 @@ class ShiftsController < ApplicationController
 
                         end
 
-
                         if available_new_shift == old_shift
 
                             Rails.logger.info("shift.update:シフトは変更なし:シフト変更前: #{existing_shift&.number},変更後: #{shift_data[:number]}")
 
-                        elsif no_available_new_shift && old_shift # ####機能していない
+                        elsif no_available_new_shift && old_shift
 
                             existing_shift.destroy
-                            Rails.logger.info("shift.update:シフトが削除されました。")
 
                         elsif new_shift  && old_shift
 
                             create_schedule(new_shift, date)
                             existing_shift.destroy
-                            Rails.logger.info("shift.update:シフトが更新されました。")
 
                         else
 

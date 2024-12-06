@@ -56,7 +56,7 @@
                         <p>スケジュールがありません</p>
                     <% end %>
 
-                <%= link_to '追加',new_schedule_path %>
+                <%= link_to '追加',new_schedule_path(date: @date) %>
                 <% @date %>
             </div>
         </div>

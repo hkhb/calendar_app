@@ -61,3 +61,38 @@ header {
     margin: 0;
     font-size: 13px;
   }
+  .day-block-link {
+    text-decoration: none;
+    color: inherit; /* 文字色を継承 */
+  }
+  
+  .day-block {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    height: 100%; /* 高さをセル全体に合わせる */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .day-block:hover {
+    background-color: #e6e6e6;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+  }
+  
+  .day-number {
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-bottom: 5px;
+  }
+  
+  .event {
+    margin-top: 5px;
+    font-size: 0.9em;
+    color: #333;
+  }
+  
