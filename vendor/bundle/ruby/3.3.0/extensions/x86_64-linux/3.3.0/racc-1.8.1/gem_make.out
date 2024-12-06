@@ -1,0 +1,18 @@
+current directory: /home/hibibi/calendar_app_v.1/vendor/bundle/ruby/3.3.0/gems/racc-1.8.1/ext/racc/cparse
+/home/hibibi/.rbenv/versions/3.3.5/bin/ruby extconf.rb
+creating Makefile
+
+current directory: /home/hibibi/calendar_app_v.1/vendor/bundle/ruby/3.3.0/gems/racc-1.8.1/ext/racc/cparse
+make DESTDIR\= sitearchdir\=./.gem.20241207-2143-apgsza sitelibdir\=./.gem.20241207-2143-apgsza clean
+
+current directory: /home/hibibi/calendar_app_v.1/vendor/bundle/ruby/3.3.0/gems/racc-1.8.1/ext/racc/cparse
+make DESTDIR\= sitearchdir\=./.gem.20241207-2143-apgsza sitelibdir\=./.gem.20241207-2143-apgsza
+compiling cparse.c
+linking shared-object racc/cparse.so
+
+current directory: /home/hibibi/calendar_app_v.1/vendor/bundle/ruby/3.3.0/gems/racc-1.8.1/ext/racc/cparse
+make DESTDIR\= sitearchdir\=./.gem.20241207-2143-apgsza sitelibdir\=./.gem.20241207-2143-apgsza install
+/usr/bin/install -c -m 0755 cparse.so ./.gem.20241207-2143-apgsza/racc
+
+current directory: /home/hibibi/calendar_app_v.1/vendor/bundle/ruby/3.3.0/gems/racc-1.8.1/ext/racc/cparse
+make DESTDIR\= sitearchdir\=./.gem.20241207-2143-apgsza sitelibdir\=./.gem.20241207-2143-apgsza clean
