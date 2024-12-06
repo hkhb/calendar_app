@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_11_19_191208) do
+ActiveRecord::Schema[7.2].define(version: 2024_12_05_062306) do
   create_table "r_schedules", force: :cascade do |t|
     t.string "name"
     t.string "event"
@@ -26,7 +26,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_19_191208) do
 
   create_table "regular_schedules", force: :cascade do |t|
     t.string "name"
-    t.string "event"
+    t.text "event"
     t.integer "user_id"
     t.integer "number"
     t.time "start_time"
@@ -42,7 +42,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_19_191208) do
 
   create_table "schedules", force: :cascade do |t|
     t.string "name"
-    t.string "event"
+    t.text "event"
     t.date "start_date"
     t.datetime "start_time"
     t.date "finish_date"
