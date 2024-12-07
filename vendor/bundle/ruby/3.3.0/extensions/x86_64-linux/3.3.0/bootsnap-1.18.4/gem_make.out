@@ -1,0 +1,22 @@
+current directory: /home/hibibi/calendar_app_v.1/vendor/bundle/ruby/3.3.0/gems/bootsnap-1.18.4/ext/bootsnap
+/home/hibibi/.rbenv/versions/3.3.5/bin/ruby extconf.rb
+checking for fdatasync() in unistd.h... yes
+checking for whether -D_GNU_SOURCE is accepted as CPPFLAGS... yes
+checking for whether -O3 is accepted as CFLAGS... yes
+checking for whether -std=c99 is accepted as CFLAGS... yes
+creating Makefile
+
+current directory: /home/hibibi/calendar_app_v.1/vendor/bundle/ruby/3.3.0/gems/bootsnap-1.18.4/ext/bootsnap
+make DESTDIR\= sitearchdir\=./.gem.20241207-2143-d25gvj sitelibdir\=./.gem.20241207-2143-d25gvj clean
+
+current directory: /home/hibibi/calendar_app_v.1/vendor/bundle/ruby/3.3.0/gems/bootsnap-1.18.4/ext/bootsnap
+make DESTDIR\= sitearchdir\=./.gem.20241207-2143-d25gvj sitelibdir\=./.gem.20241207-2143-d25gvj
+compiling bootsnap.c
+linking shared-object bootsnap/bootsnap.so
+
+current directory: /home/hibibi/calendar_app_v.1/vendor/bundle/ruby/3.3.0/gems/bootsnap-1.18.4/ext/bootsnap
+make DESTDIR\= sitearchdir\=./.gem.20241207-2143-d25gvj sitelibdir\=./.gem.20241207-2143-d25gvj install
+/usr/bin/install -c -m 0755 bootsnap.so ./.gem.20241207-2143-d25gvj/bootsnap
+
+current directory: /home/hibibi/calendar_app_v.1/vendor/bundle/ruby/3.3.0/gems/bootsnap-1.18.4/ext/bootsnap
+make DESTDIR\= sitearchdir\=./.gem.20241207-2143-d25gvj sitelibdir\=./.gem.20241207-2143-d25gvj clean

@@ -1,0 +1,7 @@
+current directory: /home/hibibi/calendar_app_v.1/vendor/bundle/ruby/3.3.0/gems/ruby-debug-ide-0.7.3/ext
+/home/hibibi/.rbenv/versions/3.3.5/bin/ruby mkrf_conf.rb
+Installing base gem
+Building native extensions. This could take a while...
+
+current directory: /home/hibibi/calendar_app_v.1/vendor/bundle/ruby/3.3.0/gems/ruby-debug-ide-0.7.3/ext
+/home/hibibi/.rbenv/versions/3.3.5/bin/ruby -rrubygems /home/hibibi/calendar_app_v.1/vendor/bundle/ruby/3.3.0/gems/rake-13.2.1/exe/rake RUBYARCHDIR\=/home/hibibi/calendar_app_v.1/vendor/bundle/ruby/3.3.0/extensions/x86_64-linux/3.3.0/ruby-debug-ide-0.7.3 RUBYLIBDIR\=/home/hibibi/calendar_app_v.1/vendor/bundle/ruby/3.3.0/extensions/x86_64-linux/3.3.0/ruby-debug-ide-0.7.3

@@ -1,0 +1,40 @@
+current directory: /home/hibibi/calendar_app_v.1/vendor/bundle/ruby/3.3.0/gems/debase-0.2.7/ext/attach
+/home/hibibi/.rbenv/versions/3.3.5/bin/ruby extconf.rb
+Ignoring debase-0.2.7 because its extensions are not built. Try: gem pristine debase --version 0.2.7
+checking for vm_core.h... no
+checking for vm_core.h... no
+checking for vm_core.h... yes
+checking for iseq.h... yes
+checking for version.h... yes
+creating Makefile
+
+current directory: /home/hibibi/calendar_app_v.1/vendor/bundle/ruby/3.3.0/gems/debase-0.2.7/ext/attach
+make DESTDIR\= sitearchdir\=./.gem.20241207-2143-iui78c sitelibdir\=./.gem.20241207-2143-iui78c clean
+
+current directory: /home/hibibi/calendar_app_v.1/vendor/bundle/ruby/3.3.0/gems/debase-0.2.7/ext/attach
+make DESTDIR\= sitearchdir\=./.gem.20241207-2143-iui78c sitelibdir\=./.gem.20241207-2143-iui78c
+compiling attach.c
+attach.c: In function ‘__func_to_set_breakpoint_at’:
+attach.c:19:1: warning: old-style function definition [-Wold-style-definition]
+   19 | __func_to_set_breakpoint_at()
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+attach.c: In function ‘debase_start_attach’:
+attach.c:40:1: warning: old-style function definition [-Wold-style-definition]
+   40 | debase_start_attach()
+      | ^~~~~~~~~~~~~~~~~~~
+attach.c: In function ‘Init_attach’:
+attach.c:55:1: warning: old-style function definition [-Wold-style-definition]
+   55 | Init_attach()
+      | ^~~~~~~~~~~
+attach.c: At top level:
+cc1: note: unrecognized command-line option ‘-Wno-self-assign’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-parentheses-equality’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-constant-logical-operand’ may have been intended to silence earlier diagnostics
+linking shared-object attach.so
+
+current directory: /home/hibibi/calendar_app_v.1/vendor/bundle/ruby/3.3.0/gems/debase-0.2.7/ext/attach
+make DESTDIR\= sitearchdir\=./.gem.20241207-2143-iui78c sitelibdir\=./.gem.20241207-2143-iui78c install
+/usr/bin/install -c -m 0755 attach.so ./.gem.20241207-2143-iui78c
+
+current directory: /home/hibibi/calendar_app_v.1/vendor/bundle/ruby/3.3.0/gems/debase-0.2.7/ext/attach
+make DESTDIR\= sitearchdir\=./.gem.20241207-2143-iui78c sitelibdir\=./.gem.20241207-2143-iui78c clean
