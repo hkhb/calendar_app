@@ -1,0 +1,36 @@
+<div class = "main new">
+    <div class = "container">
+        <div class = "schedule">
+            <div class="form-heading">新規予定</div>
+            <div class = "schedule_form select">
+                <%= form_with model: @schedule, url: schedules_path do |f| %>
+                    <div class = "inline-fields">
+                        <div>
+                            <%= f.label :name, "名前" %>
+                            <%= f.text_field :name, class: 'name-field' %>
+                        </div>
+
+                        <div>
+                            <%= f.label :start_time, "開始", class: 'startdate' %>
+                            <%= f.datetime_select :start_time, default: @date ? @date.to_datetime : Time.current, class: 'time-field' %>
+                        </div>
+
+                        <div>
+                            <%= f.label :end_time, "終了", class: 'finishdate' %>
+                            <%= f.datetime_select :end_time, default: @date ? @date.to_datetime : Time.current, class: 'time-field' %>
+                        </div>
+
+                        <div>
+                            <%= f.label :event, "説明", class:'event' %>
+                            <%= f.text_field :event, class: 'event-field' %>
+                        </div>
+
+                        <div>
+                            <%= f.submit "保存", class: 'submit-bottom' %>
+                        </div>
+                    </div>
+                <% end %>
+            </div>
+        </div>
+    </div>
+</div>
