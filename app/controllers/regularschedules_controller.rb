@@ -16,17 +16,17 @@ class RegularschedulesController < ApplicationController
     end
 
     def update
-        @regularschedule = RegularSchedule.find_by(id: params[:id])
+        regularschedule = RegularSchedule.find_by(id: params[:id])
 
-        if @regularschedule.update(
+        if regularschedule.update(
             params.require(:regular_schedule).permit(:name, :event, :number, :days, :start_time, :finish_time)
             )
-            create_regularschedule_times(@regularschedule)
+            regularschedule.create_regularschedule_times
 
-            if @regularschedule.save
+            if regularschedule.save
 
                 flash[:notice] = "定型予定の登録が完了しました"
-                redirect_to regularschedule_path(@regularschedule)
+                redirect_to regularschedule_path(regularschedule)
 
             else
 
@@ -47,16 +47,16 @@ class RegularschedulesController < ApplicationController
     end
 
     def create
-        @regularschedule = RegularSchedule.new(
+        regularschedule = RegularSchedule.new(
             params.require(:regular_schedule).permit(:name, :event, :number, :days, :start_time, :finish_time)
         )
-        @regularschedule.user_id = @current_user.id
-        create_regularschedule_times(@regularschedule)
+        regularschedule.user_id = @current_user.id
+        regularschedule.create_regularschedule_times
 
-        if @regularschedule.save
+        if regularschedule.save
 
             flash[:notice] = "定型予定の登録が完了しました"
-            redirect_to regularschedule_path(@regularschedule)
+            redirect_to regularschedule_path(regularschedule)
 
         else
 
@@ -67,17 +67,17 @@ class RegularschedulesController < ApplicationController
     end
 
     def destroy
-        @schedule = RegularSchedule.find_by(id: params[:id])
+        schedule = RegularSchedule.find_by(id: params[:id])
 
-        if @schedule && @schedule.destroy
+        if schedule && schedule.destroy
 
             flash[:notice] = "スケジュールが削除されました"
-            redirect_to regularschedule_path(@schedule)
+            redirect_to regularschedule_path(schedule)
 
         else
 
             flash[:notice] = "削除に失敗しました"
-            redirect_to regularschedule_path(@schedule)
+            redirect_to regularschedule_path(schedule)
 
         end
     end

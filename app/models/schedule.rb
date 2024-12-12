@@ -1,31 +1,24 @@
 class Schedule < ApplicationRecord
-  validates :user_id, :name, :start_time, :end_time, presence: true
+  validates :user_id, :name, :start_time, :end_time, presence: { message: "＊必須！" }
 
-  def create
-    @schedule = Schedule.new(
-                params.require(:schedule).permit(:name, :event, :start_time, :end_time)
-                )
-    @schedule.user_id = @current_user.id
+  def self.schedule_create(data, user)
+    schedule = Schedule.new(data)
+    schedule.user_id = user.id
 
-    if @schedule.save
-      return true
+    if schedule.save
+      schedule.start_time
     else
-      return 
+      0
     end
-end
+  end
 
-  def update
-    @schedule = Schedule.find_by(id: params[:id])
-    @schedule.start_time.in_time_zone("Tokyo")
+  def self.schedule_update(data, id)
+    schedule = Schedule.find_by(id: id)
 
-    schedule_params = params.require(:schedule).permit(:name, :event, :start_time, :end_time)
-
-    Rails.logger.debug "Schedule Params: #{schedule_params.inspect}"
-
-    if @schedule.update(schedule_params)
-      return true
+    if schedule.update(data)
+      schedule.start_time
     else
-      return fl
+      0
     end
-end
+  end
 end

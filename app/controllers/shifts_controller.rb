@@ -24,7 +24,7 @@ class ShiftsController < ApplicationController
 
                     Shift.create(shift_data.permit(:date, :number, :user_id))
                     date = Date.parse(shift_data[:date])
-                    create_schedule(regularschedule.number, date)
+                    regularschedule.create_schedule(regularschedule.number, date, @current_user)
 
                 else
 
@@ -105,7 +105,7 @@ class ShiftsController < ApplicationController
 
                         elsif new_shift  && old_shift
 
-                            create_schedule(new_shift, date)
+                            regularschedule.create_schedule(new_shift, date, @current_user)
                             existing_shift.destroy
 
                         else
@@ -118,7 +118,7 @@ class ShiftsController < ApplicationController
 
                     if regularschedule
 
-                        create_schedule(regularschedule.number, date)
+                        regularschedule.create_schedule(regularschedule.number, date, @current_user)
                         Rails.logger.info("shift.update:シフトが新規作成されました")
 
                     else
