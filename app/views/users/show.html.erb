@@ -1,0 +1,22 @@
+<div class = "main user-info">
+    <div class = "container">
+        <div class = "user">
+            <div class="form-heading">ユーザー情報</div>
+            <% if @user.present? %>
+                <p>ユーザー名</p>
+                <h2><%= @user.name %></h2>
+                <p>メールアドレス</p>
+                <h2><%= @user.email %></h2>
+    
+                    <% if @current_user.present? && @user.id == @current_user.id %>
+                        
+                        <%= link_to authenticate_form_user_path(@user), class: 'path-block-link' do %>
+                            <div class = "user-edit-button common-button" >変更</div>
+                        <% end %>
+                    <% end %>
+                <% else %>
+                    <p>ユーザー情報が見つかりません。</p>
+            <% end %>
+        </div>
+    </div>
+</div>

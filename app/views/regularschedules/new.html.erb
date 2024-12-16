@@ -9,6 +9,7 @@
                             <%= f.select :number, [["1", 1], ["2", 2], ["3", 3], ["4", 4], ["5", 5]], include_blank: "定型予定コードを選択", class: 'new-regularschedule-number regularschedule-number' %>
                             <%= f.label :name, "名前" %>
                             <%= f.text_field :name, class: 'name-field' %>
+                            *必須
                         </div>
 
                         <div class = "new-regularschedule-times-field regularschedule-times-field">
@@ -24,10 +25,10 @@
 
                             <div class = "new-regularschedule-days regularschedule-days">
                                 <div class = "new-regularschedule-days regularschedule-days" >
-                                    <%= f.label :days, "X日間", class: 'days' %>
+                                    <%= f.label :days, "何日間ですか？", class: 'days' %>
                                 </div>
                                 <div>
-                                    <%= f.select :days, [["1", 1], ["2", 2], ["3", 3], ["4", 4], ["5", 5]], include_blank: "何日間ですか？", class: 'selectday-field' %>
+                                    <%= f.number_field :days, class: 'selectday-field', min: 1, max: 10 %>
                                 </div>
                             </div>
 

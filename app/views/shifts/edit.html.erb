@@ -19,7 +19,7 @@
 
                                 <%= hidden_field_tag "shifts[][date]", date %>
                                 <%= select_tag "shifts[][number]", 
-                                            options_for_select([["選択", 0], ["1", 1], ["2", 2], ["3", 3], ["4", 4], ["5", 5]], 
+                                            options_for_select([["選択", nil], ["1", 1], ["2", 2], ["3", 3], ["4", 4], ["5", 5]], 
                                                                 selected: existing_shift&.number
                                                                 ), 
                                                                 class: 'select-field' %>

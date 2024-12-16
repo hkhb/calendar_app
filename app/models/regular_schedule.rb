@@ -1,5 +1,6 @@
 class RegularSchedule < ApplicationRecord
     validates :start_time, :finish_time, :name, :user_id, :number, presence: true
+    validates :number, uniqueness: true
 
     def create_regularschedule_times
         self.start_hour = self.start_time.strftime("%H").to_i
@@ -8,7 +9,7 @@ class RegularSchedule < ApplicationRecord
         self.finish_minute = format("%02d", self.finish_time.strftime("%M").to_i)
     end
 
-    def create_schedule(shiftnumber, date, current_user)
+    def self.create_regularschedule_to_schedule(shiftnumber, date, current_user)
         regularschedule = RegularSchedule.find_by(number: shiftnumber)
 
         if regularschedule

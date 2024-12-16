@@ -4,7 +4,6 @@ class SchedulesController < ApplicationController
     def index
         @schedules = Schedule.where(user_id: @current_user.id)
     end
-
     def show_by_date
         @date = params[:date].present? ? params[:date].to_date : Date.current
         @date_in_jst = Time.zone.local(@date.year, @date.month, @date.day).beginning_of_day..Time.zone.local(@date.year, @date.month, @date.day).end_of_day
@@ -17,54 +16,37 @@ class SchedulesController < ApplicationController
 
         render :show_by_date
     end
+    def new
+        @schedule = Schedule.new
+        @date = params[:date].present? ? params[:date].to_date : Date.current
+    end
 
+    def create
+        @schedule = Schedule.schedule_create(schedule_params, @current_user)
 
+        if @schedule.is_a?(Time)
+            flash[:notice] = "予定の登録が完了しました"
+            redirect_to show_by_date_schedules_path(date: @schedule)
+        else
+            Rails.logger.debug(@schedule.errors.full_messages) if @schedule.respond_to?(:errors)
+            flash.now[:alert] = "失敗しました"
+            render :new
+        end
+    end
     def edit
         @schedule = Schedule.find_by(id: params[:id])
     end
 
     def update
-        @schedule = Schedule.find_by(id: params[:id])
-        @schedule.start_time.in_time_zone("Tokyo")
+        id = params[:id]
+        date = Schedule.schedule_update(schedule_params, id)
 
-        schedule_params = params.require(:schedule).permit(:name, :event, :start_time, :end_time)
-
-        Rails.logger.debug "Schedule Params: #{schedule_params.inspect}"
-
-        if @schedule.update(schedule_params)
-
+        if date.is_a?(Time)
             flash[:notice] = "予定の登録が完了しました"
-            redirect_to show_by_date_schedules_path(date: @schedule.start_time.to_date)
-
+            redirect_to show_by_date_schedules_path(date: date)
         else
-
-            flash[:notice] = "失敗しました"
+            flash[:alert] = "失敗しました"
             render :edit
-
-        end
-    end
-
-    def new
-        @schedule = Schedule.new
-        @date = params[:date]
-    end
-
-    def create
-        @schedule = Schedule.new(
-                    params.require(:schedule).permit(:name, :event, :start_time, :end_time)
-                    )
-        @schedule.user_id = @current_user.id
-
-        if @schedule.save
-
-            flash[:notice] = "予定の登録が完了しました"
-            redirect_to show_by_date_schedules_path(date: @schedule.start_time.to_date)
-
-        else
-
-            flash[:notice] = "失敗しました"
-            render :new
-
         end
     end
 
@@ -81,5 +63,9 @@ class SchedulesController < ApplicationController
             redirect_to show_by_date_schedules_path(date: @schedule.start_time.to_date)
 
         end
+    end
+
+    def schedule_params
+        params.require(:schedule).permit(:name, :event, :start_time, :end_time)
     end
 end

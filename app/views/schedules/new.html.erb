@@ -8,16 +8,23 @@
                         <div>
                             <%= f.label :name, "名前" %>
                             <%= f.text_field :name, class: 'name-field' %>
+                            <% if @schedule.errors[:name].present? %>
+                                <div class="error-message" style="color: red;">
+                                    <%= @schedule.errors[:name].join(', ') %>
+                                </div>
+                            <% else %>
+                                <div class="hint" style="color: gray;">*必須</div>
+                            <% end %>
                         </div>
 
                         <div>
                             <%= f.label :start_time, "開始", class: 'startdate' %>
-                            <%= f.datetime_select :start_time, default: @date.to_datetime || Time.current, class: 'time-field' %>
+                            <%= f.datetime_select :start_time, default: @date ? @date.to_datetime : Time.current, class: 'time-field' %>
                         </div>
 
                         <div>
                             <%= f.label :end_time, "終了", class: 'finishdate' %>
-                            <%= f.datetime_select :end_time, default: @date.to_datetime || Time.current, class: 'time-field' %>
+                            <%= f.datetime_select :end_time, default: @date ? @date.to_datetime : Time.current, class: 'time-field' %>
                         </div>
 
                         <div>
@@ -28,6 +35,7 @@
                         <div>
                             <%= f.submit "保存", class: 'submit-bottom' %>
                         </div>
+                    </div>
                 <% end %>
             </div>
         </div>
