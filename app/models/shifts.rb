@@ -2,26 +2,38 @@ class Shifts < ApplicationRecord
   validates :user_id, :date, presence: true
 
   def self.create_montly(shift_params, user)
-    if shift_params
-      shift_params.each do |shift_data|
-        regularschedule = RegularSchedule.find_by(number: shift_data[:number])
+    return false unless shift_params.present?
 
-        if regularschedule
-          Shift.create(shift_data.permit(:date, :number, :user_id))
-          date = Date.parse(shift_data[:date])
-          regularschedule.create_regularschedule_to_schedule(regularschedule.number, date, user)
-        else
-          Shift.create(shift_data.permit(:date, :user_id)
-                      .merge(number: nil))
+    begin
+      ActiveRecord.base.transaction do
+        shift_params.each do |shift_data|
+          regularschedule = RegularSchedule.find_by(number: shift_data[:number])
+
+          if regularschedule
+            Shift.create(shift_data.(date: shift_data[:date],
+                                  number: shift_data[:number],
+                                  user_id: user))
+            date = Date.parse(shift_data[:date])
+            regularschedule.create_regularschedule_to_schedule(regularschedule.number, date, user)
+          else
+            Shift.create(shift_data.(date: shift_data[:date],
+                                    number: nil,
+                                    user_id: user))
+          end
         end
       end
-    else
-      0
+      true
+    rescue ActiveRecord::RecordInvalid => e
+      Rails.logger.error("シフト作成失敗: #{e.message}")
+      false
+    rescue => e
+      Rails.logger.error("予期しないエラー: #{e.message}")
+      false
     end
   end
 
   def self.update_montly(shift_params, user)
-    if shift_params.present?
+    return false unless shift_params.present?
 
       shift_params.each do |shift_data|
         shift = Shift.find_by(id: shift_data[:id])
@@ -31,6 +43,7 @@ class Shifts < ApplicationRecord
           shift.update(number: shift_data[:number])
         else
           shift.update(number: nil)
+          Rails.logger.info("shift.update:シフトは変更なし")
         end
 
         date = Date.parse(shift_data[:date])
@@ -64,15 +77,12 @@ class Shifts < ApplicationRecord
         end
       end
       true
-    else
-      false
-    end
   end
 
-  def self.destory_montly(date)
-    shifts = Shift.where(user_id: current_user.id,
+  def self.destory_montly(date, user)
+    shifts = Shift.where(user_id: user.id,
                         date: date.beginning_of_month..date.end_of_month)
-    schedules = Schedule.where(user_id: current_user.id,
+    schedules = Schedule.where(user_id: user.id,
                                start_date: date.beginning_of_month..date.end_of_month)
     if shifts.present?
 

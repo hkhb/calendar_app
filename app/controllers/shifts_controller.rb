@@ -9,12 +9,13 @@ class ShiftsController < ApplicationController
 
     def new
         Date.beginning_of_week = :sunday
-        @date = params[:start_date].present? ? Date.parse(params[:start_date]) : Date.current
+        @month = params[:start_date].present? ? Date.parse(params[:start_date]) : Date.current
     end
 
     def create
+        logger.debug "Shifts Params: #{params[:shifts]}"
         shift_params = params[:shifts]
-        date = params[:date]
+        date = params[:start_date]
 
         if Shifts.create_montly(shift_params, @current_user)
           flash[:notice] = "シフト登録が完了しました"
@@ -33,7 +34,7 @@ class ShiftsController < ApplicationController
 
     def update
         shift_params = params[:shifts]
-        date = params[:date]
+        date = params[:start_date]
 
         if Shifts.update_montly(shift_params, @current_user)
             flash[:notice] = "シフト変更が完了しました"
@@ -46,9 +47,8 @@ class ShiftsController < ApplicationController
 
     def destroy_month
         date = params[:start_date].to_date
-        shifts.monthly_destory(date)
 
-        if Shifts.destory_montly
+        if Shifts.destory_montly(date, @current_user)
             flash[:notice] = "スケジュールが削除されました"
             redirect_to shifts_path(start_date: date.to_s)
         else
