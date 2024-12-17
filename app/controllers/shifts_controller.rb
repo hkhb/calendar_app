@@ -3,13 +3,14 @@ class ShiftsController < ApplicationController
 
     def index
         Date.beginning_of_week = :sunday
-        @shift = Shift.where(user_id: current_user.id)
         @date = params[:start_date].present? ? Date.parse(params[:start_date]) : Date.current
+        Rails.logger.debug("@date: #{@date}")
     end
 
     def new
         Date.beginning_of_week = :sunday
         @month = params[:start_date].present? ? Date.parse(params[:start_date]) : Date.current
+        Rails.logger.debug("@month: #{@month}")
     end
 
     def create

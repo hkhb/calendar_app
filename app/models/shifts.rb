@@ -5,20 +5,20 @@ class Shifts < ApplicationRecord
     return false unless shift_params.present?
 
     begin
-      ActiveRecord.base.transaction do
+      ActiveRecord::Base.transaction do
         shift_params.each do |shift_data|
           regularschedule = RegularSchedule.find_by(number: shift_data[:number])
 
           if regularschedule
-            Shift.create(shift_data.(date: shift_data[:date],
+            Shift.create!(shift_data.(date: shift_data[:date],
                                   number: shift_data[:number],
-                                  user_id: user))
+                                  user_id: user.id))
             date = Date.parse(shift_data[:date])
             regularschedule.create_regularschedule_to_schedule(regularschedule.number, date, user)
           else
-            Shift.create(shift_data.(date: shift_data[:date],
+            Shift.create!(shift_data.(date: shift_data[:date],
                                     number: nil,
-                                    user_id: user))
+                                    user_id: user.id))
           end
         end
       end
@@ -84,16 +84,23 @@ class Shifts < ApplicationRecord
                         date: date.beginning_of_month..date.end_of_month)
     schedules = Schedule.where(user_id: user.id,
                                start_date: date.beginning_of_month..date.end_of_month)
-    if shifts.present?
+    return false unless shifts.present? && schedules.present?
 
-      schedules.each do |schedule|
-        if schedule.number.present?
-          schedule.destroy
+    begin
+      ActiveRecord::Base.transaction do
+        schedules.each do |schedule|
+          if schedule.number.present?
+            schedule.destroy
+          end
         end
+        shifts.destroy_all
+        true
       end
-      shifts.destroy_all
-      true
-    else
+    rescue ActiveRecord::RecordInvalid => e
+      Rails.logger.error("シフト削除失敗: #{e.message}")
+      false
+    rescue  => e
+      Rails.logger.error("予期しないエラー: #{e.message}")
       false
     end
   end
