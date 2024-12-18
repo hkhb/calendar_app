@@ -11,26 +11,33 @@ class RegularSchedule < ApplicationRecord
 
     def self.create_regularschedule_to_schedule(shiftnumber, date, current_user)
         regularschedule = RegularSchedule.find_by(number: shiftnumber)
+        return false unless regularschedule
 
-        if regularschedule
+        ActiveRecord::Base.transaction do
 
-            start_hour = regularschedule.start_time.hour
-            start_minute = regularschedule.start_time.min
-            end_hour = regularschedule.finish_time.hour
-            end_minute = regularschedule.finish_time.min
+            begin
+                start_hour = regularschedule.start_time.hour
+                start_minute = regularschedule.start_time.min
+                end_hour = regularschedule.finish_time.hour
+                end_minute = regularschedule.finish_time.min
 
-            start_time = date.in_time_zone + start_hour.hours + start_minute.minutes
-            end_time = date.in_time_zone + (regularschedule.days - 1).days + end_hour.hours + end_minute.minutes
+                start_time = date.in_time_zone + start_hour.hours + start_minute.minutes
+                end_time = date.in_time_zone + (regularschedule.days - 1).days + end_hour.hours + end_minute.minutes
 
-            Schedule.create!(user_id: current_user.id,
-                            name: regularschedule.name,
-                            event: regularschedule.event,
-                            start_date: date,
-                            finish_date: date + (regularschedule.days - 1).days,
-                            start_time: start_time,
-                            end_time: end_time,
-                            number: shiftnumber
-                            )
+                Schedule.create!(user_id: current_user.id,
+                                name: regularschedule.name,
+                                event: regularschedule.event,
+                                start_date: date,
+                                finish_date: date + (regularschedule.days - 1).days,
+                                start_time: start_time,
+                                end_time: end_time,
+                                number: shiftnumber
+                                )
+                true
+            rescue => e
+                Rails.logger.error("create_regularschedule_to_schedule error: #{e.message}")
+                raise ActiveRecord::Rollback
+            end
         end
     end
 end

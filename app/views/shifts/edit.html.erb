@@ -2,21 +2,15 @@
     <div class="editshifttitle">
         <p>シフト変更</p>
     </div>
-
-    <%= form_with url: shift_path(@shift, date: @date), method: :patch, local: true do |f| %>
+    <%= form_with url: shift_path(@shift, start_date: @date), method: :patch, local: true do |f| %>
         <div>
             <%= month_calendar do |date| %>
                 <div class="shift_day">
-
                     <% existing_shift = Shift.find_by(date: date, user_id: current_user.id) %>
                     <span class="day-number"><%= date.day %></span>
-
                     <div class="shift-fields">
-
                         <% if date.month == @date.month %>
-
                             <% if existing_shift.present? %>
-
                                 <%= hidden_field_tag "shifts[][date]", date %>
                                 <%= select_tag "shifts[][number]", 
                                             options_for_select([["選択", nil], ["1", 1], ["2", 2], ["3", 3], ["4", 4], ["5", 5]], 
@@ -27,9 +21,7 @@
                                 <%= hidden_field_tag "shifts[][id]", existing_shift&.id %>
 
                             <% else %>
-
                                 <p><% "-" %></p>
-
                             <% end %>
 
                         <% else %>
