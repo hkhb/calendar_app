@@ -1,7 +1,4 @@
 <div class="calendar main">
-    <div class="editshifttitle">
-        <p>シフト変更</p>
-    </div>
     <%= form_with url: shift_path(@shift, start_date: @date), method: :patch, local: true do |f| %>
         <div>
             <%= month_calendar do |date| %>
@@ -34,7 +31,10 @@
                 </div>
             <% end %>
         </div>
-
-        <%= f.submit "シフト変更", class: "btn-save" %>
+        <div class = "container">
+            <div class = "shifts-button-filed button-field">
+                <%= f.submit "シフト登録", class: "shift-update-button common-button" %>
+            </div>
+        </div>
     <% end %>
 </div>
