@@ -4,32 +4,32 @@ class Shifts < ApplicationRecord
   def self.create_monthly(shift_params, user)
     return false unless shift_params.present?
 
-    ActiveRecord::Base.transaction do
-      begin
+    begin
+      ActiveRecord::Base.transaction do
         shift_params.each do |params|
           attributes = params.to_h
           regularschedule = RegularSchedule.find_by(number: attributes[:number], user_id: user)
 
           if regularschedule
             Shift.create!(attributes.merge(date: attributes[:date],
-                                  number: attributes[:number],
-                                  user_id: user.id))
+                                          number: attributes[:number],
+                                          user_id: user.id))
             date = Date.parse(attributes[:date])
             RegularSchedule.create_regularschedule_to_schedule(regularschedule.number, date, user)
           else
             Shift.create!(attributes.merge(date: attributes[:date],
-                                    number: nil,
-                                    user_id: user.id))
+                                          number: nil,
+                                          user_id: user.id))
           end
         end
         true
-      rescue ActiveRecord::RecordInvalid => e
-        Rails.logger.error("シフト作成失敗: #{shift_params.inspect}, error: #{e.message}")
-        raise ActiveRecord::Rollback
-      rescue => e
-        Rails.logger.error("予期しないエラー: #{shift_params.inspect}, error: #{e.message}")
-        raise ActiveRecord::Rollback
       end
+    rescue ActiveRecord::RecordInvalid => e
+      Rails.logger.error("シフト作成失敗: #{shift_params.inspect}, error: #{e.message}")
+      raise ActiveRecord::Rollback
+    rescue => e
+      Rails.logger.error("予期しないエラー: #{shift_params.inspect}, error: #{e.message}")
+      raise ActiveRecord::Rollback
     end
   end
 
@@ -49,7 +49,7 @@ class Shifts < ApplicationRecord
             shift.update!(number: nil)
             Rails.logger.info("shift.update:シフトは変更なし")
           end
-        
+
           date = Date.parse(attributes[:date])
           schedule = Schedule.where(user_id: user.id, start_time: date.all_day)
           new_shift = attributes[:number]
@@ -81,8 +81,8 @@ class Shifts < ApplicationRecord
                                start_date: date.beginning_of_month..date.end_of_month)
     return false unless shifts.present? && schedules.present?
 
-    ActiveRecord::Base.transaction do
-      begin
+    begin
+      ActiveRecord::Base.transaction do
         schedules.each do |schedule|
           if schedule.number.present?
             schedule.destroy
@@ -90,13 +90,13 @@ class Shifts < ApplicationRecord
         end
         shifts.destroy_all
         true
-      rescue ActiveRecord::RecordInvalid => e
-        Rails.logger.error("シフト削除失敗: #{e.message}")
-        raise ActiveRecord::Rollback
-      rescue  => e
-        Rails.logger.error("予期しないエラー: #{e.message}")
-        raise ActiveRecord::Rollback
       end
+    rescue ActiveRecord::RecordInvalid => e
+      Rails.logger.error("シフト削除失敗: #{e.message}")
+      raise ActiveRecord::Rollback
+    rescue  => e
+      Rails.logger.error("予期しないエラー: #{e.message}")
+      raise ActiveRecord::Rollback
     end
   end
 
