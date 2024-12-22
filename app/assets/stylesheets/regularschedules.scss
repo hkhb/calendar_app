@@ -1,0 +1,75 @@
+$primary-color: darkorange;
+$subprimary-color: rgb(254, 237, 191);
+$hover-color: rgb(219, 94, 56);
+$text-color: black;
+
+.regularschedule-inline-fields{
+    border: 1px solid;
+    background-color: $subprimary-color;
+    border-radius: 10px;
+    margin: 20px;
+
+}
+    .regularschedule-title-field{
+            border-bottom: 1px solid;
+            background-color: $primary-color;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            align-items: center;
+            display: flex;
+        }
+        .regularschedule-number{
+            width: auto;
+            margin-left: 10px;
+            font-size: 30px;
+            font-weight: 300;
+            flex: 0;
+        }
+        .show-regularschedule-name{
+            font-size: 20px;
+            text-align: center;
+            justify-content: space-around;
+            flex: 1;
+        }
+
+    .regularschedule-times-field{
+        display: flex;
+        justify-content: space-around;
+        text-align: center;
+    }
+    .regularschedule-event{
+        text-align: center;
+    }
+    .regularschedule-event-field{
+        width: auto;
+        height: auto;
+        justify-content: space-around;
+    }
+    .regularschedule-event-text-field{
+        width: 90%;
+        height: 100%;
+        padding: 5px;
+        margin: 10px;
+        text-align: center;
+    }
+    .regularschedule-button-field{
+        width: auto;
+        display: flex;
+        padding: auto;
+        justify-content: space-around;
+        margin: 10px;
+        }
+        .show-regularschedule-button-field div{
+            width: 150px;
+        }
+
+        .regularschedule-add-field{
+            display: flex;
+            margin: 0 auto;
+            justify-content: space-around;
+            width: 100%;
+        }
+        .regularschedule-add-field div{
+            width: 150px;
+        }
+    

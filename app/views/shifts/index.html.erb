@@ -32,19 +32,27 @@
 
        <% month_shifts = Shift.where(user_id: current_user.id, date: @date.beginning_of_month..@date.end_of_month) %>
 
-        <% if month_shifts.present? %>
+        <div class = "container">
+          <div class = "shifts-button-filed button-field">
+            <% if month_shifts.present? %>
 
-          <%= link_to "編集", edit_shift_path(@shift,start_date: @date.to_s), class: "btn-edit" %>
-          <%= link_to "削除", destroy_month_shifts_path(start_date: month_shifts.first.date.beginning_of_month.to_s), 
-                      method: :delete,
-                      class: "btn-destroy", 
-                      data: { confirm: "この月のシフトを削除しますか？"} %>
-
-        <% else %>
-
-          <%= link_to "新規", new_shift_path(start_date: @date.to_s) %>
-
-        <% end %>
+              <%= link_to edit_shift_path(@shift,start_date: @date.to_s), class: 'shift-edit-button common-button' do %>
+                <div class = "text">編集</div>
+              <% end %>
+              <%= link_to destroy_month_shifts_path(start_date: month_shifts.first.date.beginning_of_month.to_s), 
+                          method: :delete,
+                          class: "btn-destroy", 
+                          data: { confirm: "この月のシフトを削除しますか？"},
+                          class: 'shift-delete-button common-button' do %>
+                <div class = "text">削除</div>
+              <% end %>
+            <% else %>
+              <%= link_to new_shift_path(start_date: @date.to_s), class: 'shift-new-button common-button' do %>
+                <div class = "text">新規</div>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
       </td>
     </tr>
   </tfoot>

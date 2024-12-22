@@ -3,10 +3,10 @@ current directory: /home/hibibi/calendar_app_v.1/vendor/bundle/ruby/3.3.0/gems/s
 creating Makefile
 
 current directory: /home/hibibi/calendar_app_v.1/vendor/bundle/ruby/3.3.0/gems/sassc-2.4.0/ext
-make DESTDIR\= sitearchdir\=./.gem.20241207-2143-bgl793 sitelibdir\=./.gem.20241207-2143-bgl793 clean
+make DESTDIR\= sitearchdir\=./.gem.20241207-22634-96zp4s sitelibdir\=./.gem.20241207-22634-96zp4s clean
 
 current directory: /home/hibibi/calendar_app_v.1/vendor/bundle/ruby/3.3.0/gems/sassc-2.4.0/ext
-make DESTDIR\= sitearchdir\=./.gem.20241207-2143-bgl793 sitelibdir\=./.gem.20241207-2143-bgl793
+make DESTDIR\= sitearchdir\=./.gem.20241207-22634-96zp4s sitelibdir\=./.gem.20241207-22634-96zp4s
 compiling ./libsass/src/ast.cpp
 compiling ./libsass/src/ast2c.cpp
 compiling ./libsass/src/ast_fwd_decl.cpp
@@ -76,8 +76,8 @@ compiling ./libsass/src/values.cpp
 linking shared-object sassc/libsass.so
 
 current directory: /home/hibibi/calendar_app_v.1/vendor/bundle/ruby/3.3.0/gems/sassc-2.4.0/ext
-make DESTDIR\= sitearchdir\=./.gem.20241207-2143-bgl793 sitelibdir\=./.gem.20241207-2143-bgl793 install
-/usr/bin/install -c -m 0755 libsass.so ./.gem.20241207-2143-bgl793/sassc
+make DESTDIR\= sitearchdir\=./.gem.20241207-22634-96zp4s sitelibdir\=./.gem.20241207-22634-96zp4s install
+/usr/bin/install -c -m 0755 libsass.so ./.gem.20241207-22634-96zp4s/sassc
 
 current directory: /home/hibibi/calendar_app_v.1/vendor/bundle/ruby/3.3.0/gems/sassc-2.4.0/ext
-make DESTDIR\= sitearchdir\=./.gem.20241207-2143-bgl793 sitelibdir\=./.gem.20241207-2143-bgl793 clean
+make DESTDIR\= sitearchdir\=./.gem.20241207-22634-96zp4s sitelibdir\=./.gem.20241207-22634-96zp4s clean

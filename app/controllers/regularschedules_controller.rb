@@ -50,6 +50,9 @@ class RegularschedulesController < ApplicationController
         regularschedule = RegularSchedule.new(
             params.require(:regular_schedule).permit(:name, :event, :number, :days, :start_time, :finish_time)
         )
+        if regularschedule.days == nil
+          regularschedule.days = 1
+        end
         regularschedule.user_id = @current_user.id
         regularschedule.create_regularschedule_times
 

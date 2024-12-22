@@ -5,7 +5,7 @@
             <div class = "regularschedule_form select">
                 <% if @regular_schedules.present? %>
                     <% @regular_schedules.each do |schedule| %>
-                        <div class = "inline-fields">
+                        <div class = "show-regularschedule-inline-fields">
                             <div class = "name"> 
                                 <p>定型予定番号　> <%= schedule.number %></p>
                                 <p>名前 > <%= schedule.name %></p>
@@ -37,11 +37,13 @@
 
                         </div>
                     <% end %>
-                    <% else %>
-                        <p>スケジュールがありません</p>
-                    <% end %>
+                <% else %>
+                    <p>スケジュールがありません</p>
+                <% end %>
 
-                <a href = "/regularschedules/<%= @current_user.id %>/new">追加</a>
+                <div class = "common-botton">
+                    <a href = "/regularschedules/<%= @current_user.id %>/new">追加</a>
+                </div>
             </div>
         </div>
     </div>

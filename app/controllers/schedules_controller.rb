@@ -22,12 +22,13 @@ class SchedulesController < ApplicationController
     end
 
     def create
-        date = Schedule.schedule_create(schedule_params, @current_user)
+        @schedule = Schedule.schedule_create(schedule_params, @current_user)
 
-        if date.is_a?(Time)
+        if @schedule.is_a?(Time)
             flash[:notice] = "予定の登録が完了しました"
-            redirect_to show_by_date_schedules_path(date: date)
+            redirect_to show_by_date_schedules_path(date: @schedule)
         else
+            Rails.logger.debug(@schedule.errors.full_messages) if @schedule.respond_to?(:errors)
             flash.now[:alert] = "失敗しました"
             render :new
         end

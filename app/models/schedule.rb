@@ -8,7 +8,7 @@ class Schedule < ApplicationRecord
     if schedule.save
       schedule.start_time
     else
-      0
+      schedule
     end
   end
 
@@ -18,7 +18,7 @@ class Schedule < ApplicationRecord
     if schedule.update(data)
       schedule.start_time
     else
-      0
+      schedule
     end
   end
 end

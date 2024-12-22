@@ -1,0 +1,100 @@
+$primary-color: darkorange;
+
+body {
+    color: #2d3133;
+    margin: 0;
+    min-height: 1vh;
+  }
+  
+  .main {
+    position: absolute;
+    top: 64px;
+    width: 100%;
+    height: auto;
+    min-height: 100%;
+    background-color: #f5f8fa;
+  }
+  
+  .container {
+    max-width: 600px;
+    margin: 60px auto;
+    padding-left: 15px;
+    padding-right: 15px;
+    clear: both;
+  }
+
+
+header {
+    height: 64px;
+    background-color: $primary-color;
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+  }
+  
+  .header-menus {
+    float: right;
+    padding-right: 20px;
+  }
+  
+  .header-menus ul{
+    padding-left:0;
+  }
+
+  .header-menus li {
+    float: left;
+    line-height: 64px;
+    font-size: 13px;
+    color: white;
+    padding-left: 15px;
+    list-style:none;
+  }
+  .header-menus a {
+    float: left;
+    font-size: 30px;
+    color: white;
+  }
+  
+  .header-menus input[type="submit"] {
+    padding: 0 20px;
+    float: left;
+    line-height: 64px;
+    color: white;
+    margin: 0;
+    font-size: 13px;
+  }
+  .day-block-link {
+    text-decoration: none;
+    color: inherit; /* 文字色を継承 */
+  }
+  
+  .day-block {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    height: 100%; /* 高さをセル全体に合わせる */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .day-block:hover {
+    background-color: #e6e6e6;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+  }
+  
+  .day-number {
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-bottom: 5px;
+  }
+  
+  .event {
+    margin-top: 5px;
+    font-size: 0.9em;
+    color: #333;
+  }
+  

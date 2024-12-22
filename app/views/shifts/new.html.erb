@@ -3,18 +3,19 @@
     <p>新規シフト入力</p>
   </div>
 
-  <%= form_with url: shifts_path(date: @date), method: :post, local: true do |f| %>
+  <%= form_with url: shifts_path(start_date: @month), method: :post, local: true do |f| %>
     <div>
       <%= month_calendar do |date| %>
+        @month.month =<%= @month.month %>
         <div class="day">
           <span class="day-number"><%= date.day %></span>
 
-          <% if date.month == @date.month %>
+          <% if date.month == @month.month %>
             <div class="shift-fields">
               <%= hidden_field_tag "shifts[][date]", date %>
 
               <%= select_tag "shifts[][number]", 
-                            options_for_select([["選択", 0], ["1", 1], ["2", 2], ["3", 3], ["4", 4], ["5", 5]]), 
+                            options_for_select([["選択", nil], ["1", 1], ["2", 2], ["3", 3], ["4", 4], ["5", 5]]), 
                             class: 'select-field' %>
 
               <%= hidden_field_tag "shifts[][user_id]", current_user.id %>
@@ -24,8 +25,12 @@
           <% end %>
         </div>
       <% end %>
+      <%= @month.month %>
     </div>
-
-    <%= f.submit "シフト登録", class: "btn-save" %>
+    <div class = "container">
+      <div class = "shifts-button-filed button-field">
+        <%= f.submit "シフト登録", class: "shift-create-button common-button" %>
+      </div>
+    </div>
   <% end %>
 </div>
