@@ -26,18 +26,16 @@ class Shifts < ApplicationRecord
       end
     rescue ActiveRecord::RecordInvalid => e
       Rails.logger.error("シフト作成失敗: #{shift_params.inspect}, error: #{e.message}")
-      raise ActiveRecord::Rollback
     rescue => e
       Rails.logger.error("予期しないエラー: #{shift_params.inspect}, error: #{e.message}")
-      raise ActiveRecord::Rollback
     end
   end
 
   def self.update_monthly(shift_params, user)
     return false unless shift_params.present?
 
-    ActiveRecord::Base.transaction do
-      begin
+    begin
+      ActiveRecord::Base.transaction do
         shift_params.each do |shift_data|
           attributes = shift_data.to_h
           shift = Shift.find_by(id: attributes[:id])
@@ -65,12 +63,12 @@ class Shifts < ApplicationRecord
             end
           end
         end
-        true
-      rescue => e
-        Rails.logger.error("update_montly error: #{e.message}")
-        raise ActiveRecord::Rollback
-        return false
       end
+      true
+    rescue ActiveRecord::RecordInvalid => e
+      Rails.logger.error("シフト更新失敗: #{shift_params.inspect}, error: #{e.message}")
+    rescue => e
+      Rails.logger.error("予期しないエラー: #{shift_params.inspect}, error: #{e.message}")
     end
   end
 
@@ -93,10 +91,8 @@ class Shifts < ApplicationRecord
       end
     rescue ActiveRecord::RecordInvalid => e
       Rails.logger.error("シフト削除失敗: #{e.message}")
-      raise ActiveRecord::Rollback
     rescue  => e
       Rails.logger.error("予期しないエラー: #{e.message}")
-      raise ActiveRecord::Rollback
     end
   end
 
