@@ -23,7 +23,7 @@ class ShiftsController < ApplicationController
           flash[:notice] = "シフト登録が完了しました"
           redirect_to shifts_path(start_date: date.to_s)
         else
-          flash.now[:alert] = "シフト登録に失敗しました"
+            @error_message = "シフト作成に失敗しました。もう一度一度やり直してください"
           render :new
         end
     end
@@ -42,7 +42,7 @@ class ShiftsController < ApplicationController
             flash[:notice] = "シフト変更が完了しました"
             redirect_to shifts_path(start_date: date.to_s)
         else
-            flash[:alert] = "シフト変更に失敗しました"
+            @error_message = "シフト変更に失敗しました。もう一度一度やり直してください"
             render :edit
         end
     end
@@ -54,7 +54,7 @@ class ShiftsController < ApplicationController
             flash[:notice] = "スケジュールが削除されました"
             redirect_to shifts_path(start_date: date.to_s)
         else
-            flash[:error] = "削除に失敗しました"
+            @error_message = "削除に失敗しました"
             render :index
         end
     end
