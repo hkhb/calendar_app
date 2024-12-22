@@ -2,6 +2,29 @@ class RegularSchedule < ApplicationRecord
     validates :start_time, :finish_time, :name, :user_id, :number, presence: true
     validates :number, uniqueness: true
 
+    def self.regularschedule_create
+    end
+    def self.regularschedule_update(params, id)
+        return false unless params && id
+        begin
+            ActiveRecord::Base.transaction do
+                regularschedule = RegularSchedule.find_by(id: params[:id])
+                regularschedule.update(name: :name,
+                                       event: :event,
+                                       number: :number,
+                                       days: :days,
+                                       start_time: :start_time,
+                                       finish_time: :finish_time
+                                       )
+                regularschedule.create_regularschedule_times
+            end
+        true
+        rescue ActiveRecord::RecordInvalid => e
+            Rails.logger.error("定型予定作成失敗: #{shift_params.inspect}, error: #{e.message}")
+        rescue => e
+            Rails.logger.error("予期しないエラー: #{shift_params.inspect}, error: #{e.message}")
+        end
+    end
     def create_regularschedule_times
         self.start_hour = self.start_time.strftime("%H").to_i
         self.start_minute = format("%02d", self.start_time.strftime("%M").to_i)

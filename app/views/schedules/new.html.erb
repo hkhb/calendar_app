@@ -2,6 +2,11 @@
     <div class = "container">
         <div class = "schedule">
             <div class="form-heading">新規予定</div>
+            <% if @error_message %>
+                <div class = "form-error">
+                    <%= @error_message %>
+                </div>
+            <% end %>
             <div class = "schedule_form select">
                 <%= form_with model: @schedule, url: schedules_path do |f| %>
                     <div class = "inline-fields">

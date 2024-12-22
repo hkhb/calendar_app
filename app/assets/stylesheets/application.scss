@@ -29,7 +29,7 @@ $text-color: black;
 .flash {
   padding: 10px 0;
   color: white;
-  background: rgb(251, 170, 88);
+  background: $subprimary-color;
   text-align: center;
   position: absolute;
   top: 64px;
@@ -45,8 +45,10 @@ $text-color: black;
   text-align: center;
 }
 .form-heading {
+  text-align: center;
   font-size: large;
   border-bottom: 1px solid $text-color ;
+  margin: 10px;
 }
 
 .button-field {
