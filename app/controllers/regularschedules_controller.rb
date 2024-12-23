@@ -24,21 +24,15 @@ class RegularschedulesController < ApplicationController
             regularschedule.create_regularschedule_times
 
             if regularschedule.save
-
                 flash[:notice] = "定型予定の登録が完了しました"
-                redirect_to regularschedule_path(regularschedule)
-
+                redirect_to regularschedules_path
             else
-
-                flash[:notice] = "失敗しました"
+                @error_message = "失敗しました。もう一度入力してください！"
                 render :edit
-
             end
         else
-
-            flash[:notice] = "失敗しました"
+            @error_message = "失敗しました。もう一度入力してください！"
             render :edit
-
         end
     end
 
@@ -57,15 +51,11 @@ class RegularschedulesController < ApplicationController
         regularschedule.create_regularschedule_times
 
         if regularschedule.save
-
             flash[:notice] = "定型予定の登録が完了しました"
-            redirect_to regularschedule_path(regularschedule)
-
+            redirect_to regularschedules_path
         else
-
-            flash[:notice] = "失敗しました"
+            @error_message = "失敗しました。もう一度入力してください！"
             render :new
-
         end
     end
 
@@ -73,15 +63,11 @@ class RegularschedulesController < ApplicationController
         schedule = RegularSchedule.find_by(id: params[:id])
 
         if schedule && schedule.destroy
-
             flash[:notice] = "スケジュールが削除されました"
-            redirect_to regularschedule_path(schedule)
-
+            redirect_to regularschedules_path
         else
-
             flash[:notice] = "削除に失敗しました"
-            redirect_to regularschedule_path(schedule)
-
+            redirect_to regularschedules_path
         end
     end
 

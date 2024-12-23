@@ -2,7 +2,11 @@
     <div class = "container">
         <div class = "schedule">
             <div class="form-heading">予定</div>
-
+            <% if @error_message %>
+                <div class = "form-error">
+                    <%= @error_message %>
+                </div>
+            <% end %>
             <div class = "scheduleday">
                 <%= @date %>
             </div>

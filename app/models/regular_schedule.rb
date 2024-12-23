@@ -2,6 +2,29 @@ class RegularSchedule < ApplicationRecord
     validates :start_time, :finish_time, :name, :user_id, :number, presence: true
     validates :number, uniqueness: true
 
+    def self.regularschedule_create
+    end
+    def self.regularschedule_update(params, id)
+        return false unless params && id
+        begin
+            ActiveRecord::Base.transaction do
+                regularschedule = RegularSchedule.find_by(id: params[:id])
+                regularschedule.update(name: :name,
+                                       event: :event,
+                                       number: :number,
+                                       days: :days,
+                                       start_time: :start_time,
+                                       finish_time: :finish_time
+                                       )
+                regularschedule.create_regularschedule_times
+            end
+        true
+        rescue ActiveRecord::RecordInvalid => e
+            Rails.logger.error("定型予定作成失敗: #{shift_params.inspect}, error: #{e.message}")
+        rescue => e
+            Rails.logger.error("予期しないエラー: #{shift_params.inspect}, error: #{e.message}")
+        end
+    end
     def create_regularschedule_times
         self.start_hour = self.start_time.strftime("%H").to_i
         self.start_minute = format("%02d", self.start_time.strftime("%M").to_i)
@@ -13,31 +36,28 @@ class RegularSchedule < ApplicationRecord
         regularschedule = RegularSchedule.find_by(number: shiftnumber)
         return false unless regularschedule
 
-        ActiveRecord::Base.transaction do
+        begin
+            start_hour = regularschedule.start_time.hour
+            start_minute = regularschedule.start_time.min
+            end_hour = regularschedule.finish_time.hour
+            end_minute = regularschedule.finish_time.min
 
-            begin
-                start_hour = regularschedule.start_time.hour
-                start_minute = regularschedule.start_time.min
-                end_hour = regularschedule.finish_time.hour
-                end_minute = regularschedule.finish_time.min
+            start_time = date.in_time_zone + start_hour.hours + start_minute.minutes
+            end_time = date.in_time_zone + (regularschedule.days - 1).days + end_hour.hours + end_minute.minutes
 
-                start_time = date.in_time_zone + start_hour.hours + start_minute.minutes
-                end_time = date.in_time_zone + (regularschedule.days - 1).days + end_hour.hours + end_minute.minutes
-
-                Schedule.create!(user_id: current_user.id,
-                                name: regularschedule.name,
-                                event: regularschedule.event,
-                                start_date: date,
-                                finish_date: date + (regularschedule.days - 1).days,
-                                start_time: start_time,
-                                end_time: end_time,
-                                number: shiftnumber
-                                )
-                true
-            rescue => e
-                Rails.logger.error("create_regularschedule_to_schedule error: #{e.message}")
-                raise ActiveRecord::Rollback
-            end
+            Schedule.create!(user_id: current_user.id,
+                            name: regularschedule.name,
+                            event: regularschedule.event,
+                            start_date: date,
+                            finish_date: date + (regularschedule.days - 1).days,
+                            start_time: start_time,
+                            end_time: end_time,
+                            number: shiftnumber
+                            )
+            true
+        rescue => e
+            Rails.logger.error("create_regularschedule_to_schedule error: #{e.message}")
+            raise ActiveRecord::Rollback
         end
     end
 end

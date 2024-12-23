@@ -1,7 +1,10 @@
 <div class="calendar main">
-  <div class="newshifttitle">
-    <p>新規シフト入力</p>
-  </div>
+  <div class="form-heading">新規シフト入力</div>
+  <% if @error_message %>
+    <div class = "form-error">
+      <%= @error_message %>
+    </div>
+  <% end %>
 
   <%= form_with url: shifts_path(start_date: @month), method: :post, local: true do |f| %>
     <div>
@@ -28,7 +31,7 @@
       <%= @month.month %>
     </div>
     <div class = "container">
-      <div class = "shifts-button-filed button-field">
+      <div class = "shifts-button-field button-field">
         <%= f.submit "シフト登録", class: "shift-create-button common-button" %>
       </div>
     </div>

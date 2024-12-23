@@ -29,7 +29,7 @@ class SchedulesController < ApplicationController
             redirect_to show_by_date_schedules_path(date: @schedule)
         else
             Rails.logger.debug(@schedule.errors.full_messages) if @schedule.respond_to?(:errors)
-            flash.now[:alert] = "失敗しました"
+            @error_message = "失敗しました。もう一度やり直してください"
             render :new
         end
     end
@@ -45,7 +45,7 @@ class SchedulesController < ApplicationController
             flash[:notice] = "予定の登録が完了しました"
             redirect_to show_by_date_schedules_path(date: date)
         else
-            flash[:alert] = "失敗しました"
+            @error_message = "失敗しました。もう一度やり直してください"
             render :edit
         end
     end
@@ -59,7 +59,7 @@ class SchedulesController < ApplicationController
             redirect_to show_by_date_schedules_path(date: @schedule.start_time.to_date)
         else
 
-            flash[:notice] = "削除に失敗しました"
+            @error_message = "削除に失敗しました。もう一度やり直してください"
             redirect_to show_by_date_schedules_path(date: @schedule.start_time.to_date)
 
         end
