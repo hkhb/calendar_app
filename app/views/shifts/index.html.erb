@@ -1,26 +1,24 @@
 <div class = "shift_calendar main">
+  <div class="form-heading">シフト</div>
+  <% if @error_message %>
+    <div class = "form-error">
+      <%= @error_message %>
+    </div>
+  <% end %>
 
   <tbody>
     <%= month_calendar do |date| %>
       <span class="day-number"><%= date.day %></span>
-  
         <% shiftnumber = Shift.where(user_id: current_user.id)
                                 .where("DATE(date) = ?", date) %>
-
         <% if shiftnumber.present? %>
-
           <% shiftnumber.each do |event| %>
-
             <div class="event">
-
               <%= event.number || "-" %>
             </div>
           <% end %>
-
         <% else %>
-
           <p>?</p>
-
         <% end %>
     <% end %>
   </tbody>

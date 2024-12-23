@@ -5,6 +5,11 @@
     <div class = "container">
         <div class = "schedule">
             <div class="form-heading">予定変更</div>
+            <% if @error_message %>
+                <div class = "form-error">
+                    <%= @error_message %>
+                </div>
+            <% end %>
             <div class = "schedule_edit_form select">
                 <%= form_with model: @schedule, url: schedule_path(@schedule), method: :patch do |f| %>
                     <div class = "inline-fields">

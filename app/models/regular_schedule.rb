@@ -2,6 +2,7 @@ class RegularSchedule < ApplicationRecord
     validates :start_time, :finish_time, :name, :user_id, :number, presence: true
     validates :number, uniqueness: true
 
+<<<<<<< HEAD
     def self.regularschedule_create(params, user)
         return false unless params && user
         begin
@@ -42,6 +43,14 @@ class RegularSchedule < ApplicationRecord
                     start_time: params[:start_time],
                     finish_time: params[:finish_time]
                 )
+                regularschedule = RegularSchedule.find_by(id: params[:id])
+                regularschedule.update(name: :name,
+                                       event: :event,
+                                       number: :number,
+                                       days: :days,
+                                       start_time: :start_time,
+                                       finish_time: :finish_time
+                                       )
                 regularschedule.create_regularschedule_times
             end
         true
