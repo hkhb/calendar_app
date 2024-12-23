@@ -42,9 +42,9 @@ gem "bcrypt"
 
 gem "jquery-rails"
 
-gem "ruby-debug-ide"
+# gem "ruby-debug-ide","~> 0.7.3"
 
-gem "debase"
+# gem "debase","~> 0.2.8"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

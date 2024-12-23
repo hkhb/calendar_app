@@ -8,6 +8,13 @@
                         <div>
                             <%= f.label :name, "名前" %>
                             <%= f.text_field :name, class: 'name-field' %>
+                            <% if @schedule.errors[:name].present? %>
+                                <div class="error-message" style="color: red;">
+                                    <%= @schedule.errors[:name].join(', ') %>
+                                </div>
+                            <% else %>
+                                <div class="hint" style="color: gray;">*必須</div>
+                            <% end %>
                         </div>
 
                         <div>
