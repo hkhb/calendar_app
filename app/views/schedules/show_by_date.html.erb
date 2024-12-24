@@ -16,45 +16,44 @@
                         <% @date %>
                     </div>
                     <% @schedules.each do |schedule| %>
-                        <div class = "inline-fields">
-                            <div class = "name"> 
-                                <p>名前 > <%= schedule.name %></p>
+                        <div class = "schedule-inline-fields">
+                            <div class = "schedule-title-field">
+                                <div class = "schedule-name"> 
+                                    <%= schedule.name %>
+                                </div>
                             </div>
-                            <div class = "starttime" >
-                                <p>開始日付 > <%= "#{schedule.start_time.strftime("%m/%d") }" %></p>
+                            <div class = "schedule-times-field">
+                                <div class = "starttime" >
+                                    <p>開始日時</p>
+                                    <p><%= "#{schedule.start_time.strftime("%m/%d %H:%M") }" %></p>
+                                </div>
+                                <div class = "endtime" >
+                                    <p> 終了日時 </p>
+                                    <p><%= "#{schedule.end_time.strftime("%m/%d %H:%M") }" %></p>
+                                </div>
                             </div>
-                            <div class = "starttime" >
-                                <p>開始時刻 > <%= "#{schedule.start_time.strftime("%H:%M") }" %></p>
+                            <div class = "schedule-event">
+                                <p>説明</p>
+                                <p><%= schedule.event %><p>
                             </div>
-                            <div class = "endtime" >
-                                <p> 終了日付 > <%= "#{schedule.end_time.strftime("%m/%d") }" %></p>
-                            </div>
-                            <div class = "endtime" >
-                                <p> 終了時刻 > <%= "#{schedule.end_time.strftime("%H:%M") }" %></p>
-                            </div>
-                            <div class = "event">
-                                <p>説明 > <%= schedule.event %><p>
-                            </div>
-                            <div class = "event">
-                                <p>ユーザー名 > <%= schedule.user_id %><p>
-                            </div>
-                            <div class = "event">
-                                <p>定型予定 > <%= schedule.number %><p>
-                            </div>
-                            <div class="schedule_edit edit">
-                                <%= link_to '編集', edit_schedule_path(schedule) %>
-                            </div>
-                            <div class="schedule_destory destroy">
-                                <%= link_to '削除', schedule_path(schedule), method: :delete, data: { confirm: '本当に削除しますか？' } %>
+                            <div class = "button-field">
+                                <%= link_to edit_schedule_path(schedule), class: 'common-button' do %>
+                                    <div class = "text" >編集</div>
+                                <% end %>
+                                <%= link_to schedule_path(schedule), method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'common-button' do %>
+                                    <div class = "text" >削除</div>
+                                <% end %>
                             </div>
                         </div>
                     <% end %>
                     <% else %>
                         <p>スケジュールがありません</p>
                     <% end %>
-
-                <%= link_to '追加',new_schedule_path(date: @date) %>
-                <% @date %>
+                <div class = "button-field">
+                    <%= link_to new_schedule_path(date: @date), class: 'common-button' do %>
+                        <div class = "text">追加</div>
+                    <% end %>
+                </div>
             </div>
         </div>
     </div>
