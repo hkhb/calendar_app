@@ -1,14 +1,11 @@
 class RegularSchedule < ApplicationRecord
     validates :start_time, :finish_time, :name, :user_id, :number, presence: true
-    validates :number, uniqueness: true
-
-<<<<<<< HEAD
     def self.regularschedule_create(params, user)
-        return false unless params && user
+        return :unexpected_error unless params && user
         begin
             ActiveRecord::Base.transaction do
                 regularschedule = RegularSchedule.create!(
-                    params.marge(
+                    params.merge(
                         name: params[:name],
                         event: params[:event],
                         number: params[:number],
@@ -19,19 +16,32 @@ class RegularSchedule < ApplicationRecord
                     )
                 )
                 regularschedule.update!(days: 1) if regularschedule.days.nil?
-                regularschedule.create_regularschedule_times
             end
+            :success
         rescue ActiveRecord::RecordInvalid => e
             Rails.logger.error("定型予定作成失敗: #{params.inspect}, error: #{e.message}")
-            false
+            :invalid_input
         rescue => e
             Rails.logger.error("予期しないエラー: #{params.inspect}, error: #{e.message}")
-            false
+            :unexpected_error
         end
     end
-
     def self.regularschedule_update(params, id)
         return false unless params && id
+        start_time = Time.new(
+            params["start_time(1i)"].to_i,
+            params["start_time(2i)"].to_i,
+            params["start_time(3i)"].to_i,
+            params["start_time(4i)"].to_i,
+            params["start_time(5i)"].to_i
+          )
+          finish_time = Time.new(
+            params["finish_time(1i)"].to_i,
+            params["finish_time(2i)"].to_i,
+            params["finish_time(3i)"].to_i,
+            params["finish_time(4i)"].to_i,
+            params["finish_time(5i)"].to_i
+          )
         begin
             ActiveRecord::Base.transaction do
                 regularschedule = RegularSchedule.find_by(id: id)
@@ -40,39 +50,22 @@ class RegularSchedule < ApplicationRecord
                     event: params[:event],
                     number: params[:number],
                     days: params[:days],
-                    start_time: params[:start_time],
-                    finish_time: params[:finish_time]
+                    start_time: start_time,
+                    finish_time: finish_time
                 )
-                regularschedule = RegularSchedule.find_by(id: params[:id])
-                regularschedule.update(name: :name,
-                                       event: :event,
-                                       number: :number,
-                                       days: :days,
-                                       start_time: :start_time,
-                                       finish_time: :finish_time
-                                       )
-                regularschedule.create_regularschedule_times
             end
-        true
+            :success
         rescue ActiveRecord::RecordInvalid => e
             Rails.logger.error("定型予定更新失敗: #{params.inspect}, error: #{e.message}")
-            false
+            :invalid_input
         rescue => e
             Rails.logger.error("予期しないエラー: #{params.inspect}, error: #{e.message}")
-            false
+            :unexpected_error
         end
     end
-    def create_regularschedule_times
-        self.start_hour = self.start_time.strftime("%H").to_i
-        self.start_minute = format("%02d", self.start_time.strftime("%M").to_i)
-        self.finish_hour = self.finish_time.strftime("%H").to_i
-        self.finish_minute = format("%02d", self.finish_time.strftime("%M").to_i)
-    end
-
     def self.create_regularschedule_to_schedule(shiftnumber, date, current_user)
         regularschedule = RegularSchedule.find_by(number: shiftnumber)
         return false unless regularschedule
-
         begin
             start_hour = regularschedule.start_time.hour
             start_minute = regularschedule.start_time.min
