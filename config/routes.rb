@@ -13,34 +13,26 @@ Rails.application.routes.draw do
   # root "posts#index"
 
   resources :users do
-    get 'authenticate_form', on: :member, as: :authenticate_form
-    post 'authenticate', on: :member, as: :authenticate
+    get "authenticate_form", on: :member, as: :authenticate_form
+    post "authenticate", on: :member, as: :authenticate
   end
   resources :regularschedules
-
   resources :schedules do
     collection do
-      get 'show_by_date', to: 'schedules#show_by_date'
+      get "show_by_date", to: "schedules#show_by_date"
+    end
+  end
+  resources :shifts do
+    collection do
+      delete "destroy_month", to: "shifts#destroy_month"
     end
   end
 
-resources :shifts do
-  collection do
-    delete 'destroy_month', to: 'shifts#destroy_month'
-  end
-end
-
-
   get "/" => "home#top"
   get "home" => "home#home"
-
   get "login" => "users#login_form"
   post "login" => "users#login"
   get "logout" => "users#logout"
   get "signup" => "users#new"
-  get 'schedules/:date', to: 'schedule#show', as: :day
-
-
-
-
+  get "schedules/:date", to: "schedule#show", as: :day
 end

@@ -11,7 +11,7 @@
                 </div>
             <% end %>
             <div class = "schedule_edit_form select">
-                <%= form_with model: @schedule, url: schedule_path(@schedule), method: :patch do |f| %>
+                <%= form_with model: @schedule, url: schedule_path(@schedule), method: :patch, data: { turbo: false } do |f| %>
                     <div class = "inline-fields">
                         <div>
                             <%= f.label :name, "名前" %>

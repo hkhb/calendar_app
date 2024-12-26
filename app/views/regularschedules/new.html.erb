@@ -2,13 +2,14 @@
     <div class = "container">
         <div class = "regularschedule">
             <div class="form-heading">新規定型予定</div>
+            <p><%= @error_message.inspect %></p>
             <% if @error_message %>
-                <div class = "form-error">
-                    <%= @error_message %>
+                <div class="new-error-message">
+                    <p><%= @error_message %></p>
                 </div>
             <% end %>
             <div class = "regularschedule_form select">
-                <%= form_with model: @regularschedule, url: regularschedules_path do |f| %>
+                <%= form_with model: @regularschedule, url: regularschedules_path, method: :post, data: { turbo: false } do |f| %>
                     <div class = "new-regularschedule-inline-fields regularschedule-inline-fields">
                         <div class = "new-regularschedule-title-field regularschedule-title-field">
                             <%= f.select :number, [["1", 1], ["2", 2], ["3", 3], ["4", 4], ["5", 5]], include_blank: "定型予定コードを選択", class: 'new-regularschedule-number regularschedule-number' %>

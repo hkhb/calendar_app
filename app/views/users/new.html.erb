@@ -2,23 +2,20 @@
     <div class ="container">
         <div class ="form-heading">新規登録</div>
         <div class = "form users-form">
-            <% if @user && @user.errors.any? %>
-                <%= @user.errors.full_messages.each do |message|%>
-                    <div class = "form-error">
-                        <%= message %>
-                    </div>
-                <% end %>
-            <% end %>
-            
+        <% if @error_message %>
+          <div class = "form-error">
+            <%= @error_message %>
+          </div>
+        <% end %>
             <div class = "form-body">
-                <%= form_tag("/users/create")do  %>
-                    <p>ユーザー名</p>
-                    <input name = "name" value = "<%= @user.name%>">
-                    <p>メールアドレス</p>
-                    <input name = "email" value = "<%= @user.email%>">
-                    <p>パスワード</p>
-                    <input name ="password" type = "password">
-                    <input type = "submit" value = "登録">
+                <%= form_with model: @user, url: users_path, method: :post, data: { turbo: false } do |f| %>
+                    <%= f.label "ユーザー名", class: 'user-username-title' %>
+                    <%= f.text_field :name, class: 'user-username' %>
+                    <%= f.label "メールアドレス", class: 'user-mail-title' %>
+                    <%= f.email_field :email, class: 'user-mail' %>
+                    <%= f.label "パスワード※必須", class: 'user-password-title' %>
+                    <%= f.password_field :password, class: 'user-password' %>
+                    <%= f.submit "保存", class: 'new-user-submit new-user-forms common-button' %>
                 <% end %>
             </div>
         </div>
