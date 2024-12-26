@@ -39,6 +39,9 @@ $text-color: black;
   border-radius: 0 0 2px 2px;
   font-size: 14px;
 }
+.main{
+  font-family: Arial, sans-serif;
+}
 
 .calendar-heading {
   font-size: 30px;
@@ -70,77 +73,79 @@ $text-color: black;
     text-decoration: none;
     padding: 5px;
     font-size: 15px;
+    .common-button div {
+      width: auto;
+    }
   }
   .common-button:hover {
     background-color: $hover-color;
     box-shadow: 0px 2px 5px $text-color;
   }
   .schedule-inline-fields {
-      border: 1px solid;
-      background-color: $subprimary-color;
-      border-radius: 10px;
-      margin: 20px;
+    border: 1px solid;
+    background-color: $subprimary-color;
+    border-radius: 10px;
+    margin: 20px;
   
   }
-      .schedule-title-field {
-              border-bottom: 1px solid;
-              background-color: $primary-color;
-              border-top-left-radius: 10px;
-              border-top-right-radius: 10px;
-              align-items: center;
-              display: flex;
-          }
-          .regularschedule-number {
-              width: auto;
-              margin-left: 10px;
-              font-size: 30px;
-              font-weight: 300;
-              flex: 0;
-          }
-          .schedule-name {
-              font-size: 20px;
-              text-align: center;
-              justify-content: space-around;
-              flex: 1;
-          }
+.schedule-title-field {
+  border-bottom: 1px solid;
+  background-color: $primary-color;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  align-items: center;
+  display: flex;
+  }
+  .regularschedule-number {
+    width: auto;
+    margin-left: 10px;
+    font-size: 30px;
+    font-weight: 300;
+    flex: 0;
+  }
+  .schedule-name {
+    font-size: 20px;
+    text-align: center;
+    justify-content: space-around;
+    flex: 1;
+  }
+  .schedule-times-field {
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+  }
+  .schedule-event {
+    text-align: center;
+  }
+  .schedule-event-field {
+    width: auto;
+    height: auto;
+    justify-content: space-around;
+  }
+  .schedule-event-text-field {
+    width: 90%;
+    height: 100%;
+    padding: 5px;
+    margin: 10px;
+    text-align: center;
+  }
+  .schedule-button-field {
+    width: auto;
+    display: flex;
+    padding: auto;
+    justify-content: space-around;
+    margin: 10px;
+  }
+  .schedule-button-field div {
+     width: 150px;
+  }
   
-      .schedule-times-field {
-          display: flex;
-          justify-content: space-around;
-          text-align: center;
-      }
-      .schedule-event {
-          text-align: center;
-      }
-      .schedule-event-field {
-          width: auto;
-          height: auto;
-          justify-content: space-around;
-      }
-      .schedule-event-text-field {
-          width: 90%;
-          height: 100%;
-          padding: 5px;
-          margin: 10px;
-          text-align: center;
-      }
-      .schedule-button-field {
-          width: auto;
-          display: flex;
-          padding: auto;
-          justify-content: space-around;
-          margin: 10px;
-          }
-          .schedule-button-field div {
-              width: 150px;
-          }
-  
-          .schedule-add-field {
-              display: flex;
-              margin: 0 auto;
-              justify-content: space-around;
-              width: 100%;
-          }
-          .schedule-add-field div {
-              width: 150px;
-          }
+  .schedule-add-field {
+    display: flex;
+    margin: 0 auto;
+    justify-content: space-around;
+    width: 100%;
+  }
+  .schedule-add-field div {
+    width: 150px;
+  }

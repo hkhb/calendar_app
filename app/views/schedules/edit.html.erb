@@ -1,6 +1,4 @@
 <script type="module" src="path/to/your-script.js"></script>
-
-
 <div class = "main edit">
     <div class = "container">
         <div class = "schedule">
@@ -10,32 +8,31 @@
                     <%= @error_message %>
                 </div>
             <% end %>
-            <div class = "schedule_edit_form select">
+            <div class = "schedule_form select">
                 <%= form_with model: @schedule, url: schedule_path(@schedule), method: :patch, data: { turbo: false } do |f| %>
-                    <div class = "inline-fields">
+                    <div class = "schedule-inline-fields">
                         <div>
-                            <%= f.label :name, "名前" %>
-                            <%= f.text_field :name, class: 'name-field' %>
+                            <p><%= f.label :name, "名前" %></p>
+                            <p><%= f.text_field :name, class: 'name-field' %></p>
                         </div>
 
                         <div>
-                            <%= f.label :start_time, "開始", class: 'startdate' %>
-                            <%= f.datetime_select :start_time, class: 'time-field' %>
+                            <p><%= f.label :start_time, "開始日時", class: 'startdate' %></p>
+                            <p><%= f.datetime_select :start_time, class: 'time-field' %></p>
                         </div>
 
                         <div>
-                            <%= f.label :end_time, "終了", class: 'finishdate' %>
-                            <%= f.datetime_select :end_time, class: 'time-field' %>
+                            <p><%= f.label :end_time, "終了日時", class: 'finishdate' %></p>
+                            <p><%= f.datetime_select :end_time, class: 'time-field' %></p>
                         </div>
 
                         <div>
-                            <%= f.label :event, "説明", class:'event' %>
-                            <%= f.text_field :event, class: 'event-field' %>
+                            <p><%= f.label :event, "説明", class:'event' %></p>
+                            <p><%= f.text_field :event, class: 'event-field' %></p>
                         </div>
-
-                        <div>
-                            <%= f.submit "保存", class: 'common-button' %>
-                        </div>
+                    </div>
+                    <div class = "button-field">
+                        <%= f.submit "保存", class: 'common-button' %>
                     </div>
                 <% end %>
             </div>

@@ -41,12 +41,12 @@
 
                             <div class = "show-regularschedule-button-field regularschedule-button-field">
 
-                                <%= link_to edit_regularschedule_path(schedule) do %>
-                                    <div class = "show-regularschedule-edit common-button">変更</div>
+                                <%= link_to edit_regularschedule_path(schedule), class: 'common-button' do %>
+                                    <div class = "button-text">変更</div>
                                 <% end %>
 
-                                <%= link_to regularschedule_path(schedule), method: :delete, data: { confirm: '本当に削除しますか？' } do %>
-                                    <div class = "show-regularschedule-destroy common-button">削除</div>
+                                <%= link_to regularschedule_path(schedule), method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'common-button' do %>
+                                    <div class = "button-text">削除</div>
                                 <% end %>
                             </div>
 
@@ -56,9 +56,9 @@
                         <p>スケジュールがありません</p>
                     <% end %>
 
-                <div class = "show-regularschedule-add-field">
-                    <%= link_to new_regularschedule_path do %>
-                        <div class = "show-regularschedule-add common-button">追加</div>
+                <div class = "schedule-button-field">
+                    <%= link_to new_regularschedule_path, class: 'common-button' do %>
+                        <div class = "button-text" >追加</div>
                     <% end %>
                 </div>
             </div>
