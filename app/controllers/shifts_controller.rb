@@ -19,7 +19,7 @@ class ShiftsController < ApplicationController
         date = params[:start_date].present? ? Date.parse(params[:start_date]) : Date.current
         @month = params[:start_date].present? ? Date.parse(params[:start_date]) : Date.current
 
-        if Shifts.create_monthly(shifts_params, @current_user)
+        if Shift.create_monthly(shift_params, @current_user)
           flash[:notice] = "シフト登録が完了しました"
           redirect_to shifts_path(start_date: date.to_s)
         else
@@ -38,7 +38,7 @@ class ShiftsController < ApplicationController
         date = params[:start_date].to_date
         @shift = Shift.where(user_id: current_user.id)
 
-        if Shifts.update_monthly(shifts_params, @current_user)
+        if Shift.update_monthly(shift_params, @current_user)
             flash[:notice] = "シフト変更が完了しました"
             redirect_to shifts_path(start_date: date.to_s)
         else
@@ -50,7 +50,7 @@ class ShiftsController < ApplicationController
     def destroy_month
         date = params[:start_date].to_date
 
-        if Shifts.destory_monthly(date, @current_user)
+        if Shift.destory_monthly(date, @current_user)
             flash[:notice] = "スケジュールが削除されました"
             redirect_to shifts_path(start_date: date.to_s)
         else
@@ -61,7 +61,7 @@ class ShiftsController < ApplicationController
 
     private
 
-    def shifts_params
+    def shift_params
         params.require(:shifts).map do |shift|
             shift.permit(:date, :number, :user_id, :id)
         end
