@@ -1,4 +1,4 @@
-class RegularschedulesController < ApplicationController
+class RegularSchedulesController < ApplicationController
     before_action :authenticate_user
     def index
         @regular_schedules = RegularSchedule.where(user_id: @current_user.id)
@@ -10,20 +10,20 @@ class RegularschedulesController < ApplicationController
         @regularschedule = RegularSchedule.new
     end
     def create
-        result = RegularSchedule.regularschedule_create(regularschedule_params, @current_user)
+        result = RegularSchedule.regularschedule_create(regular_schedule_params, @current_user)
         Rails.logger.error("ステータス確認: #{result.inspect}")
         case result
         when :success
             flash[:notice] = "定型予定の登録が完了しました"
-            redirect_to regularschedules_path
+            redirect_to regular_schedules_path
         when :invalid_input
             @error_message = "名前、定型予定番号、時間は必須です。もう一度やり直してください！"
-            @regularschedule = RegularSchedule.new(regularschedule_params)
+            @regularschedule = RegularSchedule.new(regular_schedule_params)
             Rails.logger.error("エラーメッセージ確認: #{@error_message.inspect}")
             render :new
         when :unexpected
             @error_message = "システムエラー"
-            @regularschedule = RegularSchedule.new(regularschedule_params)
+            @regularschedule = RegularSchedule.new(regular_schedule_params)
             Rails.logger.error("エラーメッセージ確認: #{@error_message.inspect}")
             render :new
         end
@@ -33,11 +33,11 @@ class RegularschedulesController < ApplicationController
     end
     def update
         id = params[:id]
-        result = RegularSchedule.regularschedule_update(regularschedule_params, id)
+        result = RegularSchedule.regularschedule_update(regular_schedule_params, id)
         case result
         when :success
             flash[:notice] = "定型予定の更新が完了しました"
-            redirect_to regularschedules_path
+            redirect_to regular_schedules_path
         when :invalid_input
             @error_message = "名前、定型予定番号、時間は必須です。もう一度やり直してください！"
             @regularschedule = RegularSchedule.find_by(id: id)
@@ -54,14 +54,14 @@ class RegularschedulesController < ApplicationController
         schedule = RegularSchedule.find_by(id: params[:id])
         if schedule && schedule.destroy
             flash[:notice] = "スケジュールが削除されました"
-            redirect_to regularschedules_path
+            redirect_to regular_schedules_path
         else
             @error_message = "削除に失敗しました。もう一度やり直してください！"
-            redirect_to regularschedules_path
+            redirect_to regular_schedules_path
         end
     end
     private
-    def regularschedule_params
+    def regular_schedule_params
         params.require(:regular_schedule).permit(:name, :event, :user_id, :number, :start_time, :days, :finish_time)
     end
 end

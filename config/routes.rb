@@ -16,7 +16,7 @@ Rails.application.routes.draw do
     get "authenticate_form", on: :member, as: :authenticate_form
     post "authenticate", on: :member, as: :authenticate
   end
-  resources :regularschedules
+  resources :regular_schedules
   resources :schedules do
     collection do
       get "show_by_date", to: "schedules#show_by_date"

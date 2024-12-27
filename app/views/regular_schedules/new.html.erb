@@ -9,7 +9,7 @@
                 </div>
             <% end %>
             <div class = "regularschedule_form select">
-                <%= form_with model: @regularschedule, url: regularschedules_path, method: :post, data: { turbo: false } do |f| %>
+                <%= form_with model: @regularschedule, url: regular_schedules_path, method: :post, data: { turbo: false } do |f| %>
                     <div class = "new-regularschedule-inline-fields regularschedule-inline-fields">
                         <div class = "new-regularschedule-title-field regularschedule-title-field">
                             <%= f.select :number, [["1", 1], ["2", 2], ["3", 3], ["4", 4], ["5", 5]], include_blank: "定型予定コードを選択", class: 'new-regularschedule-number regularschedule-number' %>
