@@ -16,14 +16,12 @@ class UsersController < ApplicationController
       case result
       when :not_found
         @error_message = "もう一度やり直してください！"
-        render("users/new")
       when :invalid_input
         @error_message = "名前、メールアドレス、パスワードは必須です！"
-        render("users/new")
       when :unexpected_error
         @error_message = "システムエラー"
-        render("users/new")
       end
+      render("users/new")
     end
   end
   def logout
@@ -72,14 +70,12 @@ class UsersController < ApplicationController
       case result
       when :not_found
         @error_message = "もう一度やり直してください！"
-        render :edit
       when :invalid_input
         @error_message = "名前、メールアドレス、パスワードは必須です！"
-        render :edit
       when :unexpected_error
         @error_message = "システムエラー"
-        render :edit
       end
+      render :edit
     end
   end
   def show
