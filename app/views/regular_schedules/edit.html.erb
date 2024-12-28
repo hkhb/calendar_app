@@ -1,64 +1,71 @@
 <script type="module" src="path/to/your/script.js"></script>
 
-
 <div class = "main edit">
     <div class = "container">
         <div class = "regularschedule">
             <div class="form-heading">定型予定編集</div>
-            <% if @error_message %>
-                <div class = "form-error">
-                    <%= @error_message %>
-                </div>
-            <% end %>
-            <div class = "regularschedule_form select">
+            <div class = "schedule_form select">
                 <%= form_with model: @regularschedule, url: regular_schedule_path(@regularschedule), method: :patch, data: { turbo: false } do |f| %>
-                    <div class = "edit-regularschedule-inline-fields regularschedule-inline-fields">
-                        <div class = "edit-regularschedule-title-field regularschedule-title-field">
-                            <%= f.select :number, [["1", 1], ["2", 2], ["3", 3], ["4", 4], ["5", 5]], include_blank: "定型予定コードを選択", class: 'edit-regularschedule-number regularschedule-number' %>
-                            <%= f.label :name, "名前" %>
-                            <%= f.text_field :name, class: 'name-field' %>
+                    <div class = "schedule-inline-fields">
+                        <div class = "schedule-title-field">
+                            <div>
+                                <%= f.label :name, "名前" %>
+                            </div>
+                            <div>
+                                <% if @error_message %>
+                                    <div class = "form-error">
+                                        <%= @error_message %>
+                                    </div>
+                                <% end %>
+                                <%= f.text_field :name, class: 'name-field' %>
+                            </div>
                         </div>
 
-                        <div class = "edit-regularschedule-times-field regularschedule-times-field">
+                        <div class = "schedule-times-field">
 
-                            <div class = "edit-regularschedule-starttime regularschedule-starttime">
-                                <div class = "edit-regularschedule-starttime-title regularschedule-starttime-title">
+                            <div class = "schedule-starttime">
+                                <div class = "schedule-starttime-title">
                                     <%= f.label :start_time, "開始時刻", class: 'starttime' %>
                                 </div>
-                                <div class = "edit-regularschedule-starttime-field regularschedule-starttime-field">
+                                <div class = "schedule-starttime-field">
                                     <%= f.time_select :start_time, class: 'time-field' %>
                                 </div>
                             </div>
 
-                            <div class = "edit-regularschedule-days regularschedule-days">
-                                <div class = "edit-regularschedule-days regularschedule-days" >
-                                    <%= f.label :days, "X日間", class: 'days' %>
+                            <div class = "schedule-days">
+                                <div>
+                                    <%= f.label :days, "何日間ですか？", class: 'days' %>
                                 </div>
                                 <div>
-                                    <%= f.select :days, [["1", 1], ["2", 2], ["3", 3], ["4", 4], ["5", 5]], include_blank: "何日間ですか？", class: 'selectday-field' %>
+                                    <%= f.number_field :days, class: 'selectday-field', min: 1%>
                                 </div>
                             </div>
 
-                            <div class = "edit-regularschedule-finishtime regularschedule-finishtime">
-                                <div class = "edit-regularschedule-finishtime-title regularschedule-finishtime-title">
+                            <div class = "schedule-finishtime">
+                                <div class = "schedule-finishtime-title">
                                     <%= f.label :finish_time, "終了時刻", class: 'finishtime' %>
                                 </div>
-                                <div class = "edit-regularschedule-finishtime-field regularschedule-finishtime-field">
+                                <div class = "schedule-finishtime-field">
                                     <%= f.time_select :finish_time, class: 'time-field' %>
                                 </div>
                             </div>
                         </div>
 
-                        <div class = "edit-regularschedule-event regularschedule-event">
-                            <%= f.label :event, "説明", class: 'edit-regularschedule-event-title regularschedule-event-title' %>
-                            <div class = "edit-regularschedule-event-field regularschedule-event-field">
-                            <%= f.text_field :event, class: 'edit-regularschedule-event-text-field regularschedule-event-text-field' %>
+                        <div class = "schedule-event">
+                            <%= f.label :event, "説明", class: 'schedule-event-title' %>
+                            <div class = "schedule-event-field">
+                            <%= f.text_field :event, class: 'schedule-event-text-field' %>
                         </div>
 
-                        <div class = "edit-regularschedule-button-field regularschedule-button-field">
-                            <%= f.submit "保存", class: 'edit-regularschedule-submit-button common-button' %>
+                        <div class = "schedule-button-field">
+                            <%= f.submit "変更", class: 'common-button' %>
                         </div>
                     </div>
+                <% end %>
+            </div>
+            <div class = "schedule-button-field">
+                <%= link_to regular_schedules_path, class: 'common-button' do %>
+                    戻る
                 <% end %>
             </div>
         </div>
