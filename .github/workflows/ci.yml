@@ -38,6 +38,10 @@ jobs:
       - name: Scan for security vulnerabilities in JavaScript dependencies
         run: bin/importmap audit
 
+      - name: Install dependencies
+        run: sudo apt-get install -y build-essential libsass-dev
+
+
   lint:
     runs-on: ubuntu-latest
     steps:
@@ -80,6 +84,10 @@ jobs:
           RAILS_ENV: test
           # REDIS_URL: redis://localhost:6379/0
         run: bin/rails db:test:prepare test test:system
+        
+      - name: Install dependencies
+        run: sudo apt-get install -y build-essential libsass-dev
+
 
       - name: Keep screenshots from failed system tests
         uses: actions/upload-artifact@v4

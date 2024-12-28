@@ -71,10 +71,8 @@ class RegularSchedule < ApplicationRecord
             start_minute = regularschedule.start_time.min
             end_hour = regularschedule.finish_time.hour
             end_minute = regularschedule.finish_time.min
-
             start_time = date.in_time_zone + start_hour.hours + start_minute.minutes
             end_time = date.in_time_zone + (regularschedule.days - 1).days + end_hour.hours + end_minute.minutes
-
             Schedule.create!(user_id: current_user.id,
                             name: regularschedule.name,
                             event: regularschedule.event,
@@ -87,7 +85,6 @@ class RegularSchedule < ApplicationRecord
             true
         rescue => e
             Rails.logger.error("create_regularschedule_to_schedule error: #{e.message}")
-            raise ActiveRecord::Rollback
         end
     end
 end
