@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_12_28_112948) do
+ActiveRecord::Schema[7.2].define(version: 2024_12_28_173327) do
   create_table "r_schedules", force: :cascade do |t|
     t.string "name"
     t.string "event"
@@ -52,6 +52,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_28_112948) do
     t.integer "user_id"
     t.datetime "end_time"
     t.integer "number"
+    t.boolean "regular_schedule"
   end
 
   create_table "shifts", force: :cascade do |t|

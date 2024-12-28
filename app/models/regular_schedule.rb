@@ -8,7 +8,6 @@ class RegularSchedule < ApplicationRecord
                     params.merge(
                         name: params[:name],
                         event: params[:event],
-                        number: params[:number],
                         days: params[:days],
                         user_id: user.id,
                         start_time: params[:start_time],
@@ -48,7 +47,6 @@ class RegularSchedule < ApplicationRecord
                 regularschedule.update!(
                     name: params[:name],
                     event: params[:event],
-                    number: params[:number],
                     days: params[:days],
                     start_time: start_time,
                     finish_time: finish_time
@@ -63,8 +61,8 @@ class RegularSchedule < ApplicationRecord
             :unexpected_error
         end
     end
-    def self.create_regularschedule_to_schedule(shiftnumber, date, current_user)
-        regularschedule = RegularSchedule.find_by(number: shiftnumber)
+    def self.create_regularschedule_to_schedule(name, date, current_user)
+        regularschedule = RegularSchedule.find_by(name: name)
         return false unless regularschedule
         begin
             start_hour = regularschedule.start_time.hour
@@ -82,7 +80,7 @@ class RegularSchedule < ApplicationRecord
                             finish_date: date + (regularschedule.days - 1).days,
                             start_time: start_time,
                             end_time: end_time,
-                            number: shiftnumber
+                            regular_schedule: true
                             )
             true
         rescue => e

@@ -16,15 +16,20 @@ class ShiftsController < ApplicationController
 
     def create
         logger.debug "Shifts Params: #{params[:shifts]}"
-        date = params[:start_date].present? ? Date.parse(params[:start_date]) : Date.current
+        @date = params[:start_date].present? ? Date.parse(params[:start_date]) : Date.current
         @month = params[:start_date].present? ? Date.parse(params[:start_date]) : Date.current
 
-        if Shift.create_monthly(shift_params, @current_user)
-          flash[:notice] = "シフト登録が完了しました"
-          redirect_to shifts_path(start_date: date.to_s)
-        else
-            @error_message = "シフト作成に失敗しました。もう一度一度やり直してください"
-          render :new
+        result = Shift.create_monthly(shift_params, @current_user)
+        case result
+        when :success
+            flash[:notice] = "シフトの更新が完了しました"
+            redirect_to shifts_path(start_date: @date.to_s)
+        when :invalid_input
+            @error_message = "処理が失敗しました。もう一度やり直してください！"
+            render :new
+        when :unexpected
+            @error_message = "システムエラー"
+            render :new
         end
     end
 
@@ -36,27 +41,39 @@ class ShiftsController < ApplicationController
     end
 
     def update
-        date = params[:start_date].to_date
+        @date = params[:start_date].present? ? params[:start_date].to_date : Date.current
         @shift = Shift.where(user_id: current_user.id)
 
-        if Shift.update_monthly(shift_params, @current_user)
-            flash[:notice] = "シフト変更が完了しました"
-            redirect_to shifts_path(start_date: date.to_s)
-        else
-            @error_message = "シフト変更に失敗しました。もう一度一度やり直してください"
+        result =  Shift.update_monthly(shift_params, @current_user)
+        case result
+        when :success
+            flash[:notice] = "シフトの作成が完了しました"
+            redirect_to shifts_path(start_date: @date.to_s)
+        when :invalid_input
+            @error_message = "処理が失敗しました。もう一度やり直してください！"
+            @names = RegularSchedule.where(user_id: @current_user.id)
+            render :edit
+        when :unexpected
+            @error_message = "システムエラー"
+            @names = RegularSchedule.where(user_id: @current_user.id)
             render :edit
         end
     end
 
     def destroy_month
-        date = params[:start_date].to_date
+        @date = params[:start_date].present? ? params[:start_date].to_date : Date.current
 
-        if Shift.destory_monthly(date, @current_user)
+        result = Shift.destory_monthly(@date, @current_user)
+        case result
+        when :success
             flash[:notice] = "スケジュールが削除されました"
-            redirect_to shifts_path(start_date: date.to_s)
-        else
-            @error_message = "削除に失敗しました"
-            render :index
+            redirect_to shifts_path(start_date: @date.to_s)
+        when :invalid_input
+            @error_message = "処理が失敗しました。もう一度やり直してください！"
+            render :edit
+        when :unexpected
+            @error_message = "システムエラー"
+            render :edit
         end
     end
 

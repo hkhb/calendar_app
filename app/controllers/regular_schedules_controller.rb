@@ -62,6 +62,6 @@ class RegularSchedulesController < ApplicationController
     end
     private
     def regular_schedule_params
-        params.require(:regular_schedule).permit(:name, :event, :user_id, :number, :start_time, :days, :finish_time)
+        params.require(:regular_schedule).permit(:name, :event, :user_id, :start_time, :days, :finish_time)
     end
 end

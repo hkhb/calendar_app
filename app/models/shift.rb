@@ -1,5 +1,5 @@
 class Shift < ApplicationRecord
-  validates :user_id, :date, :name, presence: true
+  validates :user_id, :date, presence: true
 
   def self.create_monthly(shift_params, user)
     return false unless shift_params.present?
@@ -30,12 +30,14 @@ class Shift < ApplicationRecord
               )
           end
         end
-        true
+        :success
       end
     rescue ActiveRecord::RecordInvalid => e
       Rails.logger.error("シフト作成失敗: #{shift_params.inspect}, error: #{e.message}")
+      :invalid_input
     rescue => e
       Rails.logger.error("予期しないエラー: #{shift_params.inspect}, error: #{e.message}")
+      :unexpected
     end
   end
 
@@ -47,7 +49,10 @@ class Shift < ApplicationRecord
         shift_params.each do |shift_data|
           attributes = shift_data.to_h
           shift = Shift.find_by(id: attributes[:id])
-          regularschedule = RegularSchedule.find_by(name: attributes[:name])
+          regularschedule = RegularSchedule.find_by(
+            user_id: user.id,
+            name: attributes[:name]
+            )
 
           if regularschedule && shift
             shift.update!(name: attributes[:name])
@@ -57,7 +62,10 @@ class Shift < ApplicationRecord
           end
 
           date = Date.parse(attributes[:date])
-          schedule = Schedule.where(user_id: user.id, start_time: date.all_day)
+          schedule = Schedule.where(
+            user_id: user.id,
+            start_time: date.all_day,
+            regular_schedule: true)
           new_shift = attributes[:name]
 
           if schedule.present?
@@ -72,19 +80,23 @@ class Shift < ApplicationRecord
           end
         end
       end
-      true
+      :success
     rescue ActiveRecord::RecordInvalid => e
       Rails.logger.error("シフト更新失敗: #{shift_params.inspect}, error: #{e.message}")
+      :invalid_input
     rescue => e
       Rails.logger.error("予期しないエラー: #{shift_params.inspect}, error: #{e.message}")
+      :unexpected
     end
   end
 
   def self.destory_monthly(date, user)
     shifts = Shift.where(user_id: user.id,
                         date: date.beginning_of_month..date.end_of_month)
-    schedules = Schedule.where(user_id: user.id,
-                               start_date: date.beginning_of_month..date.end_of_month)
+    schedules = Schedule.where(
+      user_id: user.id,
+      start_date: date.beginning_of_month..date.end_of_month,
+      regular_schedule: true)
     return false unless shifts.present? && schedules.present?
 
     begin
@@ -95,12 +107,14 @@ class Shift < ApplicationRecord
           end
         end
         shifts.destroy_all
-        true
+        :success
       end
     rescue ActiveRecord::RecordInvalid => e
       Rails.logger.error("シフト削除失敗: #{e.message}")
+      :invalid_input
     rescue  => e
       Rails.logger.error("予期しないエラー: #{e.message}")
+      :unexpected
     end
   end
 

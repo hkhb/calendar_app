@@ -6,7 +6,7 @@
     </div>
   <% end %>
 
-  <%= form_with url: shifts_path(start_date: @month), method: :post, local: true do |f| %>
+  <%= form_with url: shifts_path(start_date: @month), method: :post, local: true, data: { turbo: false } do |f| %>
     <div>
       <%= month_calendar do |date| %>
         <div class="day">
@@ -19,7 +19,6 @@
               <%= select_tag "shifts[][name]", 
                             options_for_select([["選択", nil]] + @names.map {|name| [name.name, name.name]}), 
                             class: 'select-number-field' %>
-
               <%= hidden_field_tag "shifts[][user_id]", current_user.id %>
             </div>
           <% else %>
