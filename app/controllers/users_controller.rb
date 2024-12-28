@@ -21,7 +21,7 @@ class UsersController < ApplicationController
       when :unexpected_error
         @error_message = "システムエラー"
       end
-      render("users/new")
+      render :new
     end
   end
   def logout
