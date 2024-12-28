@@ -11,7 +11,7 @@ class ShiftsController < ApplicationController
     def new
         Date.beginning_of_week = :sunday
         @month = params[:start_date].present? ? Date.parse(params[:start_date]) : Date.current
-        Rails.logger.debug("@month: #{@month}")
+        @names = RegularSchedule.where(user_id: @current_user.id)
     end
 
     def create
@@ -32,6 +32,7 @@ class ShiftsController < ApplicationController
         Date.beginning_of_week = :sunday
         @shift = Shift.where(user_id: current_user.id)
         @date = params[:start_date].present? ? params[:start_date].to_date : Date.current
+        @names = RegularSchedule.where(user_id: @current_user.id)
     end
 
     def update
@@ -63,7 +64,7 @@ class ShiftsController < ApplicationController
 
     def shift_params
         params.require(:shifts).map do |shift|
-            shift.permit(:date, :number, :user_id, :id)
+            shift.permit(:date, :name, :user_id, :id)
         end
     end
 end

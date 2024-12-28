@@ -16,10 +16,10 @@
                             <% if existing_shift.present? %>
                                 <%= hidden_field_tag "shifts[][date]", date %>
                                 <%= select_tag "shifts[][number]", 
-                                            options_for_select([["選択", nil], ["1", 1], ["2", 2], ["3", 3], ["4", 4], ["5", 5]], 
-                                                                selected: existing_shift&.number
+                                            options_for_select([["選択", nil]] + @names.map {|name| [name.name, name.name]}), 
+                                                                selected: existing_shift&.name
                                                                 ), 
-                                                                class: 'select-field' %>
+                                                                class: 'select-number-field' %>
                                 <%= hidden_field_tag "shifts[][user_id]", current_user.id %>
                                 <%= hidden_field_tag "shifts[][id]", existing_shift&.id %>
 
