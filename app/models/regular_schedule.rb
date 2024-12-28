@@ -1,5 +1,5 @@
 class RegularSchedule < ApplicationRecord
-    validates :start_time, :finish_time, :name, :user_id, :number, presence: true
+    validates :start_time, :finish_time, :name, :user_id, presence: true
     def self.regularschedule_create(params, user)
         return :unexpected_error unless params && user
         begin
