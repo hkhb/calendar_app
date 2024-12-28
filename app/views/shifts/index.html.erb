@@ -13,12 +13,12 @@
                                 .where("DATE(date) = ?", date) %>
         <% if shiftnumber.present? %>
           <% shiftnumber.each do |event| %>
-            <div class="event">
-              <%= event.number || "-" %>
+            <div class="select-number-field">
+              <%= event.name || "-" %>
             </div>
           <% end %>
         <% else %>
-          <p>?</p>
+          <p>-</p>
         <% end %>
     <% end %>
   </tbody>
@@ -54,5 +54,4 @@
       </td>
     </tr>
   </tfoot>
-  <p><%= @date %></p>
 </div>
