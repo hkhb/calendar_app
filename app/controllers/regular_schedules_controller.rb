@@ -17,7 +17,7 @@ class RegularSchedulesController < ApplicationController
             flash[:notice] = "定型予定の登録が完了しました"
             redirect_to regular_schedules_path
         when :invalid_input
-            @error_message = "名前、定型予定番号、時間は必須です。もう一度やり直してください！"
+            @error_message = "名前は必須です。"
             @regularschedule = RegularSchedule.new(regular_schedule_params)
             Rails.logger.error("エラーメッセージ確認: #{@error_message.inspect}")
             render :new
@@ -62,6 +62,6 @@ class RegularSchedulesController < ApplicationController
     end
     private
     def regular_schedule_params
-        params.require(:regular_schedule).permit(:name, :event, :user_id, :number, :start_time, :days, :finish_time)
+        params.require(:regular_schedule).permit(:name, :event, :user_id, :start_time, :days, :finish_time)
     end
 end
