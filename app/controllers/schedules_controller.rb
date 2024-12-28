@@ -18,13 +18,20 @@ class SchedulesController < ApplicationController
         @date = params[:date].present? ? params[:date].to_date : Date.current
     end
     def create
-        @schedule = Schedule.schedule_create(schedule_params, @current_user)
-        if @schedule.is_a?(Time)
+        result = Schedule.schedule_create(schedule_params, @current_user)
+        if result.is_a?(Time)
             flash[:notice] = "予定の登録が完了しました"
-            redirect_to show_by_date_schedules_path(date: @schedule)
+            redirect_to show_by_date_schedules_path(date: result)
         else
-            Rails.logger.debug(@schedule.errors.full_messages) if @schedule.respond_to?(:errors)
-            @error_message = "※名前、時間は必須です!"
+            case result
+            when :not_found
+                @error_message = "データが不正です"
+            when :invalid_input
+                @error_message = "名前は必須です"
+            when :unexpected
+                @error_message = "システムエラー"
+            end
+            @schedule = Schedule.new(schedule_params)
             render :new
         end
     end
@@ -33,14 +40,21 @@ class SchedulesController < ApplicationController
     end
     def update
         id = params[:id]
-        date = Schedule.schedule_update(schedule_params, id)
-        if date.is_a?(Time)
-            flash[:notice] = "予定の登録が完了しました"
-            redirect_to show_by_date_schedules_path(date: date)
+        result = Schedule.schedule_update(schedule_params, id)
+        if result.is_a?(Time)
+            flash[:notice] = "予定の更新が完了しました"
+            redirect_to show_by_date_schedules_path(date: result)
         else
-            @error_message = "※名前、時間は必須です!"
-            @schedule = Schedule.find_by(id: params[:id])
-            render :edit
+            case result
+            when :not_found
+                @error_message = "データが不正です"
+            when :invalid_input
+                @error_message = "名前は必須です"
+            when :unexpected
+                @error_message = "システムエラー"
+            end
+            @schedule = Schedule.find_by!(id: id)
+            render :new
         end
     end
     def destroy
