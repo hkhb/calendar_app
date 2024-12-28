@@ -62,7 +62,6 @@ class ShiftsController < ApplicationController
 
     def destroy_month
         @date = params[:start_date].present? ? params[:start_date].to_date : Date.current
-
         result = Shift.destory_monthly(@date, @current_user)
         case result
         when :success
