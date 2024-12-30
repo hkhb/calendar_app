@@ -61,9 +61,17 @@ class RegularSchedule < ApplicationRecord
             :unexpected_error
         end
     end
+    ##
+    # create_regularschedule_to_schedule
+    # 定型予定から予定を作り出す
+    # name: 定型予定の名前
+    # date: 入力された日付
+    # current_user: 現在ログインしているユーザー名
+    # 引数は全て渡さないとfalseを返します。
+    # 成功するとtrueを返し失敗するとロールバックしfalseを返します。
     def self.create_regularschedule_to_schedule(name, date, current_user)
         regularschedule = RegularSchedule.find_by(name: name)
-        return false unless regularschedule
+        return false unless regularschedule　&& name
         begin
             start_hour = regularschedule.start_time.hour
             start_minute = regularschedule.start_time.min
