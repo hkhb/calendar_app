@@ -18,6 +18,7 @@ class SchedulesController < ApplicationController
         @date = params[:date].present? ? params[:date].to_date : Date.current
     end
     def create
+        @date = params[:date].present? ? params[:date].to_date : Date.current
         result = Schedule.schedule_create(schedule_params, @current_user)
         if result.is_a?(Time)
             flash[:notice] = "予定の登録が完了しました"
@@ -25,9 +26,9 @@ class SchedulesController < ApplicationController
         else
             case result
             when :not_found
-                @error_message = "データが不正です"
+                @error_message = "もう一度やり直してください"
             when :invalid_input
-                @error_message = "名前は必須です"
+                @error_message = "名前、時間は必須です"
             when :unexpected
                 @error_message = "システムエラー"
             end
@@ -37,8 +38,10 @@ class SchedulesController < ApplicationController
     end
     def edit
         @schedule = Schedule.find_by(id: params[:id])
+        @date = params[:date].present? ? params[:date].to_date : Date.current
     end
     def update
+        @date = params[:date].present? ? params[:date].to_date : Date.current
         id = params[:id]
         result = Schedule.schedule_update(schedule_params, id)
         if result.is_a?(Time)
@@ -47,14 +50,14 @@ class SchedulesController < ApplicationController
         else
             case result
             when :not_found
-                @error_message = "データが不正です"
+                @error_message = "もう一度やり直してください"
             when :invalid_input
-                @error_message = "名前は必須です"
+                @error_message = "名前、時間は必須です"
             when :unexpected
                 @error_message = "システムエラー"
             end
             @schedule = Schedule.find_by!(id: id)
-            render :new
+            render :edit
         end
     end
     def destroy

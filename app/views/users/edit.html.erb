@@ -1,21 +1,25 @@
 <div class="main users-edit">
   <div class="container">
     <div class="form-heading">ユーザー編集</div>
-    <div class="form users-form">
-      <div class="form-body">
+    <div class="form user-forms">
         <% if @error_message %>
-          <div class = "form-error">
+          <div class = "error-message">
             <%= @error_message %>
           </div>
         <% end %>
         <%= form_with model: @user, url: user_path(@user), multipart: true, data: { turbo: false } do |f| %>
-          <%= f.label "ユーザー名", class: 'edit-user-username-title edit-user-forms' %>
-          <%= f.text_field :name, class: 'edit-user-username edit-user-forms' %>
-          <%= f.label "メールアドレス", class: 'edit-user-mail-title edit-user-forms' %>
-          <%= f.email_field :email, class: 'edit-user-mail edit-user-forms' %>
-          <%= f.label "新パスワード※必須", class: 'edit-user-password-title edit-user-forms' %>
-          <%= f.password_field :password, class: 'edit-user-password edit-user-forms' %>
-          <%= f.submit "保存", class: 'edit-user-submit edit-user-forms common-button' %>
+          <div><%= f.label "ユーザー名" %></div>
+          <div class = "user-form" ><%= f.text_field :name, class: 'user-form-field' %></div>
+          <div><%= f.label "メールアドレス" %></div>
+          <div class = "user-form" ><%= f.email_field :email, class: 'user-form-field' %></div>
+          <div><%= f.label "新パスワード※必須" %></div>
+          <div class = "user-form" ><%= f.password_field :password, class: 'user-form-field' %></div>
+          <div class = "schedule-button-field">
+            <%= link_to user_path(@current_user.id), class: 'back-button common-button' do %>
+              戻る
+            <% end %>
+            <%= f.submit "保存", class: 'common-button' %>
+          </div>
         <% end %>
       </div>
     </div>

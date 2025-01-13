@@ -11,25 +11,24 @@
       <%= month_calendar do |date| %>
         <div class="day">
           <span class="day-number"><%= date.day %></span>
+          <div class = "shift-day">
+            <% if date.month == @month.month %>
+                <%= hidden_field_tag "shifts[][date]", date %>
 
-          <% if date.month == @month.month %>
-            <div class="shift-fields">
-              <%= hidden_field_tag "shifts[][date]", date %>
-
-              <%= select_tag "shifts[][name]", 
-                            options_for_select([["選択", nil]] + @names.map {|name| [name.name, name.name]}), 
-                            class: 'select-number-field' %>
-              <%= hidden_field_tag "shifts[][user_id]", current_user.id %>
-            </div>
-          <% else %>
-            <p>-</p>
-          <% end %>
+                <%= select_tag "shifts[][name]", 
+                              options_for_select([["選択", nil]] + @names.map {|name| [name.name, name.name]}), 
+                              class: 'select-number-field' %>
+                <%= hidden_field_tag "shifts[][user_id]", current_user.id %>
+              </div>
+            <% else %>
+              <p>-</p>
+            <% end %>
+          </div>
         </div>
       <% end %>
-      <%= @month.month %>
     </div>
     <div class = "container">
-      <div class = "shifts-button-field button-field">
+      <div class = "schedule-button-field">
         <%= f.submit "シフト登録", class: "shift-create-button common-button" %>
       </div>
     </div>

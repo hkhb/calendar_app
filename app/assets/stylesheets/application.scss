@@ -20,6 +20,70 @@ $subprimary-color: rgb(254, 237, 191);
 $hover-color: rgb(219, 94, 56);
 $text-color: black;
 
+body {
+  color: #2d3133;
+  margin: 0;
+  min-height: 1vh;
+}
+
+.main {
+  position: absolute;
+  top: 64px;
+  width: 100%;
+  height: auto;
+  min-height: 100%;
+  background-color: #f5f8fa;
+}
+
+.container {
+  max-width: 600px;
+  margin: 60px auto;
+  padding-left: 15px;
+  padding-right: 15px;
+  clear: both;
+}
+
+
+header {
+  height: 64px;
+  background-color: $primary-color;
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+}
+
+.header-menus {
+  float: right;
+  padding-right: 20px;
+}
+
+.header-menus ul{
+  padding-left:0;
+}
+
+.header-menus li {
+  float: left;
+  line-height: 64px;
+  font-size: 13px;
+  color: white;
+  padding-left: 15px;
+  list-style:none;
+}
+.header-menus a {
+  float: left;
+  font-size: 30px;
+  color: white;
+}
+
+.header-menus input[type="submit"] {
+  padding: 0 20px;
+  float: left;
+  line-height: 64px;
+  color: white;
+  margin: 0;
+  font-size: 13px;
+}
+
 .wday-0 {
   background: #fdd3c0;
 }
@@ -44,12 +108,22 @@ $text-color: black;
   font-size: 30px;
   padding: 10px;
   text-align: center;
+  justify-content: space-around;
+  text-decoration: none;
+  display: flex;
+}
+.calendar-select a{
+  text-decoration: none;
 }
 .form-heading {
   text-align: center;
   font-size: large;
   border-bottom: 1px solid $text-color ;
   margin: 10px;
+}
+.error-message {
+  text-align: center;
+  color: red;
 }
 .schedule-inline-fields {
   border: 1px solid;
@@ -81,6 +155,11 @@ $text-color: black;
   }
   .schedule-event {
       text-align: center;
+      font-size: 16px;
+      div{
+        font-size: 20px;
+        text-decoration: underline;
+      }
   }
   .schedule-event-field {
       width: auto;
@@ -111,30 +190,37 @@ $text-color: black;
           justify-content: space-around;
           width: 100%;
       }
-      .schedule-add-field div {
-          width: 150px;
-      }
 
 .button-field {
   width: auto;
-  display: flex;
   padding: 0;
   justify-content: space-around;
   margin: 10px;
   }
   .common-button {
     background-color: $primary-color;
+    display: inline-block;
+    font-size: 16px;
     text-align: center;
     color: $text-color;
     cursor: pointer;
-    width: 25%;
+    width: 150px;
     border: 1px solid $text-color;
     border-radius: 5px;
-    text-decoration: none;
+    text-decoration: none !important;
     padding: 5px;
-    font-size: 15px;
   }
   .common-button:hover {
     background-color: $hover-color;
     box-shadow: 0px 2px 5px $text-color;
   }
+  .common-button {
+    line-height: normal;
+  }
+  button.common-button {
+    appearance: none;
+    border: none;
+  }
+.back-button{
+  width: 138px;
+}

@@ -6,7 +6,6 @@
                 <% if @regular_schedules.present? %>
                     <% @regular_schedules.each do |schedule| %>
                         <div class = "schedule-inline-fields">
-
                             <div class = "schedule-title-field">
                                 <div class = "schedule-name"> <%= schedule.name %> </div>
                             </div>
@@ -33,7 +32,7 @@
                             </div>
 
                             <div class = "schedule-event">
-                                <p> 説明 </p>
+                                <div class = "event-title">説明</div>
                                 <p><%= schedule.event %><p>
                             </div>
 

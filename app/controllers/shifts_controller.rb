@@ -22,7 +22,7 @@ class ShiftsController < ApplicationController
         result = Shift.create_monthly(shift_params, @current_user)
         case result
         when :success
-            flash[:notice] = "シフトの更新が完了しました"
+            flash[:notice] = "シフトの作成が完了しました"
             redirect_to shifts_path(start_date: @date.to_s)
         when :invalid_input
             @error_message = "処理が失敗しました。もう一度やり直してください！"
@@ -47,7 +47,7 @@ class ShiftsController < ApplicationController
         result =  Shift.update_monthly(shift_params, @current_user)
         case result
         when :success
-            flash[:notice] = "シフトの作成が完了しました"
+            flash[:notice] = "シフトの更新が完了しました"
             redirect_to shifts_path(start_date: @date.to_s)
         when :invalid_input
             @error_message = "処理が失敗しました。もう一度やり直してください！"
@@ -61,19 +61,22 @@ class ShiftsController < ApplicationController
     end
 
     def destroy_month
-        @date = params[:start_date].present? ? params[:start_date].to_date : Date.current
-        result = Shift.destory_monthly(@date, @current_user)
+        date = params[:start_date].present? ? params[:start_date].to_date : Date.current
+        result = Shift.destory_monthly(date, @current_user)
         case result
         when :success
-            flash[:notice] = "スケジュールが削除されました"
-            redirect_to shifts_path(start_date: @date.to_s)
+        when :not_found
+            flash[:notice] = "もう一度やり直してください"
+            Rails.logger.error ("parameter確認: #{date}")
+            Rails.logger.info ("Current User: #{@current_user.inspect}")
         when :invalid_input
-            @error_message = "処理が失敗しました。もう一度やり直してください！"
-            render :edit
+            flash[:notice] = "処理が失敗しました。もう一度やり直してください"
+            Rails.logger.error("エラーメッセージ確認: #{@error_message.inspect}")
         when :unexpected
-            @error_message = "システムエラー"
-            render :edit
+            flash[:notice] = "システムエラー"
+            Rails.logger.error("エラーメッセージ確認: #{@error_message.inspect}")
         end
+        redirect_to shifts_path(start_date: date.to_s)
     end
 
     private

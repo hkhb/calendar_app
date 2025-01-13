@@ -5,6 +5,22 @@ $text-color: black;
     .path-block-link {
         text-decoration: none;
     }
+    .user-forms {
+        margin-bottom: 20px;
+        text-align: center;
+    }
+    .user-form {
+        margin-bottom: 20px;
+        text-align: center;
+        font-size: 30px;
+        font-weight: 100;
+    }
+    .user-form-field {
+        height: 100%;
+        width: 50%;
+        font-size: 20px;
+        text-align: center;
+    }
 
     .authenicate-forms {
         width: 25%;

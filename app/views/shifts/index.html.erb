@@ -1,7 +1,7 @@
 <div class = "shift_calendar main">
   <div class="form-heading">シフト</div>
   <% if @error_message %>
-    <div class = "form-error">
+    <div class = "error_messsage">
       <%= @error_message %>
     </div>
   <% end %>
@@ -9,17 +9,19 @@
   <tbody>
     <%= month_calendar do |date| %>
       <span class="day-number"><%= date.day %></span>
-        <% shift = Shift.where(user_id: current_user.id)
-                                .where("DATE(date) = ?", date) %>
-        <% if shift.present? %>
-          <% shift.each do |event| %>
-            <div class="select-number-field">
-              <%= event.name || "-" %>
-            </div>
+        <div class = "shift-day">
+          <% shift = Shift.where(user_id: current_user.id)
+                                  .where("DATE(date) = ?", date) %>
+          <% if shift.present? %>
+            <% shift.each do |event| %>
+              <div class="select-number-field">
+                <%= event.name || "-" %>
+              </div>
+            <% end %>
+          <% else %>
+            <p>-</p>
           <% end %>
-        <% else %>
-          <p>?</p>
-        <% end %>
+        </div>
     <% end %>
   </tbody>
 
@@ -31,8 +33,8 @@
        <% month_shifts = Shift.where(user_id: current_user.id, date: @date.beginning_of_month..@date.end_of_month) %>
 
         <div class = "container">
-          <div class = "shifts-button-filed button-field">
-            <% if month_shifts.present? %>
+          <div class = "schedule-button-field">
+            <% if month_shifts.present? && @shift %>
 
               <%= link_to edit_shift_path(@shift,start_date: @date.to_s), class: 'shift-edit-button common-button' do %>
                 <div class = "text">編集</div>

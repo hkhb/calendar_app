@@ -2,6 +2,10 @@ $primary-color: darkorange;
 $subprimary-color: rgb(254, 237, 191);
 $hover-color: rgb(219, 94, 56);
 $text-color: black;
-
-
+.no-underline{
+    text-decoration: none !important;
+}
+.select-day-field {
+    width: 25%;
+}
     

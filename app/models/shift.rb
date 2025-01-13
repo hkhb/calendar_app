@@ -15,7 +15,7 @@ class Shift < ApplicationRecord
               attributes.merge(
                 date: attributes[:date],
                 name: attributes[:name],
-                user_id: user.id
+                user_id: user.id,
                 )
               )
             date = Date.parse(attributes[:date])
@@ -25,7 +25,7 @@ class Shift < ApplicationRecord
               attributes.merge(
                 date: attributes[:date],
                 name: nil,
-                user_id: user.id
+                user_id: user.id,
                 )
               )
           end
@@ -93,17 +93,20 @@ class Shift < ApplicationRecord
   def self.destory_monthly(date, user)
     shifts = Shift.where(user_id: user.id,
                         date: date.beginning_of_month..date.end_of_month)
-    schedules = Schedule.where(
-      user_id: user.id,
-      start_date: date.beginning_of_month..date.end_of_month,
-      regular_schedule: true)
-    return false unless shifts.present? && schedules.present?
+    return :not_found unless shifts.present? && user.present?
 
     begin
       ActiveRecord::Base.transaction do
-        schedules.each do |schedule|
-          if schedule.name.present?
-            schedule.destroy
+        schedules = Schedule.where(
+          user_id: user.id,
+          start_date: date.beginning_of_month..date.end_of_month,
+          regular_schedule: true
+          )
+        if schedules
+          schedules.each do |schedule|
+            if schedule.name.present?
+              schedule.destroy
+            end
           end
         end
         shifts.destroy_all

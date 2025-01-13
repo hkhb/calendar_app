@@ -4,14 +4,28 @@ class RegularSchedule < ApplicationRecord
         return :unexpected_error unless params && user
         begin
             ActiveRecord::Base.transaction do
+                start_time = Time.new(
+                    params["start_time(1i)"].to_i,
+                    params["start_time(2i)"].to_i,
+                    params["start_time(3i)"].to_i,
+                    params["start_time(4i)"].to_i,
+                    params["start_time(5i)"].to_i
+                )
+                finish_time = Time.new(
+                    params["finish_time(1i)"].to_i,
+                    params["finish_time(2i)"].to_i,
+                    params["finish_time(3i)"].to_i,
+                    params["finish_time(4i)"].to_i,
+                    params["finish_time(5i)"].to_i
+                )
                 regularschedule = RegularSchedule.create!(
                     params.merge(
                         name: params[:name],
                         event: params[:event],
                         days: params[:days],
                         user_id: user.id,
-                        start_time: params[:start_time],
-                        finish_time: params[:finish_time]
+                        start_time: start_time,
+                        finish_time: finish_time
                     )
                 )
                 regularschedule.update!(days: 1) if regularschedule.days.nil?
@@ -25,8 +39,16 @@ class RegularSchedule < ApplicationRecord
             :unexpected_error
         end
     end
+    ##
+    # regularschedule_update
+    # 定型予定を作り出す
+    # params: 定型予定の名前
+    # id: 入力された日付
+    #
+    # 引数は全て渡さないと:not_foundを返します。
+    # 成功するとtrueを返します。
     def self.regularschedule_update(params, id)
-        return false unless params && id
+        return :not_found unless params && id
         start_time = Time.new(
             params["start_time(1i)"].to_i,
             params["start_time(2i)"].to_i,
@@ -68,10 +90,10 @@ class RegularSchedule < ApplicationRecord
     # date: 入力された日付
     # current_user: 現在ログインしているユーザー名
     # 引数は全て渡さないとfalseを返します。
-    # 成功するとtrueを返し失敗するとロールバックしfalseを返します。
+    # 成功するとtrueを返します。
     def self.create_regularschedule_to_schedule(name, date, current_user)
         regularschedule = RegularSchedule.find_by(name: name)
-        return false unless regularschedule　&& name
+        return false unless regularschedule && date && current_user
         begin
             start_hour = regularschedule.start_time.hour
             start_minute = regularschedule.start_time.min
