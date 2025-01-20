@@ -50,29 +50,38 @@ header {
   position: absolute;
   z-index: 1;
   width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 .header-menus {
-  float: right;
-  padding-right: 20px;
+  padding-right: 30px;
 }
 
 .header-menus ul{
-  padding-left:0;
+  justify-content: space-around;
 }
 
 .header-menus li {
+  display: flex;
   float: left;
   line-height: 64px;
   font-size: 13px;
   color: white;
-  padding-left: 15px;
+  padding-left: 30px;
   list-style:none;
+  justify-content: space-around;
 }
 .header-menus a {
+  display: flex;
   float: left;
-  font-size: 30px;
+  font-size: 33px;
   color: white;
+  text-decoration: none;
+  justify-content: space-around;
+}
+.header-menus a:hover{
+  color: gray;
 }
 
 .header-menus input[type="submit"] {
