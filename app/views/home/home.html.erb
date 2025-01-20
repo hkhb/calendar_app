@@ -1,28 +1,26 @@
 <div class="calendar main">
-
     <tbody>
-
       <%= month_calendar do |date| %>
 
         <div class = "date_select schedule_date_select">
           <%= link_to show_by_date_schedules_path(date: date), class: 'day-block-link' do %>
             <div class="day-block">
               <span class="day-number"><%= date.day %></span>
-            
-
               <% schedules = Schedule.where(user_id: current_user.id).where("DATE(start_time) = ?", date) %>
 
               <% if schedules.present? %>
-                <% schedules.each do |event| %>
+                <% schedules.first(2).each do |event| %>
                   <div class="event">
                     <%= event.name %>
                   </div>
+                <% end %>
+                <% if schedules.size > 2 %>
+                  <div class="event">...</div>
                 <% end %>
               <% end %>
             </div>
           <% end %>
         </div>
-
       <% end %>
     </tbody>
 </div>
