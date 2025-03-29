@@ -1,2 +1,0 @@
-class RSchedule < ApplicationRecord
-end
