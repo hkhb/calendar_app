@@ -16,7 +16,7 @@
                 <%= hidden_field_tag "shifts[][date]", date %>
 
                 <%= select_tag "shifts[][name]", 
-                              options_for_select([["選択", nil]] + @names.map {|name| [name.name, name.name]}), 
+                              options_for_select([["選択", nil]] + (@names ? @names.map { |name| [name.name, name.name] } : [])), 
                               class: 'select-number-field' %>
                 <%= hidden_field_tag "shifts[][user_id]", current_user.id %>
               </div>
