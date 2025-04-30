@@ -2,19 +2,30 @@
     <div class ="container">
         <div class ="form-heading">ログイン</div>
         <div class = "form users-form">
-            <div class = "form-body">
+            <div class = "user-forms">
                 <% if @error_message %>
-                    <div class = "form-error">
+                    <div class = "error-message">
                         <%= @error_message %>
                     </div>
                 <% end %>
 
-                <%= form_tag("/login", {multipart: true, data: { turbo: false }})do  %>
-                    <p>メールアドレス</p>
-                    <input name = "email" value = "<%= @email %>">
-                    <p>パスワード</p>
-                    <input name = "password" type = "password">
-                    <input type = "submit" value = "ログイン">
+                <%= form_with url: "/login", method: :post, multipart: true, data: { turbo: false }, local: true do |f| %>
+                    <div>メールアドレス※必須</div>
+                    <div class="user-form">
+                        <%= f.text_field :email, value: @email, name: "email", class: "user-form-field" %>
+                    </div>
+
+                    <div>パスワード※必須</div>
+                    <div class="user-form">
+                        <%= f.password_field :password, name: "password", class: "user-form-field" %>
+                    </div>
+
+                    <div class="schedule-button-field">
+                        <%= link_to "/", class: 'back-button common-button' do %>
+                        戻る
+                        <% end %>
+                        <%= f.submit "ログイン", class: "common-button" %>
+                    </div>
                 <% end %>
             </div>
         </div>
