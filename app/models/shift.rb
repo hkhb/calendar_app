@@ -37,6 +37,7 @@ class Shift < ApplicationRecord
       :invalid_input
     rescue => e
       Rails.logger.error("予期しないエラー: #{shift_params.inspect}, error: #{e.message}")
+      Rails.logger.error(e.backtrace.join("\n"))
       :unexpected
     end
   end
