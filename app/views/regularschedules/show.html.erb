@@ -1,7 +1,7 @@
 <div class = "main info">
     <div class = "container">
         <div class = "regularschedule">
-            <div class="form-heading">定型予定</div>
+            <div class="form-heading">シフトパターン</div>
             <div class = "regularschedule_form select">
                 <% if @regular_schedules.present? %>
                     <% @regular_schedules.each do |schedule| %>
@@ -48,7 +48,7 @@
                         </div>
                     <% end %>
                     <% else %>
-                        <p>スケジュールがありません</p>
+                        <p>シフトパターンがありません</p>
                     <% end %>
 
                 <div class = "show-regularschedule-add-field">
