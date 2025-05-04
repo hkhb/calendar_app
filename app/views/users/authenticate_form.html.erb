@@ -1,28 +1,22 @@
 <div class = "main authenticate" >
     <div class ="container">
         <div class ="form-heading">ユーザー認証</div>
-        <div class = "form users-form">
-
-            <% if @user && @user.errors.any? %>
-
-                <%= @user.errors.full_messages.each do |message|%>
-
-                    <div class = "form-error">
-                        <%= message %>
+            <div class = "user-forms">
+                <% if @error_message %>
+                    <div class = "error-message">
+                        <%= @error_message %>
                     </div>
-
                 <% end %>
-            <% end %>
-            
-            <div class = "form-body">
-
-                <%= form_with url: authenticate_user_path(@user), method: :post do |f| %>
-
-                    <%= f.label :password, "パスワード", class: 'authenicate-title authenicate-forms' %>
-                    <%= f.password_field :password, class: 'authenicate-form authenicate-forms' %>
-                    <%= f.submit "認証", class: 'authenicate-submit authenicate-forms common-button' %>
-                    
+                <%= form_with url: authenticate_user_path(@user), method: :post, data: { turbo: false } do |f| %>
+                    <div><%= f.label :password, "パスワード" %></div>
+                    <div class = "user-form" ><%= f.password_field :password,  class: 'user-form-field' %></div>
+                    <%= f.submit "認証", class: 'common-button' %>
                 <% end %>
+                <div class = "schedule-button-field">
+                    <%= link_to user_path(@current_user.id), class: 'back-button common-button' do %>
+                        戻る
+                    <% end %>
+                </div>
             </div>
         </div>
     </div>

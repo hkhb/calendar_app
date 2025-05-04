@@ -1,37 +1,48 @@
 <script type="module" src="path/to/your-script.js"></script>
 
-
 <div class = "main edit">
     <div class = "container">
-        <div class = "schedule">
-            <div class="form-heading">予定変更</div>
+        <div class="form-heading">予定変更</div>
             <div class = "schedule_edit_form select">
-                <%= form_with model: @schedule, url: schedule_path(@schedule), method: :patch do |f| %>
-                    <div class = "inline-fields">
-                        <div>
+                <% if @error_message %>
+                    <div class="error-message">
+                        <%= @error_message %>
+                    </div>
+                            <% end %>
+                <%= form_with model: @schedule, url: schedule_path(@schedule), method: :patch, data: { turbo: false } do |f| %>
+                                <div class = "schedule-inline-fields">
+                    <div class = "schedule-title-field">
+                        <div class = "schedule-title-label-field">
                             <%= f.label :name, "名前" %>
-                            <%= f.text_field :name, class: 'name-field' %>
                         </div>
-
-                        <div>
-                            <%= f.label :start_time, "開始", class: 'startdate' %>
-                            <%= f.datetime_select :start_time, class: 'time-field' %>
+                        <%= f.text_field :name, placeholder: "必須", class: 'name-field' %>
+                    </div>
+                    <div class = "main-schedule-times-field">
+                        <div class = "main-schedule-title">
+                            <%= f.label :start_time, "期間", class: 'schedule-title' %>
                         </div>
-
-                        <div>
-                            <%= f.label :end_time, "終了", class: 'finishdate' %>
-                            <%= f.datetime_select :end_time, class: 'time-field' %>
+                        <div class = "main-schedule-start_time">
+                            <%= f.datetime_select :start_time, default: @date ? @date.to_datetime : Time.current, class: 'time-field' %>
                         </div>
-
-                        <div>
-                            <%= f.label :event, "説明", class:'event' %>
-                            <%= f.text_field :event, class: 'event-field' %>
-                        </div>
-
-                        <div>
-                            <%= f.submit "保存", class: 'submit-bottom' %>
+                        <div>~</div>
+                        <div class = "main-schedule-end_time">
+                            <%= f.datetime_select :end_time, default: @date ? @date.to_datetime : Time.current, class: 'time-field' %>
                         </div>
                     </div>
+                    <div class = "schedule-event">
+                        <div>
+                            <%= f.label :event, "説明", class:'schedule-title' %>
+                        </div>
+                        <%= f.text_field :event, class: 'event-field' %>
+                    </div>
+                    <div class = "schedule-button-field">
+                        <%= f.submit "変更", class: 'common-button' %>
+                    </div>
+                <% end %>
+            </div>
+            <div class = "schedule-button-field">
+                <%= link_to show_by_date_schedules_path(date: @date), class: 'back-button common-button' do %>
+                    戻る
                 <% end %>
             </div>
         </div>

@@ -1,33 +1,36 @@
 <div class="calendar main">
-  <div class="newshifttitle">
-    <p>新規シフト入力</p>
-  </div>
+  <div class="form-heading">新規シフト入力</div>
+  <% if @error_message %>
+    <div class = "form-error">
+      <%= @error_message %>
+    </div>
+  <% end %>
 
-  <%= form_with url: shifts_path(start_date: @month), method: :post, local: true do |f| %>
+  <%= form_with url: shifts_path(start_date: @month), method: :post, local: true, data: { turbo: false } do |f| %>
     <div>
       <%= month_calendar do |date| %>
-        @month.month =<%= @month.month %>
         <div class="day">
           <span class="day-number"><%= date.day %></span>
+          <div class = "shift-day">
+            <% if date.month == @month.month %>
+                <%= hidden_field_tag "shifts[][date]", date %>
 
-          <% if date.month == @month.month %>
-            <div class="shift-fields">
-              <%= hidden_field_tag "shifts[][date]", date %>
-
-              <%= select_tag "shifts[][number]", 
-                            options_for_select([["選択", nil], ["1", 1], ["2", 2], ["3", 3], ["4", 4], ["5", 5]]), 
-                            class: 'select-field' %>
-
-              <%= hidden_field_tag "shifts[][user_id]", current_user.id %>
-            </div>
-          <% else %>
-            <p>-</p>
-          <% end %>
+                <%= select_tag "shifts[][name]", 
+                              options_for_select([["選択", nil]] + (@names ? @names.map { |name| [name.name, name.name] } : [])), 
+                              class: 'select-number-field' %>
+                <%= hidden_field_tag "shifts[][user_id]", current_user.id %>
+              </div>
+            <% else %>
+              <p>-</p>
+            <% end %>
+          </div>
         </div>
       <% end %>
-      <%= @month.month %>
     </div>
-
-    <%= f.submit "シフト登録", class: "btn-save" %>
+    <div class = "container">
+      <div class = "schedule-button-field">
+        <%= f.submit "シフト登録", class: "shift-create-button common-button" %>
+      </div>
+    </div>
   <% end %>
 </div>

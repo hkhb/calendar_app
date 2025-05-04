@@ -2,23 +2,25 @@
     <div class ="container">
         <div class ="form-heading">新規登録</div>
         <div class = "form users-form">
-            <% if @user && @user.errors.any? %>
-                <%= @user.errors.full_messages.each do |message|%>
-                    <div class = "form-error">
-                        <%= message %>
+        <% if @error_message %>
+          <div class = "error-message">
+            <%= @error_message %>
+          </div>
+        <% end %>
+            <div class = "user-forms">
+                <%= form_with model: @user, url: users_path, method: :post, data: { turbo: false } do |f| %>
+                    <div><%= f.label "ユーザー名※必須", class: 'user-username-title' %></div>
+                    <div class = "user-form" ><%= f.text_field :name, class: 'user-username' %></div>
+                    <div><%= f.label "メールアドレス※必須", class: 'user-mail-title' %></div>
+                    <div class = "user-form" ><%= f.email_field :email, class: 'user-mail' %></div>
+                    <div><%= f.label "パスワード※必須", class: 'user-password-title' %></div>
+                    <div class = "user-form" ><%= f.password_field :password, class: 'user-password' %></div>
+                    <div class = "schedule-button-field">
+                        <%= link_to "/", class: 'back-button common-button' do %>
+                            戻る
+                        <% end %>
+                        <%= f.submit "新規登録", class: 'common-button' %>
                     </div>
-                <% end %>
-            <% end %>
-            
-            <div class = "form-body">
-                <%= form_tag("/users/create")do  %>
-                    <p>ユーザー名</p>
-                    <input name = "name" value = "<%= @user.name%>">
-                    <p>メールアドレス</p>
-                    <input name = "email" value = "<%= @user.email%>">
-                    <p>パスワード</p>
-                    <input name ="password" type = "password">
-                    <input type = "submit" value = "登録">
                 <% end %>
             </div>
         </div>

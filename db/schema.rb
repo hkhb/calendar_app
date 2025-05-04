@@ -10,20 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_12_05_062306) do
-  create_table "r_schedules", force: :cascade do |t|
-    t.string "name"
-    t.string "event"
-    t.integer "start_number"
-    t.time "start_time"
-    t.integer "days"
-    t.time "finish_time"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "user_id"
-    t.integer "number"
-  end
-
+ActiveRecord::Schema[7.2].define(version: 2025_04_30_141915) do
   create_table "regular_schedules", force: :cascade do |t|
     t.string "name"
     t.text "event"
@@ -34,30 +21,27 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_05_062306) do
     t.time "finish_time"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "start_hour"
-    t.integer "start_minute"
-    t.integer "finish_hour"
-    t.integer "finish_minute"
   end
 
   create_table "schedules", force: :cascade do |t|
     t.string "name"
     t.text "event"
-    t.date "start_date"
     t.datetime "start_time"
+    t.date "start_date"
     t.date "finish_date"
-    t.datetime "finish_time"
+    t.datetime "end_time"
+    t.integer "user_id"
+    t.integer "number"
+    t.boolean "regular_schedule"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "user_id"
-    t.datetime "end_time"
-    t.integer "number"
   end
 
   create_table "shifts", force: :cascade do |t|
     t.date "date"
     t.integer "number"
     t.integer "user_id"
+    t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
