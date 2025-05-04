@@ -29,7 +29,7 @@
               <%= link_to @current_user.name, user_path(@current_user.id) %>
             </li>
             <li>
-              <%= link_to '定型予定', regular_schedules_path %>
+              <%= link_to 'シフトパターン', regularschedule_path(@current_user.id) %>
             </li>
             <li>
               <%= link_to 'シフト入力', shifts_path %>
