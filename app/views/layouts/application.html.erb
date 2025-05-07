@@ -22,33 +22,18 @@
       <div class = "header-menus">
         <ul>
           <% if @current_user %>
-            <li>
-              <%= link_to 'カレンダー', "/home" %>
-            </li>
-            <li>
-              <%= link_to @current_user.name, user_path(@current_user.id) %>
-            </li>
-            <li>
-              <%= link_to 'シフトパターン', regularschedule_path(@current_user.id) %>
-            </li>
-            <li>
-              <%= link_to 'シフト入力', shifts_path %>
-            </li>
-            <li>
-              <%= link_to 'ログアウト', "/logout" %>
-            </li>
+            <li><%= link_to 'カレンダー', "/home" %></li>
+            <li><%= link_to @current_user.name, user_path(@current_user.id) %></li>
+            <li><%= link_to 'シフトパターン', regularschedule_path(@current_user.id) %></li>
+            <li><%= link_to 'シフト入力', shifts_path %></li>
+            <li><%= link_to 'ログアウト', "/logout" %></li>
           <% else %>
-            <li>
-              <%= link_to '新規登録', "/signup" %>
-            </li>
-            <li>
-              <%= link_to 'ログイン', "/login" %>
-            </li>
+            <li><%= link_to '新規登録', "/signup" %></li>
+            <li><%= link_to 'ログイン', "/login" %></li>
           <% end %>
         </ul>
       </div>
     </header>
-   
     <% if flash[:notice] %>
       <div class="flash">
         <%= flash[:notice] %>
