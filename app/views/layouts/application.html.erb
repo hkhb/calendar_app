@@ -24,7 +24,7 @@
           <% if @current_user %>
             <li><%= link_to 'カレンダー', "/home" %></li>
             <li><%= link_to @current_user.name, user_path(@current_user.id) %></li>
-            <li><%= link_to 'シフトパターン', regularschedule_path(@current_user.id) %></li>
+            <li><%= link_to 'シフトパターン', regular_schedule_path(@current_user.id) %></li>
             <li><%= link_to 'シフト入力', shifts_path %></li>
             <li><%= link_to 'ログアウト', "/logout" %></li>
           <% else %>
