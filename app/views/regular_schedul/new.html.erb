@@ -1,0 +1,59 @@
+<div class = "main new">
+    <div class = "container">
+        <div class = "regularschedule">
+            <div class="form-heading">シフトパターン登録</div>
+            <div class = "regularschedule_form select">
+                <%= form_with model: @regularschedule, url: regular_schedules_path do |f| %>
+                    <div class = "new-regularschedule-inline-fields regularschedule-inline-fields">
+                        <div class = "new-regularschedule-title-field regularschedule-title-field">
+                            <%= f.select :number, [["1", 1], ["2", 2], ["3", 3], ["4", 4], ["5", 5]], include_blank: "シフトパターンコードを選択", class: 'new-regularschedule-number regularschedule-number' %>
+                            <%= f.label :name, "名前" %>
+                            <%= f.text_field :name, class: 'name-field' %>
+                            *必須
+                        </div>
+
+                        <div class = "new-regularschedule-times-field regularschedule-times-field">
+
+                            <div class = "new-regularschedule-starttime regularschedule-starttime">
+                                <div class = "new-regularschedule-starttime-title regularschedule-starttime-title">
+                                    <%= f.label :start_time, "開始時刻", class: 'starttime' %>
+                                </div>
+                                <div class = "new-regularschedule-starttime-field regularschedule-starttime-field">
+                                    <%= f.time_select :start_time, class: 'time-field' %>
+                                </div>
+                            </div>
+
+                            <div class = "new-regularschedule-days regularschedule-days">
+                                <div class = "new-regularschedule-days regularschedule-days" >
+                                    <%= f.label :days, "何日間ですか？", class: 'days' %>
+                                </div>
+                                <div>
+                                    <%= f.number_field :days, class: 'selectday-field', min: 1, max: 10 %>
+                                </div>
+                            </div>
+
+                            <div class = "new-regularschedule-finishtime regularschedule-finishtime">
+                                <div class = "new-regularschedule-finishtime-title regularschedule-finishtime-title">
+                                    <%= f.label :finish_time, "終了時刻", class: 'finishtime' %>
+                                </div>
+                                <div class = "new-regularschedule-finishtime-field regularschedule-finishtime-field">
+                                    <%= f.time_select :finish_time, class: 'time-field' %>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class = "new-regularschedule-event regularschedule-event">
+                            <%= f.label :event, "説明", class: 'new-regularschedule-event-title regularschedule-event-title' %>
+                            <div class = "new-regularschedule-event-field regularschedule-event-field">
+                            <%= f.text_field :event, class: 'new-regularschedule-event-text-field regularschedule-event-text-field' %>
+                        </div>
+
+                        <div class = "new-regularschedule-button-field regularschedule-button-field">
+                            <%= f.submit "保存", class: 'new-regularschedule-submit-button common-button' %>
+                        </div>
+                    </div>
+                <% end %>
+            </div>
+        </div>
+    </div>
+</div>

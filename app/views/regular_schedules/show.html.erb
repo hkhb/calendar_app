@@ -1,59 +1,61 @@
 <div class = "main info">
     <div class = "container">
         <div class = "regularschedule">
-            <div class="form-heading">シフトパターン</div>
-            <div class = "regularschedule_form select">
+            <div class="form-heading">定型予定</div>
+            <div class = "schedule_form select">
                 <% if @regular_schedules.present? %>
                     <% @regular_schedules.each do |schedule| %>
-                        <div class = "show-regularschedule-inline-fields regularschedule-inline-fields">
-
-                            <div class = "show-regularschedule-title-field regularschedule-title-field">
-                                <div class = "show-regularschedule-number regularschedule-number"> <%= schedule.number %></div>
-                                <div class = "show-regularschedule-name"> <%= schedule.name %> </div>
+                        <div class = "schedule-inline-fields">
+                            <div class = "schedule-title-field">
+                                <div class = "schedule-name"> <%= schedule.name %> </div>
                             </div>
 
-                            <div class = "show-regularschedule-times-field regularschedule-times-field">
-                                <div class = "show-regularschedule-starttime" >
+                            <div class = "show-regularschedule-times-field schedule-times-field">
+                                <div class = "schedule-starttime" >
                                     <p> 開始時刻 </p> 
-                                    <p><%= "#{schedule.start_hour}:#{format('%02d', schedule.start_minute)}" %></p>
+                                    <p><%= "#{schedule.start_time.hour}:#{format('%02d', schedule.start_time.min)}" %></p>
                                 </div>
 
-                                <div class = "show-regularschedule-days" >
-                                    <p> X日間 </p> 
-                                    <p> <%= schedule.days %> </p>
+                                <div class = "schedule-days" >
+                                    <p><br></p>
+                                    <% if schedule.days > 2 %>
+                                        <p> <%= schedule.days %>日間 </p> 
+                                    <% elsif%>
+                                        <p>~</p>
+                                    <% end %>
                                 </div>
 
-                                <div class = "show-regularschedule-finishtime" >
+                                <div class = "schedule-finishtime" >
                                     <p> 終了時刻 </p>
-                                    <p><%= "#{schedule.finish_hour}:#{format('%02d', schedule.finish_minute)}" %></p>
+                                    <p><%= "#{schedule.finish_time.hour}:#{format('%02d', schedule.finish_time.min)}" %></p>
                                 </div>
                             </div>
 
-                            <div class = "show-regularschedule-event regularschedule-event">
-                                <p> 説明 </p>
+                            <div class = "schedule-event">
+                                <div class = "event-title">説明</div>
                                 <p><%= schedule.event %><p>
                             </div>
 
-                            <div class = "show-regularschedule-button-field regularschedule-button-field">
+                            <div class = "schedule-button-field">
 
-                                <%= link_to edit_regularschedule_path(schedule) do %>
-                                    <div class = "show-regularschedule-edit common-button">変更</div>
+                                <%= link_to edit_regular_schedule_path(schedule), class: 'common-button' do %>
+                                    変更
                                 <% end %>
 
-                                <%= link_to regularschedule_path(schedule), method: :delete, data: { confirm: '本当に削除しますか？' } do %>
-                                    <div class = "show-regularschedule-destroy common-button">削除</div>
+                                <%= link_to regular_schedule_path(schedule), method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'common-button' do %>
+                                    削除
                                 <% end %>
                             </div>
 
                         </div>
                     <% end %>
-                    <% else %>
-                        <p>シフトパターンがありません</p>
-                    <% end %>
+                <% else %>
+                    <p>スケジュールがありません</p>
+                <% end %>
 
-                <div class = "show-regularschedule-add-field">
-                    <%= link_to new_regular_schedule_path do %>
-                        <div class = "show-regularschedule-add common-button">追加</div>
+                <div class = "schedule-button-field">
+                    <%= link_to new_regular_schedule_path, class: 'common-button' do %>
+                        追加
                     <% end %>
                 </div>
             </div>

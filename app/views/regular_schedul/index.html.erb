@@ -32,7 +32,7 @@
                             </div>
 
                             <div class="destroy">
-                                <%= link_to '削除', regularschedule_path(schedule), method: :delete, data: { confirm: '本当に削除しますか？' } %>
+                                <%= link_to '削除', regular_schedule_path(schedule), method: :delete, data: { confirm: '本当に削除しますか？' } %>
                             </div>
 
                         </div>
@@ -42,7 +42,7 @@
                 <% end %>
 
                 <div class = "common-botton">
-                    <a href = "/regularschedules/<%= @current_user.id %>/new">追加</a>
+                    <a href = "/regular_schedules/<%= @current_user.id %>/new">追加</a>
                 </div>
             </div>
         </div>
