@@ -3,8 +3,8 @@
         <div class = "regularschedule">
             <div class="form-heading">定型予定</div>
             <div class = "schedule_form select">
-                <% if @regular_schedules.present? %>
-                    <% @regular_schedules.each do |schedule| %>
+                <% if @regularSchedules.present? %>
+                    <% @regularSchedules.each do |schedule| %>
                         <div class = "schedule-inline-fields">
                             <div class = "schedule-title-field">
                                 <div class = "schedule-name"> <%= schedule.name %> </div>
