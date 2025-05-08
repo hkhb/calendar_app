@@ -1,10 +1,7 @@
 class RegularSchedulesController < ApplicationController
     before_action :authenticate_user
     def index
-        @regular_schedules = RegularSchedule.where(user_id: @current_user.id)
-    end
-    def show
-        @regularschedule = RegularSchedule.find_by(id: params[:id])
+        @regularSchedules = RegularSchedule.where(user_id: @current_user.id)
     end
     def new
         @regularschedule = RegularSchedule.new
