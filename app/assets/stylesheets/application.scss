@@ -20,18 +20,25 @@ $subprimary-color: rgb(254, 237, 191);
 $hover-color: rgb(219, 94, 56);
 $text-color: black;
 
-body {
-  color: #2d3133;
+html, body {
+  height: 100%;
   margin: 0;
+  padding: 0;
+  background-color: #f5f8fa;
+}
+
+body {
+  top: 0;
+  color: #2d3133;
   min-height: 1vh;
 }
 
 .main {
-  position: absolute;
-  top: 310px;
+  top: 20px;
+  position: relative;
+  z-index: 1;
   width: 100%;
-  height: auto;
-  min-height: 100%;
+  min-height: 100vh;
   background-color: #f5f8fa;
 }
 
@@ -46,11 +53,11 @@ body {
 
 header {
   position: fixed;
-  height: auto;
+  top: 0;
+  // height: 31px;
   background-color: $primary-color;
-  z-index: 1000;
+  z-index: 999;
   width: 100%;
-  display: flex;
   justify-content: center;
 }
 
@@ -96,7 +103,10 @@ header {
   display: none;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1100px) {
+  // .main {
+  //   top: 31px;
+  // }
   .menu-toggle {
     display: none;
     font-size: 24px;
@@ -119,10 +129,9 @@ header {
     justify-content: space-between;
     align-items: center;
   }
-}
-
-.menu-toggle {
-  display: block;
+  .menu-toggle {
+    display: block;
+  }
 }
 
 .wday-0 {
