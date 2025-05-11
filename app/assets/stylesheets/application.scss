@@ -28,7 +28,7 @@ body {
 
 .main {
   position: absolute;
-  top: 64px;
+  top: 310px;
   width: 100%;
   height: auto;
   min-height: 100%;
@@ -45,10 +45,10 @@ body {
 
 
 header {
-  height: 64px;
+  position: fixed;
+  height: auto;
   background-color: $primary-color;
-  position: absolute;
-  z-index: 1;
+  z-index: 1000;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -91,6 +91,38 @@ header {
   color: white;
   margin: 0;
   font-size: 13px;
+}
+.mobile-header {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: none;
+    font-size: 24px;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+  }
+  .header-menus ul {
+    display: none;
+    flex-direction: column;
+    margin-top: 10px;
+  }
+
+  .header-menus ul.show {
+    display: flex;
+  }
+  .mobile-header {
+    display: flex; 
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.menu-toggle {
+  display: block;
 }
 
 .wday-0 {

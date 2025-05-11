@@ -19,21 +19,34 @@
   </head>
   <body>
     <header>
-      <div class = "header-menus">
-        <ul>
-          <% if @current_user %>
-            <li><%= link_to 'カレンダー', "/home" %></li>
-            <li><%= link_to @current_user.name, user_path(@current_user.id) %></li>
-            <li><%= link_to 'シフトパターン', regular_schedules_path %></li>
-            <li><%= link_to 'シフト入力', shifts_path %></li>
-            <li><%= link_to 'ログアウト', "/logout" %></li>
-          <% else %>
-            <li><%= link_to '新規登録', "/signup" %></li>
-            <li><%= link_to 'ログイン', "/login" %></li>
-          <% end %>
-        </ul>
+      <div class="header">
+        <div class="mobile-header">
+          <div><strong>MyApp</strong></div>
+          <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+        </div>
+
+        <div class="header-menus">
+          <ul id="nav-menu">
+            <% if @current_user %>
+              <li><%= link_to 'カレンダー', "/home" %></li>
+              <li><%= link_to @current_user.name, user_path(@current_user.id) %></li>
+              <li><%= link_to 'シフトパターン', regular_schedules_path %></li>
+              <li><%= link_to 'シフト入力', shifts_path %></li>
+              <li><%= link_to 'ログアウト', "/logout" %></li>
+            <% else %>
+              <li><%= link_to '新規登録', "/signup" %></li>
+              <li><%= link_to 'ログイン', "/login" %></li>
+            <% end %>
+          </ul>
+        </div>
       </div>
-    </header>
+
+      <script>
+        function toggleMenu() {
+          const menu = document.getElementById("nav-menu");
+          menu.classList.toggle("show");
+        }
+      </script>
     <% if flash[:notice] %>
       <div class="flash">
         <%= flash[:notice] %>
