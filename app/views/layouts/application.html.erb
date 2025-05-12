@@ -18,9 +18,15 @@
     <%= javascript_include_tag 'application', type: 'module', 'data-turbo-track': 'reload', defer: true %>
   </head>
   <body>
-    <header>
-      <div class = "header-menus">
-        <ul>
+  <header>
+    <div class="header">
+      <div class="mobile-header">
+        <div><strong>MyApp</strong></div>
+        <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+      </div>
+
+      <div class="header-menus">
+        <ul id="nav-menu">
           <% if @current_user %>
             <li><%= link_to 'カレンダー', "/home" %></li>
             <li><%= link_to @current_user.name, user_path(@current_user.id) %></li>
@@ -33,12 +39,28 @@
           <% end %>
         </ul>
       </div>
-    </header>
-    <% if flash[:notice] %>
-      <div class="flash">
-        <%= flash[:notice] %>
-      </div>
-    <% end %>
+    </div>
+  </header>
+
+  <% if flash[:notice] %>
+    <div class="flash">
+      <%= flash[:notice] %>
+    </div>
+  <% end %>
+
+  <main class="main">
     <%= yield %>
-  </body>
+  </main>
+
+  <script>
+    let isOpen = false;
+    function toggleMenu() {
+      const menu = document.getElementById("nav-menu");
+      const toggleButton = document.querySelector(".menu-toggle");
+      menu.classList.toggle("show");
+      isOpen = !isOpen;
+      toggleButton.textContent = isOpen ? "✗" : "☰";
+    }
+  </script>
+</body>
 </html>
