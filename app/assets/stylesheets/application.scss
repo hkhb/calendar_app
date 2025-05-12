@@ -54,7 +54,6 @@ body {
 header {
   position: fixed;
   top: 0;
-  // height: 31px;
   background-color: $primary-color;
   z-index: 999;
   width: 100%;
@@ -104,9 +103,6 @@ header {
 }
 
 @media (max-width: 1100px) {
-  // .main {
-  //   top: 31px;
-  // }
   .menu-toggle {
     display: none;
     font-size: 24px;
