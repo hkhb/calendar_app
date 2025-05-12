@@ -54,9 +54,13 @@
   </main>
 
   <script>
+    let isOpen = false;
     function toggleMenu() {
       const menu = document.getElementById("nav-menu");
+      const toggleButton = document.querySelector(".menu-toggle");
       menu.classList.toggle("show");
+      isOpen = !isOpen;
+      toggleButton.textContent = isOpen ? "✗" : "☰";
     }
   </script>
 </body>
