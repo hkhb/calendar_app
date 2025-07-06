@@ -1,0 +1,527 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/api/v1/users":
+    get:
+      summary: list users
+      tags:
+      - Users
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    name:
+                      type: string
+                    email:
+                      type: string
+                  required:
+                  - id
+                  - name
+                  - email
+    post:
+      summary: create user
+      responses:
+        '200':
+          description: successful
+  "/api/v1/regular_schedules":
+    get:
+      summary: list regular_schedules
+      tags:
+      - Regular Schedules
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    day_of_week:
+                      type: string
+                    start_time:
+                      type: string
+                      format: time
+                    end_time:
+                      type: string
+                      format: time
+                    user_id:
+                      type: integer
+                  required:
+                  - id
+                  - day_of_week
+                  - start_time
+                  - end_time
+                  - user_id
+    post:
+      summary: create regular_schedule
+      tags:
+      - Regular Schedules
+      parameters: []
+      responses:
+        '201':
+          description: created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                day_of_week:
+                  type: string
+                start_time:
+                  type: string
+                  format: time
+                end_time:
+                  type: string
+                  format: time
+                user_id:
+                  type: integer
+              required:
+              - day_of_week
+              - start_time
+              - end_time
+              - user_id
+  "/api/v1/regular_schedules/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show regular_schedule
+      tags:
+      - Regular Schedules
+      responses:
+        '200':
+          description: successful
+    patch:
+      summary: update regular_schedule
+      tags:
+      - Regular Schedules
+      parameters: []
+      responses:
+        '200':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                day_of_week:
+                  type: string
+                start_time:
+                  type: string
+                  format: time
+                end_time:
+                  type: string
+                  format: time
+                user_id:
+                  type: integer
+    put:
+      summary: update regular_schedule
+      tags:
+      - Regular Schedules
+      parameters: []
+      responses:
+        '200':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                day_of_week:
+                  type: string
+                start_time:
+                  type: string
+                  format: time
+                end_time:
+                  type: string
+                  format: time
+                user_id:
+                  type: integer
+    delete:
+      summary: delete regular_schedule
+      tags:
+      - Regular Schedules
+      responses:
+        '204':
+          description: no content
+  "/api/v1/schedules/show_by_date":
+    get:
+      summary: show schedule by date
+      tags:
+      - Schedules
+      parameters:
+      - name: date
+        in: query
+        description: date
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful
+  "/api/v1/schedules":
+    get:
+      summary: list schedules
+      tags:
+      - Schedules
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    date:
+                      type: string
+                      format: date
+                    start_time:
+                      type: string
+                      format: time
+                    end_time:
+                      type: string
+                      format: time
+                    user_id:
+                      type: integer
+                  required:
+                  - id
+                  - date
+                  - start_time
+                  - end_time
+                  - user_id
+    post:
+      summary: create schedule
+      tags:
+      - Schedules
+      parameters: []
+      responses:
+        '201':
+          description: created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                date:
+                  type: string
+                  format: date
+                start_time:
+                  type: string
+                  format: time
+                end_time:
+                  type: string
+                  format: time
+                user_id:
+                  type: integer
+              required:
+              - date
+              - start_time
+              - end_time
+              - user_id
+  "/api/v1/schedules/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show schedule
+      tags:
+      - Schedules
+      responses:
+        '200':
+          description: successful
+    patch:
+      summary: update schedule
+      tags:
+      - Schedules
+      parameters: []
+      responses:
+        '200':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                date:
+                  type: string
+                  format: date
+                start_time:
+                  type: string
+                  format: time
+                end_time:
+                  type: string
+                  format: time
+                user_id:
+                  type: integer
+    put:
+      summary: update schedule
+      tags:
+      - Schedules
+      parameters: []
+      responses:
+        '200':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                date:
+                  type: string
+                  format: date
+                start_time:
+                  type: string
+                  format: time
+                end_time:
+                  type: string
+                  format: time
+                user_id:
+                  type: integer
+    delete:
+      summary: delete schedule
+      tags:
+      - Schedules
+      responses:
+        '204':
+          description: no content
+  "/api/v1/shifts":
+    get:
+      summary: list shifts
+      tags:
+      - Shifts
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    date:
+                      type: string
+                      format: date
+                    start_time:
+                      type: string
+                      format: time
+                    end_time:
+                      type: string
+                      format: time
+                    user_id:
+                      type: integer
+                  required:
+                  - id
+                  - date
+                  - start_time
+                  - end_time
+                  - user_id
+    post:
+      summary: create shift
+      tags:
+      - Shifts
+      parameters: []
+      responses:
+        '201':
+          description: created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                date:
+                  type: string
+                  format: date
+                start_time:
+                  type: string
+                  format: time
+                end_time:
+                  type: string
+                  format: time
+                user_id:
+                  type: integer
+              required:
+              - date
+              - start_time
+              - end_time
+              - user_id
+  "/api/v1/shifts/destroy_month":
+    delete:
+      summary: delete shifts by month
+      tags:
+      - Shifts
+      parameters:
+      - name: month
+        in: query
+        description: month
+        schema:
+          type: string
+      responses:
+        '204':
+          description: no content
+  "/api/v1/shifts/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show shift
+      tags:
+      - Shifts
+      responses:
+        '200':
+          description: successful
+    patch:
+      summary: update shift
+      tags:
+      - Shifts
+      parameters: []
+      responses:
+        '200':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                date:
+                  type: string
+                  format: date
+                start_time:
+                  type: string
+                  format: time
+                end_time:
+                  type: string
+                  format: time
+                user_id:
+                  type: integer
+    put:
+      summary: update shift
+      tags:
+      - Shifts
+      parameters: []
+      responses:
+        '200':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                date:
+                  type: string
+                  format: date
+                start_time:
+                  type: string
+                  format: time
+                end_time:
+                  type: string
+                  format: time
+                user_id:
+                  type: integer
+    delete:
+      summary: delete shift
+      tags:
+      - Shifts
+      responses:
+        '204':
+          description: no content
+  "/api/v1/users/{id}/authenticate_form":
+    parameters:
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: authenticate_form user
+      responses:
+        '200':
+          description: successful
+  "/api/v1/users/{id}/authenticate":
+    parameters:
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    post:
+      summary: authenticate user
+      responses:
+        '200':
+          description: successful
+  "/api/v1/users/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show user
+      responses:
+        '200':
+          description: successful
+    patch:
+      summary: update user
+      responses:
+        '200':
+          description: successful
+    put:
+      summary: update user
+      responses:
+        '200':
+          description: successful
+    delete:
+      summary: delete user
+      responses:
+        '200':
+          description: successful
+servers:
+- url: http://{defaultHost}
+  variables:
+    defaultHost:
+      default: localhost:3000
