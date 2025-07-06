@@ -2,48 +2,52 @@ class Shift < ApplicationRecord
   validates :user_id, :date, :name, presence: true
 
   def self.create_monthly(shift_params, user)
-    return false unless shift_params.present?
+    return nil unless shift_params.present? # nil を返す
 
     begin
+      created_shifts = [] # 作成されたシフトを格納する配列
       ActiveRecord::Base.transaction do
         shift_params.each do |params|
           attributes = params.to_h
           regularschedule = RegularSchedule.find_by(name: attributes[:name], user_id: user)
 
           if regularschedule
-            Shift.create!(
+            shift = Shift.create!(
               attributes.merge(
                 date: attributes[:date],
                 name: attributes[:name],
                 user_id: user.id,
                 )
               )
+            Rails.logger.debug "Shift created: #{shift.inspect}, persisted: #{shift.persisted?}"
             date = Date.parse(attributes[:date])
             RegularSchedule.create_regularschedule_to_schedule(regularschedule.name, date, user)
           else
-            Shift.create!(
+            shift = Shift.create!(
               attributes.merge(
                 date: attributes[:date],
                 name: nil,
                 user_id: user.id,
                 )
               )
+            Rails.logger.debug "Shift created: #{shift.inspect}, persisted: #{shift.persisted?}"
           end
+          created_shifts << shift # 作成されたシフトを追加
         end
-        :success
       end
+      created_shifts # 成功時に作成されたシフトの配列を返す
     rescue ActiveRecord::RecordInvalid => e
       Rails.logger.error("シフト作成失敗: #{shift_params.inspect}, error: #{e.message}")
-      :invalid_input
+      e.record.errors.full_messages # Return array of error messages
     rescue => e
       Rails.logger.error("予期しないエラー: #{shift_params.inspect}, error: #{e.message}")
       Rails.logger.error(e.backtrace.join("\n"))
-      :unexpected
+      "unexpected_error" # Return a string for unexpected errors
     end
   end
 
   def self.update_monthly(shift_params, user)
-    return false unless shift_params.present?
+    return nil unless shift_params.present? # nil を返す
 
     begin
       ActiveRecord::Base.transaction do

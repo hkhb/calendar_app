@@ -20,10 +20,10 @@ class User < ApplicationRecord
             new_user
         rescue ActiveRecord::RecordInvalid => e
             Rails.logger.error("ユーザー作成失敗: #{params.inspect}, error: #{e.message}")
-            :invalid_input
+            nil # 失敗時に nil を返す
         rescue => e
             Rails.logger.error("予期しないエラー: #{params.inspect}, error: #{e.message}")
-            :unexpected_error
+            nil # 失敗時に nil を返す
         end
     end
     def self.user_update(params, user)
@@ -39,10 +39,10 @@ class User < ApplicationRecord
             user
         rescue ActiveRecord::RecordInvalid => e
             Rails.logger.error("ユーザー更新失敗: #{params.inspect}, error: #{e.message}")
-            :invalid_input
+            nil # 失敗時に nil を返す
         rescue => e
             Rails.logger.error("予期しないエラー: #{params.inspect}, error: #{e.message}")
-            :unexpected_error
+            nil # 失敗時に nil を返す
         end
     end
 end

@@ -1,42 +1,34 @@
 class RegularSchedule < ApplicationRecord
-    validates :start_time, :finish_time, :name, :user_id, presence: true
+    validates :start_time, :finish_time, :name, :user_id, :days, presence: true
+    validates :days, numericality: { only_integer: true, greater_than_or_equal_to: 1 }
     def self.regularschedule_create(params, user)
-        return :unexpected_error unless params && user
+        return nil unless params && user # nil を返す
         begin
+            regularschedule = nil # regularschedule を初期化
             ActiveRecord::Base.transaction do
-                start_time = Time.new(
-                    params["start_time(1i)"].to_i,
-                    params["start_time(2i)"].to_i,
-                    params["start_time(3i)"].to_i,
-                    params["start_time(4i)"].to_i,
-                    params["start_time(5i)"].to_i
-                )
-                finish_time = Time.new(
-                    params["finish_time(1i)"].to_i,
-                    params["finish_time(2i)"].to_i,
-                    params["finish_time(3i)"].to_i,
-                    params["finish_time(4i)"].to_i,
-                    params["finish_time(5i)"].to_i
-                )
+                # params[:start_time] と params[:finish_time] が文字列の場合、Time オブジェクトに変換
+                parsed_start_time = params[:start_time].is_a?(String) ? Time.parse(params[:start_time]) : params[:start_time]
+                parsed_finish_time = params[:finish_time].is_a?(String) ? Time.parse(params[:finish_time]) : params[:finish_time]
+
                 regularschedule = RegularSchedule.create!(
-                    params.merge(
-                        name: params[:name],
-                        event: params[:event],
-                        days: params[:days],
-                        user_id: user.id,
-                        start_time: start_time,
-                        finish_time: finish_time
-                    )
+                    name: params[:name],
+                    event: params[:event],
+                    days: params[:days],
+                    user_id: user.id,
+                    start_time: parsed_start_time, # 修正
+                    finish_time: parsed_finish_time # 修正
                 )
                 regularschedule.update!(days: 1) if regularschedule.days.nil?
             end
-            :success
+            Rails.logger.debug "RegularSchedule created: #{regularschedule.inspect}, persisted: #{regularschedule.persisted?}"
+            regularschedule # 成功時に regularschedule オブジェクトを返す
         rescue ActiveRecord::RecordInvalid => e
             Rails.logger.error("定型予定作成失敗: #{params.inspect}, error: #{e.message}")
-            :invalid_input
+        Rails.logger.debug "Validation errors: #{e.record.errors.full_messages.inspect}" # この行を追加
+        e.record.errors.full_messages # Return array of error messages
         rescue => e
             Rails.logger.error("予期しないエラー: #{params.inspect}, error: #{e.message}")
-            :unexpected_error
+            "unexpected_error" # Return a string for unexpected errors
         end
     end
     ##
@@ -48,39 +40,31 @@ class RegularSchedule < ApplicationRecord
     # 引数は全て渡さないと:not_foundを返します。
     # 成功するとtrueを返します。
     def self.regularschedule_update(params, id)
-        return :not_found unless params && id
-        start_time = Time.new(
-            params["start_time(1i)"].to_i,
-            params["start_time(2i)"].to_i,
-            params["start_time(3i)"].to_i,
-            params["start_time(4i)"].to_i,
-            params["start_time(5i)"].to_i
-          )
-          finish_time = Time.new(
-            params["finish_time(1i)"].to_i,
-            params["finish_time(2i)"].to_i,
-            params["finish_time(3i)"].to_i,
-            params["finish_time(4i)"].to_i,
-            params["finish_time(5i)"].to_i
-          )
+        return nil unless params && id # nil を返す
         begin
             ActiveRecord::Base.transaction do
+                regularschedule = nil # regularschedule を初期化
                 regularschedule = RegularSchedule.find_by(id: id)
+                # params[:start_time] と params[:finish_time] が文字列の場合、Time オブジェクトに変換
+                parsed_start_time = params[:start_time].is_a?(String) ? Time.parse(params[:start_time]) : params[:start_time]
+                parsed_finish_time = params[:finish_time].is_a?(String) ? Time.parse(params[:finish_time]) : params[:finish_time]
+
                 regularschedule.update!(
                     name: params[:name],
                     event: params[:event],
                     days: params[:days],
-                    start_time: start_time,
-                    finish_time: finish_time
+                    start_time: parsed_start_time, # 修正
+                    finish_time: parsed_finish_time # 修正
                 )
             end
-            :success
+            regularschedule # 成功時に regularschedule オブジェクトを返す
         rescue ActiveRecord::RecordInvalid => e
             Rails.logger.error("定型予定更新失敗: #{params.inspect}, error: #{e.message}")
-            :invalid_input
+        Rails.logger.debug "Validation errors: #{e.record.errors.full_messages.inspect}" # この行を追加
+        e.record.errors.full_messages # Return array of error messages
         rescue => e
             Rails.logger.error("予期しないエラー: #{params.inspect}, error: #{e.message}")
-            :unexpected_error
+            "unexpected_error" # Return a string for unexpected errors
         end
     end
     ##

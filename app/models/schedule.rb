@@ -2,75 +2,48 @@ class Schedule < ApplicationRecord
   validates :user_id, :name, :start_time, :end_time, presence: { message: "＊必須！" }
 
   def self.schedule_create(params, user)
-    return :not_found unless params && user
+    return nil unless params && user # nil を返す
     begin
-      schedule = Schedule.new
+      schedule = nil # schedule を初期化
       ActiveRecord::Base.transaction do
-        start_time = Time.new(
-            params["start_time(1i)"].to_i,
-            params["start_time(2i)"].to_i,
-            params["start_time(3i)"].to_i,
-            params["start_time(4i)"].to_i,
-            params["start_time(5i)"].to_i
-          )
-          end_time = Time.new(
-            params["end_time(1i)"].to_i,
-            params["end_time(2i)"].to_i,
-            params["end_time(3i)"].to_i,
-            params["end_time(4i)"].to_i,
-            params["end_time(5i)"].to_i
-          )
         schedule = Schedule.create!(
           name: params[:name],
-          start_time: start_time,
-          end_time: end_time,
+          start_time: params[:start_time],
+          end_time: params[:end_time],
           event: params[:event],
           user_id: user.id
         )
+        Rails.logger.debug "Schedule created: #{schedule.inspect}, persisted: #{schedule.persisted?}"
       end
-      schedule.start_time
+      schedule # 成功時に schedule オブジェクトを返す
     rescue ActiveRecord::RecordInvalid => e
       Rails.logger.error("予定作成失敗: #{params.inspect}, Error: #{e.message}")
-      :invalid_input
+      e.record.errors.full_messages # Return array of error messages
     rescue => e
       Rails.logger.error("予期しないエラー: #{params.inspect}, Error: #{e.message}")
-      :unexpected
+      "unexpected_error" # Return a string for unexpected errors
     end
   end
 
   def self.schedule_update(params, id)
     schedule = Schedule.find_by(id: id)
-    return :not_found unless params && schedule
+    return nil unless params && schedule # nil を返す
     begin
       ActiveRecord::Base.transaction do
-        start_time = Time.new(
-            params["start_time(1i)"].to_i,
-            params["start_time(2i)"].to_i,
-            params["start_time(3i)"].to_i,
-            params["start_time(4i)"].to_i,
-            params["start_time(5i)"].to_i
-          )
-          end_time = Time.new(
-            params["end_time(1i)"].to_i,
-            params["end_time(2i)"].to_i,
-            params["end_time(3i)"].to_i,
-            params["end_time(4i)"].to_i,
-            params["end_time(5i)"].to_i
-          )
         schedule.update!(
           name: params[:name],
-          start_time: start_time,
-          end_time: end_time,
+          start_time: params[:start_time],
+          end_time: params[:end_time],
           event: params[:event]
         )
       end
-      schedule.start_time
+      schedule # 成功時に schedule オブジェクトを返す
     rescue ActiveRecord::RecordInvalid => e
       Rails.logger.error("予定更新失敗: #{params.inspect}, Error: #{e.message}")
-      :invalid_input
+      e.record.errors.full_messages # Return array of error messages
     rescue => e
       Rails.logger.error("予期しないエラー: #{params.inspect}, Error: #{e.message}")
-      :unexpected
+      "unexpected_error" # Return a string for unexpected errors
     end
   end
 end
