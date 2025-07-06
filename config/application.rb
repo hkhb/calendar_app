@@ -11,6 +11,10 @@ module CalendarAppV1
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.2
 
+    # APIモードを有効にする。これにより、RailsはAPIとしての動作に最適化される。
+    # HTMLの生成やセッション管理など、ブラウザ向けの機能は無効化される。
+    config.api_only = true
+
     # Please, add to the `ignore` list any other `lib` subdirectories that do
     # not contain `.rb` files, or that should not be reloaded or eager loaded.
     # Common ones are `templates`, `generators`, or `middleware`, for example.
@@ -23,6 +27,11 @@ module CalendarAppV1
     #
     config.time_zone = 'Asia/Tokyo'
     config.active_record.default_timezone = :local
-    # config.eager_load_paths << Rails.root.join("extras")
+
+    # Remove ActionDispatch::HostAuthorization middleware
+    config.middleware.delete ActionDispatch::HostAuthorization
+
+    puts "Autoload Paths: #{config.autoload_paths}"
+    puts "Eager Load Paths: #{config.eager_load_paths}"
   end
 end

@@ -1,5 +1,5 @@
 class Shift < ApplicationRecord
-  validates :user_id, :date, presence: true
+  validates :user_id, :date, :name, presence: true
 
   def self.create_monthly(shift_params, user)
     return false unless shift_params.present?

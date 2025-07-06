@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  mount Rswag::Ui::Engine => '/api-docs'
+  mount Rswag::Api::Engine => '/api-docs'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
@@ -12,19 +14,27 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
 
-  resources :users do
-    get "authenticate_form", on: :member, as: :authenticate_form
-    post "authenticate", on: :member, as: :authenticate
-  end
-  resources :regular_schedules
-  resources :schedules do
-    collection do
-      get "show_by_date", to: "schedules#show_by_date"
-    end
-  end
-  resources :shifts do
-    collection do
-      delete "destroy_month", to: "shifts#destroy_month"
+  namespace :api do
+    namespace :v1 do
+      resources :users do
+        member do
+          get :authenticate_form
+          post :authenticate
+        end
+      end
+  
+      resources :regular_schedules
+      resources :schedules do
+        collection do
+          get :show_by_date
+        end
+      end
+  
+      resources :shifts do
+        collection do
+          delete :destroy_month
+        end
+      end
     end
   end
 

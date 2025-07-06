@@ -6,7 +6,7 @@ one:
   start_date: 2024-10-28
   start_time: 2024-10-28 00:25:30
   finish_date: 2024-10-28
-  finish_time: 2024-10-28 00:25:30
+  end_time: 2024-10-28 00:25:30
 
 two:
   name: MyString
@@ -14,4 +14,4 @@ two:
   start_date: 2024-10-28
   start_time: 2024-10-28 00:25:30
   finish_date: 2024-10-28
-  finish_time: 2024-10-28 00:25:30
+  end_time: 2024-10-28 00:25:30
