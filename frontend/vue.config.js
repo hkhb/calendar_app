@@ -14,5 +14,35 @@ module.exports = defineConfig({
         changeOrigin: true,
       }
     }
+  },
+
+  // TypeScript の設定を追加
+  chainWebpack: config => {
+    config.resolve.extensions
+      .add('.ts')
+      .add('.tsx');
+
+    config.module
+      .rule('ts')
+      .test(/\.ts$/)
+      .use('ts-loader')
+      .loader('ts-loader')
+      .options({
+        appendTsSuffixTo: [/\.vue$/],
+        transpileOnly: true // 高速化のため
+      })
+      .end();
+
+    config.module
+      .rule('vue')
+      .use('vue-loader')
+      .loader('vue-loader')
+      .tap(options => {
+        options.compilerOptions = {
+          ...options.compilerOptions,
+          isCustomElement: tag => tag.startsWith('ion-') // Ionic などカスタム要素を使用する場合
+        };
+        return options;
+      });
   }
 })

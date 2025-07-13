@@ -5,7 +5,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
   import AppHeader  from './components/AppHeader.vue';
 
   export default {
