@@ -1,8 +1,9 @@
 class RegularSchedule < ApplicationRecord
     validates :start_time, :finish_time, :name, :user_id, :days, presence: true
     validates :days, numericality: { only_integer: true, greater_than_or_equal_to: 1 }
-    def self.regularschedule_create(params, user)
-        return nil unless params && user # nil を返す
+    def self.regularschedule_create(params, user_id) # 引数を user_id に変更
+        Rails.logger.debug "regularschedule_create called with params: #{params.inspect}, user_id: #{user_id.inspect}" # Added
+        return nil unless params && user_id # user_id を使用
         begin
             regularschedule = nil # regularschedule を初期化
             ActiveRecord::Base.transaction do
@@ -14,7 +15,7 @@ class RegularSchedule < ApplicationRecord
                     name: params[:name],
                     event: params[:event],
                     days: params[:days],
-                    user_id: user.id,
+                    user_id: user_id, # user_id を直接使用
                     start_time: parsed_start_time, # 修正
                     finish_time: parsed_finish_time # 修正
                 )

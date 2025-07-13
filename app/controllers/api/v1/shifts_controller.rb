@@ -18,10 +18,14 @@ module Api
       # パラメータ:
       #   shifts: [ { name: "...", date: "...", user_id: "..." }, ... ]
       def create
-        result = Shift.create_monthly(shift_params, @current_user)
-        if result.is_a?(Array)
+        Rails.logger.debug "ShiftsController#create: Params received: #{shift_params.inspect}, user_id: #{shift_params.first[:user_id].inspect}" # 追加
+        result = Shift.create_monthly(shift_params, shift_params.first[:user_id])
+        Rails.logger.debug "ShiftsController#create: Result from model: #{result.inspect}" # 追加
+        if result.is_a?(Array) && result.all?(&:persisted?)
+          Rails.logger.debug "ShiftsController#create: Rendering success (Shifts persisted)." # 追加
           render json: result, status: :created
-        else
+        else # result が nil またはその他のエラーの場合
+          Rails.logger.debug "ShiftsController#create: Rendering generic failure." # 追加
           render json: { errors: ["Failed to create shifts"] }, status: :unprocessable_entity
         end
       end

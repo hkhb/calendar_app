@@ -29,12 +29,17 @@ module Api
       # パラメータ:
       #   schedule: { name: "...", event: "...", start_time: "...", end_time: "..." }
       def create
-        result = Schedule.schedule_create(schedule_params, @current_user)
+        Rails.logger.debug "SchedulesController#create: Params received: #{schedule_params.inspect}, user_id: #{schedule_params[:user_id].inspect}" # 追加
+        result = Schedule.schedule_create(schedule_params, schedule_params[:user_id])
+        Rails.logger.debug "SchedulesController#create: Result from model: #{result.inspect}" # 追加
         if result.is_a?(Schedule) && result.persisted?
+          Rails.logger.debug "SchedulesController#create: Rendering success (Schedule persisted)." # 追加
           render json: result, status: :created
         elsif result.is_a?(Array) # バリデーションエラーメッセージの配列の場合
+          Rails.logger.debug "SchedulesController#create: Rendering validation errors: #{result.inspect}" # 追加
           render json: { errors: result }, status: :unprocessable_entity
         else # その他のエラーの場合
+          Rails.logger.debug "SchedulesController#create: Rendering generic failure." # 追加
           render json: { errors: ["Failed to create schedule"] }, status: :unprocessable_entity
         end
       end

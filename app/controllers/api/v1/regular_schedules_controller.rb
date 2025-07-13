@@ -15,12 +15,21 @@ module Api
       # パラメータ:
       #   regular_schedule: { name: "...", event: "...", start_time: "...", finish_time: "...", days: "...", user_id: "..." }
       def create
-        result = RegularSchedule.regularschedule_create(regular_schedule_params, @current_user)
+        Rails.logger.debug "RegularSchedulesController#create: Params received: #{regular_schedule_params.inspect}, user_id: #{regular_schedule_params[:user_id].inspect}" # 追加
+        result = RegularSchedule.regularschedule_create(regular_schedule_params, regular_schedule_params[:user_id])
+        Rails.logger.debug "RegularSchedulesController#create: Result from model: #{result.inspect}" # 追加
+
         if result.is_a?(RegularSchedule) && result.persisted?
+          Rails.logger.debug "RegularSchedulesController#create: Rendering success (RegularSchedule persisted)." # 追加
           render json: result, status: :created
-        elsif result.is_a?(ActiveRecord::Base) && result.errors.present?
-          render json: { errors: result.errors.full_messages }, status: :unprocessable_entity
-        else
+        elsif result.is_a?(Array) # バリデーションエラーメッセージの配列の場合
+          Rails.logger.debug "RegularSchedulesController#create: Rendering validation errors: #{result.inspect}" # 追加
+          render json: { errors: result }, status: :unprocessable_entity
+        elsif result == "unexpected_error" # モデルから "unexpected_error" が返された場合
+          Rails.logger.debug "RegularSchedulesController#create: Rendering unexpected error." # 追加
+          render json: { errors: ["An unexpected error occurred during regular schedule creation."] }, status: :internal_server_error
+        else # その他のエラーの場合 (nil など)
+          Rails.logger.debug "RegularSchedulesController#create: Rendering generic failure." # 追加
           render json: { errors: ["Failed to create regular schedule"] }, status: :unprocessable_entity
         end
       end
@@ -41,10 +50,10 @@ module Api
         if result.is_a?(RegularSchedule)
           render json: result
         elsif result.is_a?(Array)
-          Rails.logger.debug "Controller received validation errors: #{result.inspect}" # この行を追加
           render json: { errors: result }, status: :unprocessable_entity
+        elsif result == "unexpected_error"
+          render json: { errors: ["An unexpected error occurred during regular schedule update."] }, status: :internal_server_error
         else
-          Rails.logger.debug "Controller received unexpected result: #{result.inspect}" # この行を追加
           render json: { errors: ["Failed to update regular schedule"] }, status: :unprocessable_entity
         end
       end
