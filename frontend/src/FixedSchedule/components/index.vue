@@ -30,18 +30,23 @@
       <p class="mt-2 text-gray-600">
         <span class="font-semibold">説明:</span> {{ schedule.event }}
       </p>
+      <div>
+        <button @click="onEdit" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+          追加
+        </button>
+        <button @click="onDelete" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 ml-2">
+          削除
+        </button>
+      </div>
     </div>
   </div>
 </template>
 
-<script>
-import { format } from 'date-fns';
+<script setup lang="ts">
+import { ref, getCurrentInstance } from 'vue' // getCurrentInstance をインポート
+import { format } from 'date-fns'
 
-export default {
-  name: 'RegularSchedule',
-  data() {
-    return {
-      schedules: [
+const schedules = [
         {
           name: '早番',
           start_time: new Date(2025, 6, 13, 8, 0),
@@ -57,10 +62,28 @@ export default {
           event: '午後からの勤務シフト'
         }
       ]
-    };
-  },
-  methods: {
-    format
+
+const onEdit = () => {
+  const instance = getCurrentInstance();
+  if (instance && instance.appContext.config.globalProperties.$modal) {
+    instance.appContext.config.globalProperties.$modal.open({
+      title: '編集',
+      content: 'ここにフォームなど',
+      buttons: [
+        {
+          text: '閉じる',
+          action: () => instance.appContext.config.globalProperties.$modal.close()
+        }
+      ]
+    });
+  } else {
+    alert('Modal service not available.');
   }
 };
+
+const onDelete = () => {
+  if (confirm('本当に削除しますか？')) {
+    console.log('削除処理を実行')
+  }
+}
 </script>

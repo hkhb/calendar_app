@@ -1,17 +1,19 @@
 <template>
   <div id="app">
     <AppHeader />
+    <JenesiusModal />
     <router-view />
   </div>
 </template>
 
 <script lang="ts">
   import AppHeader  from './components/AppHeader.vue';
+  import JenesiusModal from 'jenesius-vue-modal'
 
   export default {
   name: 'App',
   components: {
-    AppHeader, // ✅ ここに登録しないと <Header /> は使えません
+    AppHeader,
   },
 };
 </script>

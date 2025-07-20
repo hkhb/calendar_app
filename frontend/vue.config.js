@@ -44,5 +44,10 @@ module.exports = defineConfig({
         };
         return options;
       });
+  },
+
+  // エントリポイントを main.ts に変更
+  configureWebpack: {
+    entry: './src/main.ts'
   }
 })

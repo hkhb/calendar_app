@@ -5,11 +5,12 @@ module.exports = {
   },
   extends: [
     'plugin:vue/vue3-essential',
-    'eslint:recommended',
+    'plugin:@eslint/eslint-plugin/recommended', // 修正
     '@vue/typescript/recommended',
   ],
   parserOptions: {
     ecmaVersion: 2020,
+    parser: '@typescript-eslint/parser', // この行を追加
   },
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
