@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "core-js": "^3.8.3",
+    "date-fns": "^4.1.0",
     "jenesius-vue-modal": "^1.11.9",
     "pinia": "^3.0.3",
     "vue": "^3.2.13",
@@ -21,14 +22,14 @@
     "preview": "vite preview"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^5.0.5",
-    "vite": "^5.3.1",
-    "vue-tsc": "^2.0.21",
+    "@tailwindcss/postcss": "^4.1.11",
     "@types/node": "^20.14.10",
-    "typescript": "^5.5.3",
-    "postcss": "^8.4.39",
+    "@vitejs/plugin-vue": "^5.0.5",
     "autoprefixer": "^10.4.19",
+    "postcss": "^8.4.39",
     "tailwindcss": "^3.4.4",
-    "@tailwindcss/postcss": "^4.1.11"
+    "typescript": "^5.5.3",
+    "vite": "^5.3.1",
+    "vue-tsc": "^2.0.21"
   }
 }
