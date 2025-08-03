@@ -2,11 +2,6 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
-  "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
-  },
   "dependencies": {
     "core-js": "^3.8.3",
     "jenesius-vue-modal": "^1.11.9",
@@ -14,17 +9,26 @@
     "vue": "^3.2.13",
     "vue-router": "^4.5.1"
   },
-  "devDependencies": {
-    "@babel/core": "^7.12.16",
-    "@eslint/js": "^9.31.0",
-    "@tailwindcss/postcss": "^4.1.11",
-    "@vue/cli-service": "~5.0.0",
-    "ts-loader": "^9.5.2"
-  },
   "browserslist": [
     "> 1%",
     "last 2 versions",
     "not dead",
     "not ie 11"
-  ]
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.0.5",
+    "vite": "^5.3.1",
+    "vue-tsc": "^2.0.21",
+    "@types/node": "^20.14.10",
+    "typescript": "^5.5.3",
+    "postcss": "^8.4.39",
+    "autoprefixer": "^10.4.19",
+    "tailwindcss": "^3.4.4",
+    "@tailwindcss/postcss": "^4.1.11"
+  }
 }

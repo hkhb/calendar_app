@@ -1,4 +1,5 @@
 version: '3.8'
+
 services:
   backend:
     build:
@@ -21,5 +22,5 @@ services:
       - ./frontend:/app/frontend
       - /app/frontend/node_modules
     ports:
-      - "5173:8080"
-    command: ["npm", "run", "serve"]
+      - "5173:5173"  # Vite のデフォルトポート
+    command: ["npm", "run", "dev", "--", "--host"]

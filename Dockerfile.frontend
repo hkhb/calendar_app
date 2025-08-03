@@ -1,12 +1,19 @@
 FROM node:18-alpine
 
+# 作業ディレクトリを指定
 WORKDIR /app/frontend
 
+# 依存関係ファイルを先にコピーしてキャッシュを活かす
 COPY frontend/package*.json ./
+
+# 依存をインストール（Vite + Tailwind + TypeScript 対応）
 RUN npm install
 
-COPY . .
+# アプリ全体をコピー（index.html や src/ も含む）
+COPY frontend/ .
 
+# Vite のデフォルトポート
 EXPOSE 5173
 
-CMD ["npm", "run", "serve", "--", "--host"]
+# Vite 開発サーバーを起動（0.0.0.0 で外部からもアクセス可）
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
