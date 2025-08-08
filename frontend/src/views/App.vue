@@ -1,19 +1,13 @@
 <template>
   <div id="app">
-    <JenesiusModal />
+    <WidgetContainerModal />
     <router-view />
     <h1 style="background-color: yellow; padding: 20px;">これは App.vue からのメッセージです！</h1>
   </div>
 </template>
 
-<script lang="ts">
-  import AppHeader from './components/AppHeader.vue';
-
-  export default {
-  name: 'App',
-  components: {
-  },
-};
+<script lang="ts" setup>
+  import { container as WidgetContainerModal } from 'jenesius-vue-modal';
 </script>
 
 <style>

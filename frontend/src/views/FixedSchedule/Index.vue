@@ -47,6 +47,8 @@
   import { ref, getCurrentInstance } from 'vue' // getCurrentInstance をインポート
   import { format } from 'date-fns'
   import AppHeader from '../components/AppHeader.vue';
+  import { openModal } from 'jenesius-vue-modal';
+  import Modal from '../components/Modal.vue';
 
 const schedules = ref([
         {
@@ -65,23 +67,11 @@ const schedules = ref([
         }
       ])
 
-const onEdit = () => {
-  const instance = getCurrentInstance();
-  if (instance && instance.appContext.config.globalProperties.$modal) {
-    instance.appContext.config.globalProperties.$modal.open({
-      title: '編集',
-      content: 'ここにフォームなど',
-      buttons: [
-        {
-          text: '閉じる',
-          action: () => instance.appContext.config.globalProperties.$modal.close()
-        }
-      ]
-    });
-  } else {
-    alert('Modal service not available.');
+  async function onEdit() {
+    // モーダルを開く
+    const modal = await openModal(Modal, { message: 'シフトを追加しますか？' });
+
   }
-};
 
 const onDelete = () => {
   if (confirm('本当に削除しますか？')) {
