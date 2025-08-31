@@ -9,36 +9,7 @@
         :key="index"
         class="mb-6 border border-gray-200 rounded p-4"
       >
-        <h3 class="text-xl font-bold text-blue-600">{{ schedule.name }}</h3>
-
-        <div class="flex justify-between mt-4 text-sm text-gray-700 gap-4">
-          <div class="flex-1 text-center">
-            <p class="font-semibold text-orange-600">開始時刻</p>
-            <p>{{ format(schedule.start_time, 'HH:mm') }}</p>
-          </div>
-
-          <div class="flex-1 text-center">
-            <p class="font-semibold text-orange-600">日数</p>
-            <p>{{ schedule.days }} 日間</p>
-          </div>
-
-          <div class="flex-1 text-center">
-            <p class="font-semibold text-orange-600">終了時刻</p>
-            <p>{{ format(schedule.finish_time, 'HH:mm') }}</p>
-          </div>
-        </div>
-
-        <p class="mt-2 text-gray-600">
-          <span class="font-semibold">説明:</span> {{ schedule.event }}
-        </p>
-        <div>
-          <button @click="onEdit" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
-            追加
-          </button>
-          <button @click="onDelete" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 ml-2">
-            削除
-          </button>
-        </div>
+        <ScheduleCard :schedule="schedule" />
       </div>
     </div>
   </div>
@@ -49,6 +20,7 @@
   import AppHeader from '../components/AppHeader.vue';
   import { openModal } from 'jenesius-vue-modal';
   import Modal from '../components/Modal.vue';
+  import ScheduleCard from '../components/ScheduleComponent/ScheduleCard.vue';
 
 const schedules = ref([
         {
@@ -68,9 +40,7 @@ const schedules = ref([
       ])
 
   async function onEdit() {
-    // モーダルを開く
     const modal = await openModal(Modal, { message: 'シフトを追加しますか？' });
-
   }
 
 const onDelete = () => {
