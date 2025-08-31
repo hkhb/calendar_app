@@ -11,6 +11,16 @@
       >
         <ScheduleCard :schedule="schedule" />
       </div>
+      <button
+        @click="onEdit"
+        class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">
+        シフト追加
+      </button>
+      <button
+        @click="onDelete"
+        class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition ml-4">
+        シフト削除
+      </button>
     </div>
   </div>
 </template>

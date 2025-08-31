@@ -1,18 +1,20 @@
 <script setup lang="ts">
-import { format } from 'date-fns';
-import { ja } from 'date-fns/locale';
 import type { Schedule } from './ScheduleComponent.store';
 
 const props = defineProps<{
   schedule: Schedule
 }>();
 
-// Date | string → Date に寄せる（ISO文字列もOK）
 const toDate = (v: Date | string) => (v instanceof Date ? v : new Date(v));
 
-// 表示フォーマット（例: 7/13(日) 08:00）
-const fmt = (d: Date | string) =>
-  format(toDate(d), 'HH:mm', { locale: ja });
+const timeFmt = new Intl.DateTimeFormat('ja-JP', {
+  hour: '2-digit',
+  minute: '2-digit',
+  hour12: false,
+});
+
+// 表示フォーマット（例: 08:00）
+const fmt = (d: Date | string) => timeFmt.format(toDate(d));
 </script>
 
 
